@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skyhold Rampart</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="hud-panel">
+        <p class="eyebrow">Platform Defense Prototype</p>
+        <h1>Skyhold Rampart</h1>
+        <p class="summary">
+          Hold the sanctum against winged invaders. Run the battlements, cast spells,
+          deploy defenders, and revive the fallen before the line breaks.
+        </p>
+
+        <div class="stat-grid">
+          <div class="card">
+            <span>Core</span>
+            <strong id="coreHealth">0</strong>
+          </div>
+          <div class="card">
+            <span>Hero</span>
+            <strong id="heroHealth">0</strong>
+          </div>
+          <div class="card">
+            <span>Essence</span>
+            <strong id="essence">0</strong>
+          </div>
+          <div class="card">
+            <span>Wave</span>
+            <strong id="wave">0</strong>
+          </div>
+        </div>
+
+        <div class="controls">
+          <h2>Controls</h2>
+          <ul>
+            <li><kbd>A</kbd><kbd>D</kbd> Move</li>
+            <li><kbd>W</kbd> or <kbd>Space</kbd> Jump</li>
+            <li><kbd>Mouse 1</kbd> Arc strike</li>
+            <li><kbd>Mouse 2</kbd> Cast bolt</li>
+            <li><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Select defender</li>
+            <li><kbd>F</kbd> Hold 2 seconds to summon</li>
+            <li><kbd>R</kbd> Revive nearby fallen defender</li>
+          </ul>
+        </div>
+
+        <div class="legend">
+          <h2>Defenders</h2>
+          <button id="warriorBtn" class="legend-button active" data-type="warrior">
+            Warrior
+            <small>25 essence</small>
+          </button>
+          <button id="archerBtn" class="legend-button" data-type="archer">
+            Archer
+            <small>35 essence</small>
+          </button>
+          <button id="mageBtn" class="legend-button" data-type="mage">
+            Mage
+            <small>45 essence</small>
+          </button>
+        </div>
+
+        <div class="tip-box" id="messageBox">
+          The next wave is gathering above the valley.
+        </div>
+      </aside>
+
+      <main class="game-panel">
+        <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
+        <div class="status-strip">
+          <span id="selectedUnit">Selected: Warrior</span>
+          <span id="mana">Mana: 0</span>
+          <span id="enemies">Enemies: 0</span>
+        </div>
+      </main>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

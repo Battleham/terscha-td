@@ -1,0 +1,227 @@
+:root {
+  --bg-top: #07111f;
+  --bg-bottom: #17314b;
+  --panel: rgba(7, 16, 28, 0.88);
+  --panel-border: rgba(155, 208, 255, 0.18);
+  --accent: #f7c96a;
+  --mint: #92ffd3;
+  --ice: #87d2ff;
+  --danger: #ff7a7a;
+  --text: #edf5ff;
+  --muted: #9fb8cd;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(87, 204, 255, 0.22), transparent 36%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+body {
+  padding: 20px;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 18px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.hud-panel,
+.game-panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(18px);
+}
+
+.hud-panel {
+  padding: 24px;
+}
+
+.eyebrow,
+h1,
+h2,
+.card strong {
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+h1 {
+  margin: 10px 0 12px;
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.summary {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.card {
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(20, 40, 59, 0.8), rgba(10, 20, 30, 0.95));
+  border: 1px solid rgba(148, 195, 232, 0.12);
+}
+
+.card span {
+  display: block;
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.6rem;
+}
+
+.controls,
+.legend,
+.tip-box {
+  margin-top: 22px;
+}
+
+.controls ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+  color: var(--muted);
+}
+
+kbd {
+  display: inline-block;
+  min-width: 26px;
+  padding: 4px 8px;
+  margin-right: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  font-family: inherit;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.legend {
+  display: grid;
+  gap: 10px;
+}
+
+.legend-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 195, 232, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.legend-button:hover,
+.legend-button.active {
+  transform: translateY(-1px);
+  border-color: rgba(247, 201, 106, 0.55);
+  background: rgba(247, 201, 106, 0.11);
+}
+
+.legend-button small {
+  color: var(--muted);
+}
+
+.tip-box {
+  padding: 16px;
+  border-radius: 16px;
+  color: var(--mint);
+  background: rgba(125, 252, 208, 0.08);
+  border: 1px solid rgba(125, 252, 208, 0.16);
+  min-height: 74px;
+  line-height: 1.5;
+}
+
+.game-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(180, 241, 255, 0.16), transparent 18%),
+    linear-gradient(180deg, #0a1a29 0%, #19364f 42%, #183046 65%, #10141b 100%);
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: space-between;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1120px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 12px;
+  }
+
+  .hud-panel,
+  .game-panel {
+    border-radius: 18px;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+}
