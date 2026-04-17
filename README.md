@@ -26,9 +26,10 @@ Then visit `http://localhost:4173`.
 ## Controls
 
 - `A` / `D`: move
+- `Shift`: run
 - `W` or `Space`: jump
 - `Mouse 1`: melee strike
 - `Mouse 2`: cast bolt
 - `1`, `2`, `3`: choose defender type
-- `F`: hold for 2 seconds over valid terrain to deploy the selected defender during the preparation phase
-- `R`: revive a nearby fallen defender
+- `F`: instantly deploy the selected defender over valid terrain during the preparation phase
+- `R`: tap to revive a nearby fallen defender, or hold for 1 second during preparation to revive all fallen defenders for their combined essence cost
