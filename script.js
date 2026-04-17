@@ -17,6 +17,7 @@ const ui = {
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 const GRAVITY = 0.46;
+const ENEMY_DEATH_FEET_OFFSET = 0;
 const FLOOR_Y = HEIGHT - 86;
 
 const staticSpriteSources = {
@@ -129,6 +130,8 @@ const game = {
   dt: 0,
   lastTime: 0,
   running: true,
+  paused: true,
+  pauseMode: "ready",
   wave: 1,
   totalWaves: 7,
   prepDuration: 15,
@@ -246,6 +249,7 @@ function createEnemy(wave) {
     hitAnimTimer: 0,
     attackAnimTimer: 0,
     dead: false,
+    deadGrounded: false,
     deathTimer: 0,
     animName: "fly",
     animTime: Math.random() * 0.6,
@@ -282,6 +286,26 @@ function setSelectedType(type) {
 
 function isPrepPhase() {
   return game.prepTimer > 0;
+}
+
+function isPaused() {
+  return game.paused && !game.gameOver;
+}
+
+function setPaused(paused, mode = "menu") {
+  game.paused = paused;
+  game.pauseMode = paused ? mode : null;
+  if (paused) {
+    for (const code of ["KeyA", "KeyD", "KeyW", "Space"]) {
+      game.keys[code] = false;
+    }
+  } else {
+    game.summon.charge = 0;
+    game.summon.placement = null;
+    game.summon.lockedUntilRelease = false;
+    game.reviveAll.charge = 0;
+    game.reviveAll.triggered = false;
+  }
 }
 
 function heroCenter() {
@@ -528,13 +552,18 @@ function beginEnemyDeath(enemy) {
   }
   enemy.dead = true;
   enemy.hp = 0;
-  enemy.vx = 0;
+  enemy.deadGrounded = false;
+  enemy.vx *= 0.22;
   enemy.vy = 0;
-  enemy.deathTimer = Math.max(0.8, getAnimationFrameCount("enemy_defeat") / animationDefs.enemy_defeat.fps);
+  enemy.deathTimer = Math.max(1, getAnimationFrameCount("enemy_defeat") / animationDefs.enemy_defeat.fps);
   enemy.hitAnimTimer = 0;
   enemy.attackAnimTimer = 0;
   setAnimation(enemy, "defeat");
   addEffect("burst", enemy.x, enemy.y, "#79ff9d", 0.36, { radius: 20 });
+}
+
+function getEnemyFeetY(enemy) {
+  return enemy.y + ENEMY_DEATH_FEET_OFFSET;
 }
 
 function damageEnemy(enemy, amount, options = {}) {
@@ -935,7 +964,28 @@ function updateEnemies(dt) {
     enemy.animTime += dt;
 
     if (enemy.dead) {
-      enemy.deathTimer = Math.max(0, enemy.deathTimer - dt);
+      if (!enemy.deadGrounded) {
+        const previousFeetY = getEnemyFeetY(enemy);
+        enemy.vy += GRAVITY * 1.7;
+        enemy.x += enemy.vx * dt * 60;
+        enemy.y += enemy.vy;
+        enemy.vx *= 0.985;
+
+        for (const surface of surfaces) {
+          const overlapsX = enemy.x + 18 >= surface.x && enemy.x - 18 <= surface.x + surface.width;
+          const enemyFeetY = getEnemyFeetY(enemy);
+          const crossedSurface = previousFeetY <= surface.y && enemyFeetY >= surface.y;
+          if (overlapsX && crossedSurface) {
+            enemy.y = surface.y - ENEMY_DEATH_FEET_OFFSET;
+            enemy.vy = 0;
+            enemy.vx = 0;
+            enemy.deadGrounded = true;
+            break;
+          }
+        }
+      } else {
+        enemy.deathTimer = Math.max(0, enemy.deathTimer - dt);
+      }
       continue;
     }
 
@@ -1125,8 +1175,14 @@ function updateState(dt) {
     return;
   }
 
-  game.dt = dt;
   game.time += dt;
+
+  if (isPaused()) {
+    updateEffects(dt);
+    return;
+  }
+
+  game.dt = dt;
 
   if (game.messageTimer > 0) {
     game.messageTimer -= dt;
@@ -1313,8 +1369,8 @@ function drawDefender(defender) {
   const config = defenderTypes[defender.type];
   const usesAnimatedSheet =
     defender.type === "warrior" || defender.type === "archer" || defender.type === "mage";
-  const spriteWidth = defender.type === "archer" ? 84 : defender.type === "mage" ? 84 : 82;
-  const spriteHeight = defender.type === "archer" ? 84 : defender.type === "mage" ? 84 : 82;
+  const spriteWidth = defender.type === "archer" ? 84 : defender.type === "mage" ? 76 : 82;
+  const spriteHeight = defender.type === "archer" ? 84 : defender.type === "mage" ? 76 : 82;
   const defenderFeetY = defender.y + defender.height;
   const spriteX = defender.x - spriteWidth / 2;
   const spriteY = defenderFeetY - spriteHeight;
@@ -1537,7 +1593,7 @@ function drawEffects() {
 }
 
 function drawPlacementPreview() {
-  if (!isPrepPhase()) {
+  if (!isPrepPhase() || isPaused()) {
     return;
   }
 
@@ -1614,8 +1670,61 @@ function drawOverlay() {
   }
 }
 
+function drawPauseOverlay() {
+  if (!isPaused()) {
+    return;
+  }
+
+  const readyMode = game.pauseMode === "ready";
+  const pulse = 1 + Math.sin(game.time * 3.2) * 0.02;
+  const boxWidth = readyMode ? 420 : 380;
+  const boxHeight = readyMode ? 176 : 210;
+  const boxX = WIDTH / 2 - boxWidth / 2;
+  const boxY = HEIGHT / 2 - boxHeight / 2;
+
+  ctx.save();
+  ctx.fillStyle = "rgba(4, 8, 14, 0.64)";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  ctx.translate(WIDTH / 2, HEIGHT / 2);
+  ctx.scale(pulse, pulse);
+  ctx.translate(-WIDTH / 2, -HEIGHT / 2);
+
+  const panel = ctx.createLinearGradient(0, boxY, 0, boxY + boxHeight);
+  panel.addColorStop(0, readyMode ? "rgba(30, 53, 82, 0.96)" : "rgba(44, 24, 16, 0.95)");
+  panel.addColorStop(1, readyMode ? "rgba(8, 15, 24, 0.95)" : "rgba(11, 8, 14, 0.95)");
+  ctx.fillStyle = panel;
+  ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+  ctx.strokeStyle = readyMode ? "rgba(164, 218, 255, 0.9)" : "rgba(255, 207, 136, 0.9)";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#f4fbff";
+  ctx.font = readyMode ? '42px "Palatino Linotype", Georgia, serif' : '36px "Palatino Linotype", Georgia, serif';
+  ctx.fillText(readyMode ? "Ready?" : "Paused", WIDTH / 2, boxY + 62);
+
+  ctx.font = '22px "Avenir Next", "Segoe UI", sans-serif';
+  ctx.fillStyle = readyMode ? "#d7ebff" : "#ffdcb8";
+  ctx.fillText(readyMode ? "Start moving to begin." : "Esc to resume", WIDTH / 2, boxY + 104);
+
+  ctx.font = '16px "Avenir Next", "Segoe UI", sans-serif';
+  ctx.fillStyle = "#bdd4e4";
+  if (readyMode) {
+    ctx.fillText("A / D / W / Space will drop you straight into the fight", WIDTH / 2, boxY + 138);
+  } else {
+    ctx.fillText("Controls", WIDTH / 2, boxY + 136);
+    ctx.fillText("Move: A / D / W / Space", WIDTH / 2, boxY + 160);
+    ctx.fillText("Attack: Mouse 1    Magic: Mouse 2", WIDTH / 2, boxY + 184);
+  }
+
+  ctx.textAlign = "left";
+  ctx.restore();
+}
+
 function drawPrepCountdown() {
-  if (!isPrepPhase() || game.gameOver) {
+  if (!isPrepPhase() || game.gameOver || isPaused()) {
     return;
   }
 
@@ -1715,6 +1824,7 @@ function render() {
   drawEffects();
   drawOverlay();
   drawPrepCountdown();
+  drawPauseOverlay();
 }
 
 function frame(timestamp) {
@@ -1741,8 +1851,29 @@ function onJump() {
 }
 
 document.addEventListener("keydown", (event) => {
+  if (event.code === "Escape" && !game.gameOver) {
+    event.preventDefault();
+    if (game.pauseMode === "ready") {
+      setPaused(false);
+    } else {
+      setPaused(!game.paused, game.paused ? null : "menu");
+    }
+    return;
+  }
+
+  if (
+    game.pauseMode === "ready" &&
+    (event.code === "KeyA" || event.code === "KeyD" || event.code === "KeyW" || event.code === "Space")
+  ) {
+    setPaused(false);
+  }
+
   game.keys[event.code] = true;
   game.keys[event.key] = true;
+
+  if (isPaused()) {
+    return;
+  }
 
   if (event.code === "Space" || event.code === "KeyW") {
     event.preventDefault();
@@ -1763,6 +1894,11 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keyup", (event) => {
   game.keys[event.code] = false;
   game.keys[event.key] = false;
+
+  if (isPaused()) {
+    return;
+  }
+
   if (event.code === "KeyF") {
     game.summon.charge = 0;
     game.summon.placement = null;
@@ -1793,6 +1929,10 @@ canvas.addEventListener("mousemove", (event) => {
 });
 
 canvas.addEventListener("mousedown", (event) => {
+  if (isPaused()) {
+    return;
+  }
+
   const rect = canvas.getBoundingClientRect();
   const scaleX = WIDTH / rect.width;
   const scaleY = HEIGHT / rect.height;
