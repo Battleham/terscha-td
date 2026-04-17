@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skyhold Rampart</title>
-    <link rel="stylesheet" href="./styles.css?v=20260417a" />
+    <link rel="stylesheet" href="./styles.css?v=20260417b" />
   </head>
   <body>
     <div class="shell">
@@ -16,25 +16,6 @@
           deploy defenders, and revive the fallen before the line breaks.
         </p>
 
-        <div class="stat-grid">
-          <div class="card">
-            <span>Core</span>
-            <strong id="coreHealth">0</strong>
-          </div>
-          <div class="card">
-            <span>Hero</span>
-            <strong id="heroHealth">0</strong>
-          </div>
-          <div class="card">
-            <span>Essence</span>
-            <strong id="essence">0</strong>
-          </div>
-          <div class="card">
-            <span>Wave</span>
-            <strong id="wave">0</strong>
-          </div>
-        </div>
-
         <div class="controls">
           <h2>Controls</h2>
           <ul>
@@ -44,8 +25,9 @@
             <li><kbd>Mouse 1</kbd> Arc strike</li>
             <li><kbd>Mouse 2</kbd> Cast bolt</li>
             <li><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Select defender</li>
-            <li><kbd>F</kbd> Instant summon in prep</li>
-            <li><kbd>R</kbd> Tap one, hold all in prep</li>
+            <li><kbd>F</kbd> Place defender (instant in prep, 2s cast in wave)</li>
+            <li><kbd>Tab</kbd> Toggle placement mode</li>
+            <li><kbd>R</kbd> Revive one defender, hold all in prep</li>
             <li><kbd>Esc</kbd> Pause / resume</li>
           </ul>
         </div>
@@ -72,15 +54,42 @@
       </aside>
 
       <main class="game-panel">
-        <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
+        <div class="game-stage">
+          <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
+          <div class="game-wave-badge" aria-live="polite">
+            <span>Wave</span>
+            <strong id="wave">0</strong>
+          </div>
+        </div>
         <div class="status-strip">
-          <span id="selectedUnit">Selected: Warrior</span>
-          <span id="mana">Mana: 0</span>
+          <div class="status-stack">
+            <span id="essenceLabel">Essence: 0</span>
+            <span id="selectedUnit">Selected: Warrior</span>
+          </div>
+          <div class="hero-mini-hud">
+            <div class="hero-portrait" aria-hidden="true"></div>
+            <div class="hero-bars">
+              <div class="hero-bar-row">
+                <span>HP</span>
+                <div class="hero-bar-track">
+                  <div id="heroHealthFill" class="hero-bar-fill hero-bar-fill-health"></div>
+                </div>
+                <strong id="heroHealthValue">0 / 0</strong>
+              </div>
+              <div class="hero-bar-row">
+                <span>MP</span>
+                <div class="hero-bar-track">
+                  <div id="heroManaFill" class="hero-bar-fill hero-bar-fill-mana"></div>
+                </div>
+                <strong id="heroManaValue">0 / 0</strong>
+              </div>
+            </div>
+          </div>
           <span id="enemies">Enemies: 0</span>
         </div>
       </main>
     </div>
 
-    <script src="./script.js?v=20260417a"></script>
+    <script src="./script.js?v=20260417b"></script>
   </body>
 </html>

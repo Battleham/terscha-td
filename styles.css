@@ -185,6 +185,10 @@ kbd {
   padding: 16px;
 }
 
+.game-stage {
+  position: relative;
+}
+
 canvas {
   width: 100%;
   height: auto;
@@ -195,14 +199,124 @@ canvas {
     linear-gradient(180deg, #0a1a29 0%, #19364f 42%, #183046 65%, #10141b 100%);
 }
 
+.game-wave-badge {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  min-width: 138px;
+  padding: 10px 14px 11px;
+  border-radius: 16px;
+  border: 1px solid rgba(247, 201, 106, 0.42);
+  background: linear-gradient(180deg, rgba(28, 20, 10, 0.9), rgba(12, 10, 8, 0.84));
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
+  text-align: right;
+  pointer-events: none;
+}
+
+.game-wave-badge span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffd89e;
+}
+
+.game-wave-badge strong {
+  display: block;
+  margin-top: 5px;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 1.5rem;
+  color: #fff5df;
+}
+
 .status-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
   margin-top: 12px;
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.status-stack {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.status-stack span {
+  display: block;
+}
+
+#enemies {
+  justify-self: end;
+  text-align: right;
+}
+
+.hero-mini-hud {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 195, 232, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hero-portrait {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 195, 232, 0.2);
+  background-color: rgba(7, 16, 28, 0.78);
+  background-image: url("./assets/hero/hero_idle.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 464px 58px;
+  image-rendering: pixelated;
+  flex: 0 0 auto;
+}
+
+.hero-bars {
+  display: grid;
+  gap: 8px;
+  min-width: 250px;
+}
+
+.hero-bar-row {
+  display: grid;
+  grid-template-columns: 28px minmax(140px, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-bar-row span,
+.hero-bar-row strong {
+  font-size: 0.82rem;
+}
+
+.hero-bar-track {
+  position: relative;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+}
+
+.hero-bar-fill-health {
+  background: linear-gradient(90deg, #ff7a7a, #ffb38f);
+}
+
+.hero-bar-fill-mana {
+  background: linear-gradient(90deg, #73b9ff, #92ffd3);
 }
 
 @media (max-width: 1120px) {
@@ -223,5 +337,26 @@ canvas {
 
   h1 {
     font-size: 1.9rem;
+  }
+
+  .status-strip {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+
+  .hero-mini-hud {
+    justify-content: center;
+  }
+
+  .status-stack,
+  #enemies {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .game-wave-badge {
+    top: 14px;
+    right: 14px;
+    min-width: 122px;
   }
 }

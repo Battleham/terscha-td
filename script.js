@@ -3,13 +3,14 @@ const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
 const ui = {
-  coreHealth: document.getElementById("coreHealth"),
-  heroHealth: document.getElementById("heroHealth"),
-  essence: document.getElementById("essence"),
   wave: document.getElementById("wave"),
-  mana: document.getElementById("mana"),
   enemies: document.getElementById("enemies"),
   selectedUnit: document.getElementById("selectedUnit"),
+  essenceLabel: document.getElementById("essenceLabel"),
+  heroHealthFill: document.getElementById("heroHealthFill"),
+  heroManaFill: document.getElementById("heroManaFill"),
+  heroHealthValue: document.getElementById("heroHealthValue"),
+  heroManaValue: document.getElementById("heroManaValue"),
   messageBox: document.getElementById("messageBox"),
   buttons: [...document.querySelectorAll(".legend-button")],
 };
@@ -19,6 +20,7 @@ const HEIGHT = canvas.height;
 const GRAVITY = 0.46;
 const ENEMY_DEATH_FEET_OFFSET = 66;
 const FLOOR_Y = HEIGHT - 86;
+const MAX_ACTIVE_ENEMIES = 5;
 
 const staticSpriteSources = {
   warrior: "./assets/defenders/warrior.png",
@@ -119,7 +121,7 @@ const defenderTypes = {
 
 const surfaces = [
   { x: 0, y: FLOOR_Y, width: WIDTH, height: HEIGHT - FLOOR_Y },
-  { x: 140, y: 512, width: 245, height: 16 },
+  { x: 232, y: 512, width: 245, height: 16 },
   { x: 456, y: 432, width: 252, height: 16 },
   { x: 828, y: 360, width: 220, height: 16 },
   { x: 828, y: 532, width: 210, height: 16 },
@@ -138,7 +140,7 @@ const game = {
   prepTimer: 15,
   essence: 100,
   core: {
-    x: 210,
+    x: 92,
     y: FLOOR_Y - 30,
     radius: 32,
     hp: 250,
@@ -152,6 +154,7 @@ const game = {
     charge: 0,
     placement: null,
     lockedUntilRelease: false,
+    modeEnabled: true,
   },
   reviveAll: {
     holdDuration: 1,
@@ -234,7 +237,7 @@ function createEnemy(wave) {
   const variant = Math.random() < 0.25 ? "harrier" : "skirmisher";
   return {
     kind: variant,
-    x: WIDTH + 80 + Math.random() * 180,
+    x: WIDTH + 24 + Math.random() * 36,
     y: 120 + Math.random() * 320,
     width: 34,
     height: 44,
@@ -300,9 +303,7 @@ function setPaused(paused, mode = "menu") {
       game.keys[code] = false;
     }
   } else {
-    game.summon.charge = 0;
-    game.summon.placement = null;
-    game.summon.lockedUntilRelease = false;
+    resetSummonState(true);
     game.reviveAll.charge = 0;
     game.reviveAll.triggered = false;
   }
@@ -338,6 +339,30 @@ function drawStaticSprite(name, x, y, width, height, options = {}) {
   }
   ctx.globalAlpha = options.alpha ?? 1;
   ctx.drawImage(sprite, -width / 2, -height / 2, width, height);
+  ctx.restore();
+  return true;
+}
+
+function drawTintedStaticSprite(name, x, y, width, height, tint, alpha = 1) {
+  const sprite = staticSprites[name];
+  if (!staticSpriteReady(name)) {
+    return false;
+  }
+
+  const tempCanvas = document.createElement("canvas");
+  tempCanvas.width = Math.max(1, Math.ceil(width));
+  tempCanvas.height = Math.max(1, Math.ceil(height));
+  const tempCtx = tempCanvas.getContext("2d");
+  tempCtx.imageSmoothingEnabled = false;
+  tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+  tempCtx.drawImage(sprite, 0, 0, tempCanvas.width, tempCanvas.height);
+  tempCtx.globalCompositeOperation = "source-atop";
+  tempCtx.fillStyle = tint;
+  tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.drawImage(tempCanvas, x, y, width, height);
   ctx.restore();
   return true;
 }
@@ -426,6 +451,39 @@ function getMassReviveCost() {
   return getFallenDefenders().reduce((total, defender) => total + reviveCostForType(defender.type), 0);
 }
 
+function isKeyHeld(...keys) {
+  return keys.some((key) => Boolean(game.keys[key]));
+}
+
+function canAffordSelectedDefender() {
+  return game.essence >= defenderTypes[game.selectedType].cost;
+}
+
+function getLiveEnemies() {
+  return game.enemies.filter((enemy) => !enemy.dead);
+}
+
+function getLiveEnemyCount() {
+  return getLiveEnemies().length;
+}
+
+function resetSummonState(resetLock = false) {
+  game.summon.charge = 0;
+  game.summon.placement = null;
+  if (resetLock) {
+    game.summon.lockedUntilRelease = false;
+  }
+}
+
+function setPlacementMode(enabled, announce = false) {
+  game.summon.modeEnabled = enabled;
+  resetSummonState(true);
+  if (!announce) {
+    return;
+  }
+  showMessage(enabled ? "Placement mode engaged." : "Placement mode dismissed.");
+}
+
 function projectileHitsEnemy(projectile, enemy) {
   if (enemy.dead) {
     return false;
@@ -495,30 +553,26 @@ function validPlacement(x, y) {
 
 function placeDefender(x, y) {
   if (game.gameOver) {
-    return;
-  }
-
-  if (!isPrepPhase()) {
-    showMessage("You can only summon defenders during the preparation phase.");
-    return;
+    return false;
   }
 
   const placement = validPlacement(x, y);
   const config = defenderTypes[game.selectedType];
   if (!placement) {
     showMessage("Defenders need stable footing on the ground or a platform.");
-    return;
+    return false;
   }
 
   if (game.essence < config.cost) {
     showMessage(`Not enough essence for a ${config.label.toLowerCase()}.`);
-    return;
+    return false;
   }
 
   game.essence -= config.cost;
   game.defenders.push(createDefender(game.selectedType, placement.x, placement.y));
   addEffect("ring", placement.x, placement.y + 20, config.color, 0.45, { radius: 18 });
   showMessage(`${config.label} deployed to the line.`);
+  return true;
 }
 
 function reviveDefender(defender, healthRatio = 0.55) {
@@ -732,40 +786,58 @@ function placementsMatch(a, b) {
 
 function updateSummon(dt) {
   const summon = game.summon;
-
-  if (!isPrepPhase()) {
-    summon.charge = 0;
-    summon.placement = null;
+  if (game.gameOver || isPaused() || !summon.modeEnabled) {
+    resetSummonState();
     return;
   }
 
   const placement = validPlacement(game.mouse.x, game.mouse.y);
-  const holding = Boolean(game.keys.KeyF || game.keys.f || game.keys.F) && !summon.lockedUntilRelease;
+  const holding = isKeyHeld("KeyF", "f", "F");
 
-  if (!holding || !placement) {
+  if (!holding) {
+    resetSummonState(true);
+    return;
+  }
+
+  if (!placement) {
     summon.charge = 0;
     summon.placement = placement;
     return;
   }
 
-  if (!placementsMatch(summon.placement, placement)) {
+  const previousPlacement = summon.placement;
+  summon.placement = placement;
+
+  if (summon.lockedUntilRelease) {
+    return;
+  }
+
+  if (isPrepPhase()) {
+    placeDefender(placement.x, placement.y);
+    summon.lockedUntilRelease = true;
+    summon.charge = 0;
+    return;
+  }
+
+  if (!placementsMatch(previousPlacement, placement)) {
     summon.charge = 0;
   }
 
-  summon.placement = placement;
-  summon.charge = summon.holdDuration;
-  placeDefender(placement.x, placement.y);
-  summon.charge = 0;
-  summon.placement = null;
-  summon.lockedUntilRelease = true;
+  summon.charge += dt;
+  if (summon.charge >= summon.holdDuration) {
+    placeDefender(placement.x, placement.y);
+    summon.charge = 0;
+    summon.placement = null;
+    summon.lockedUntilRelease = true;
+  }
 }
 
 function updateReviveAll(dt) {
   const hold = game.reviveAll;
-  const canCharge = isPrepPhase() && getFallenDefenders().length > 0 && Boolean(game.keys.KeyR || game.keys.r || game.keys.R);
+  const canCharge = isPrepPhase() && getFallenDefenders().length > 0 && isKeyHeld("KeyR", "r", "R");
 
   if (!canCharge) {
-    if (!(game.keys.KeyR || game.keys.r || game.keys.R)) {
+    if (!isKeyHeld("KeyR", "r", "R")) {
       hold.charge = 0;
       hold.triggered = false;
     }
@@ -1124,6 +1196,7 @@ function updateWave(dt) {
   if (isPrepPhase()) {
     game.prepTimer = Math.max(0, game.prepTimer - dt);
     if (game.prepTimer === 0) {
+      setPlacementMode(false);
       showMessage(`Round ${game.wave} begins. Hold the rampart.`, 3.2);
     }
     return;
@@ -1131,14 +1204,20 @@ function updateWave(dt) {
 
   game.spawnAccumulator += dt;
   const spawnDelay = Math.max(0.38, 1.05 - game.wave * 0.07);
+  let liveEnemyCount = getLiveEnemyCount();
 
-  if (game.waveSpawned < game.waveSpawnTarget && game.spawnAccumulator >= spawnDelay) {
+  if (
+    game.waveSpawned < game.waveSpawnTarget &&
+    liveEnemyCount < MAX_ACTIVE_ENEMIES &&
+    game.spawnAccumulator >= spawnDelay
+  ) {
     game.enemies.push(createEnemy(game.wave));
     game.waveSpawned += 1;
     game.spawnAccumulator = 0;
+    liveEnemyCount += 1;
   }
 
-  if (game.waveSpawned >= game.waveSpawnTarget && game.enemies.length === 0) {
+  if (game.waveSpawned >= game.waveSpawnTarget && liveEnemyCount === 0) {
     if (game.wave >= game.totalWaves) {
       game.gameOver = true;
       game.victory = true;
@@ -1153,6 +1232,7 @@ function updateWave(dt) {
     game.prepTimer = game.prepDuration;
     game.essence += 28;
     game.hero.mana = clamp(game.hero.mana + 16, 0, game.hero.maxMana);
+    setPlacementMode(true);
     for (const defender of game.defenders) {
       defender.facing = 1;
     }
@@ -1210,12 +1290,13 @@ function updateState(dt) {
 }
 
 function updateUi() {
-  ui.coreHealth.textContent = `${Math.max(0, Math.ceil(game.core.hp))}`;
-  ui.heroHealth.textContent = `${Math.max(0, Math.ceil(game.hero.hp))}`;
-  ui.essence.textContent = `${Math.floor(game.essence)}`;
-  ui.wave.textContent = `${game.wave}${isPrepPhase() ? " Prep" : ""}`;
-  ui.mana.textContent = `Mana: ${Math.floor(game.hero.mana)}`;
-  ui.enemies.textContent = `Enemies: ${game.enemies.length}`;
+  ui.wave.textContent = isPrepPhase() ? `${game.wave} · Prep` : `${game.wave}`;
+  ui.essenceLabel.textContent = `Essence: ${Math.floor(game.essence)}`;
+  ui.heroHealthFill.style.width = `${(Math.max(0, game.hero.hp) / game.hero.maxHp) * 100}%`;
+  ui.heroManaFill.style.width = `${(game.hero.mana / game.hero.maxMana) * 100}%`;
+  ui.heroHealthValue.textContent = `${Math.max(0, Math.ceil(game.hero.hp))} / ${game.hero.maxHp}`;
+  ui.heroManaValue.textContent = `${Math.floor(game.hero.mana)} / ${game.hero.maxMana}`;
+  ui.enemies.textContent = `Enemies: ${getLiveEnemyCount()}`;
 }
 
 function drawBackground() {
@@ -1267,10 +1348,10 @@ function drawTerrain() {
   }
 
   ctx.fillStyle = "#314858";
-  ctx.fillRect(game.core.x - 58, FLOOR_Y - 12, 116, 12);
+  ctx.fillRect(game.core.x - 48, FLOOR_Y - 12, 96, 12);
 
   ctx.fillStyle = "rgba(255, 212, 132, 0.18)";
-  ctx.fillRect(game.core.x - 44, FLOOR_Y - 18, 88, 6);
+  ctx.fillRect(game.core.x - 34, FLOOR_Y - 18, 68, 6);
 
   const pulse = 1 + Math.sin(game.time * 3.2) * 0.04;
   const coreGradient = ctx.createRadialGradient(game.core.x, game.core.y, 8, game.core.x, game.core.y, 45);
@@ -1295,6 +1376,33 @@ function drawTerrain() {
   ctx.beginPath();
   ctx.arc(game.core.x, game.core.y, 30 + Math.sin(game.time * 2.6) * 2, 0, Math.PI * 2);
   ctx.stroke();
+}
+
+function drawCoreHealthBar() {
+  const barWidth = 92;
+  const barHeight = 8;
+  const x = game.core.x - barWidth / 2;
+  const y = game.core.y - 50;
+
+  ctx.fillStyle = "rgba(7, 16, 28, 0.82)";
+  ctx.fillRect(x - 7, y - 16, barWidth + 14, 26);
+  ctx.strokeStyle = "rgba(155, 208, 255, 0.24)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x - 7, y - 16, barWidth + 14, 26);
+
+  ctx.fillStyle = "#d5e8f7";
+  ctx.font = '12px "Avenir Next", "Segoe UI", sans-serif';
+  ctx.textAlign = "center";
+  ctx.fillText("Core", game.core.x, y - 4);
+
+  ctx.fillStyle = "rgba(255,255,255,0.08)";
+  ctx.fillRect(x, y, barWidth, barHeight);
+  ctx.fillStyle = "#7bff9d";
+  ctx.fillRect(x, y, barWidth * Math.max(0, game.core.hp / game.core.maxHp), barHeight);
+  ctx.strokeStyle = "rgba(255,255,255,0.14)";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x, y, barWidth, barHeight);
+  ctx.textAlign = "left";
 }
 
 function drawHero() {
@@ -1593,7 +1701,7 @@ function drawEffects() {
 }
 
 function drawPlacementPreview() {
-  if (!isPrepPhase() || isPaused()) {
+  if (isPaused() || !game.summon.modeEnabled) {
     return;
   }
 
@@ -1603,26 +1711,48 @@ function drawPlacementPreview() {
   }
 
   const config = defenderTypes[game.selectedType];
-  ctx.save();
-  ctx.globalAlpha = 0.4;
   const previewFeetY = placement.y + 38;
-  if (
-    !drawStaticSprite(game.selectedType, placement.x - 38, previewFeetY - 76, 76, 76, {
-      alpha: 0.4,
-    })
-  ) {
-    ctx.fillStyle = config.color;
+  const canAfford = canAffordSelectedDefender();
+  const ghostTint = canAfford ? null : "rgba(255, 84, 84, 0.78)";
+  const ghostBounds = {
+    x: placement.x - 38,
+    y: previewFeetY - 76,
+    width: 76,
+    height: 76,
+  };
+  ctx.save();
+  const drewSprite = ghostTint
+    ? drawTintedStaticSprite(
+        game.selectedType,
+        ghostBounds.x,
+        ghostBounds.y,
+        ghostBounds.width,
+        ghostBounds.height,
+        ghostTint,
+        0.52,
+      )
+    : drawStaticSprite(game.selectedType, ghostBounds.x, ghostBounds.y, ghostBounds.width, ghostBounds.height, {
+        alpha: 0.4,
+      });
+  if (!drewSprite) {
+    ctx.globalAlpha = canAfford ? 0.4 : 0.55;
+    ctx.fillStyle = canAfford ? config.color : "#ff6b6b";
     ctx.fillRect(placement.x - 12, placement.y, 24, 38);
   }
 
   const summon = game.summon;
+  const instantPlacement = isPrepPhase();
   const progress =
-    summon.placement && placementsMatch(summon.placement, placement)
+    !instantPlacement && summon.placement && placementsMatch(summon.placement, placement)
       ? clamp(summon.charge / summon.holdDuration, 0, 1)
       : 0;
 
   ctx.globalAlpha = 1;
-  ctx.strokeStyle = "rgba(230, 244, 255, 0.45)";
+  ctx.strokeStyle = !canAfford
+    ? "rgba(255, 116, 116, 0.8)"
+    : instantPlacement
+      ? "rgba(146, 255, 211, 0.6)"
+      : "rgba(230, 244, 255, 0.45)";
   ctx.lineWidth = 4;
   ctx.beginPath();
   ctx.arc(placement.x, placement.y - 18, 16, 0, Math.PI * 2);
@@ -1640,20 +1770,18 @@ function drawPlacementPreview() {
 
 function drawOverlay() {
   ctx.fillStyle = "rgba(10, 16, 24, 0.62)";
-  ctx.fillRect(18, 16, 390, 108);
+  ctx.fillRect(18, 16, 366, 100);
   ctx.fillStyle = "#edf5ff";
   ctx.font = '20px "Palatino Linotype", Georgia, serif';
-  ctx.fillText(`Round ${game.wave}`, 34, 44);
+  ctx.fillText("Skyhold Rampart", 34, 42);
   ctx.font = '14px "Avenir Next", "Segoe UI", sans-serif';
   ctx.fillStyle = "#9fc7de";
   if (isPrepPhase()) {
-    ctx.fillText(`Preparation: ${Math.ceil(game.prepTimer)}s to summon defenders`, 34, 68);
-    ctx.fillText(`Press F over a platform to deploy instantly`, 34, 90);
-    ctx.fillText(`Tap R for one revive, hold R for the whole line`, 34, 112);
+    ctx.fillText(`Preparation window: place defenders instantly before the wave breaks.`, 34, 68);
+    ctx.fillText(`F places now. Tab toggles placement. Tap R revives one. Hold R revives the line.`, 34, 92);
   } else {
-    ctx.fillText(`Survive until round ${game.totalWaves} and keep the core alive`, 34, 68);
-    ctx.fillText(`Mouse 1 strikes, Mouse 2 casts, R revives`, 34, 90);
-    ctx.fillText(`Next defender summons open between rounds`, 34, 112);
+    ctx.fillText(`Survive until round ${game.totalWaves} and keep the core alive.`, 34, 68);
+    ctx.fillText(`Mouse 1 strikes, Mouse 2 casts, Tab toggles placement, hold F 2s to place.`, 34, 92);
   }
 
   if (game.gameOver) {
@@ -1812,6 +1940,7 @@ function drawPrepCountdown() {
 function render() {
   drawBackground();
   drawTerrain();
+  drawCoreHealthBar();
   drawPlacementPreview();
   for (const defender of game.defenders) {
     drawDefender(defender);
@@ -1868,6 +1997,12 @@ document.addEventListener("keydown", (event) => {
     setPaused(false);
   }
 
+  if (event.code === "Tab" && !game.gameOver) {
+    event.preventDefault();
+    setPlacementMode(!game.summon.modeEnabled, true);
+    return;
+  }
+
   game.keys[event.code] = true;
   game.keys[event.key] = true;
 
@@ -1900,14 +2035,10 @@ document.addEventListener("keyup", (event) => {
   }
 
   if (event.code === "KeyF") {
-    game.summon.charge = 0;
-    game.summon.placement = null;
-    game.summon.lockedUntilRelease = false;
+    resetSummonState(true);
   }
   if (event.key === "f" || event.key === "F") {
-    game.summon.charge = 0;
-    game.summon.placement = null;
-    game.summon.lockedUntilRelease = false;
+    resetSummonState(true);
   }
   if (event.code === "KeyR" || event.key === "r" || event.key === "R") {
     const didHoldLongEnough = game.reviveAll.charge >= game.reviveAll.holdDuration;
