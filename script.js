@@ -17,7 +17,7 @@ const ui = {
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 const GRAVITY = 0.46;
-const ENEMY_DEATH_FEET_OFFSET = 0;
+const ENEMY_DEATH_FEET_OFFSET = 66;
 const FLOOR_Y = HEIGHT - 86;
 
 const staticSpriteSources = {
