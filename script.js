@@ -9,9 +9,18 @@ const ui = {
   essenceLabel: document.getElementById("essenceLabel"),
   heroHealthFill: document.getElementById("heroHealthFill"),
   heroManaFill: document.getElementById("heroManaFill"),
-  heroHealthValue: document.getElementById("heroHealthValue"),
-  heroManaValue: document.getElementById("heroManaValue"),
   messageBox: document.getElementById("messageBox"),
+  hudPanel: document.querySelector(".hud-panel"),
+  infoToggle: document.getElementById("infoToggle"),
+  infoClose: document.getElementById("infoClose"),
+  infoBackdrop: document.getElementById("infoBackdrop"),
+  orientationGate: document.getElementById("orientationGate"),
+  mobileControls: document.getElementById("mobileControls"),
+  moveLeftBtn: document.getElementById("moveLeftBtn"),
+  moveRightBtn: document.getElementById("moveRightBtn"),
+  jumpBtn: document.getElementById("jumpBtn"),
+  attackBtn: document.getElementById("attackBtn"),
+  magicBtn: document.getElementById("magicBtn"),
   buttons: [...document.querySelectorAll(".legend-button")],
 };
 
@@ -134,6 +143,11 @@ const game = {
   running: true,
   paused: true,
   pauseMode: "ready",
+  mobileUi: false,
+  orientationBlocked: false,
+  resumeAfterOrientation: false,
+  infoModalOpen: false,
+  resumeAfterInfoModal: false,
   wave: 1,
   totalWaves: 7,
   prepDuration: 15,
@@ -284,7 +298,16 @@ function setSelectedType(type) {
   for (const button of ui.buttons) {
     button.classList.toggle("active", button.dataset.type === type);
   }
-  ui.selectedUnit.textContent = `Selected: ${defenderTypes[type].label}`;
+  ui.selectedUnit.style.backgroundImage = `url("${staticSpriteSources[type]}")`;
+  ui.selectedUnit.setAttribute("aria-label", `Selected defender: ${defenderTypes[type].label}`);
+}
+
+function shouldUseMobileUi() {
+  return window.matchMedia("(max-width: 900px), (hover: none) and (pointer: coarse)").matches;
+}
+
+function isPortraitOrientation() {
+  return window.matchMedia("(orientation: portrait)").matches;
 }
 
 function isPrepPhase() {
@@ -307,6 +330,105 @@ function setPaused(paused, mode = "menu") {
     game.reviveAll.charge = 0;
     game.reviveAll.triggered = false;
   }
+}
+
+function setVirtualKey(code, pressed, keyValue = code) {
+  game.keys[code] = pressed;
+  if (typeof keyValue === "string") {
+    game.keys[keyValue] = pressed;
+  }
+}
+
+function clearMobileMovement() {
+  setVirtualKey("KeyA", false, "a");
+  setVirtualKey("KeyD", false, "d");
+}
+
+function openInfoModal() {
+  if (!game.mobileUi || game.infoModalOpen) {
+    return;
+  }
+  game.infoModalOpen = true;
+  game.resumeAfterInfoModal = !isPaused() && !game.gameOver;
+  if (game.resumeAfterInfoModal) {
+    setPaused(true, "menu");
+  }
+  ui.infoBackdrop.hidden = false;
+  document.body.classList.add("info-modal-open");
+}
+
+function closeInfoModal() {
+  if (!game.infoModalOpen) {
+    return;
+  }
+  const shouldResume = game.resumeAfterInfoModal && !game.gameOver;
+  game.infoModalOpen = false;
+  game.resumeAfterInfoModal = false;
+  ui.infoBackdrop.hidden = true;
+  document.body.classList.remove("info-modal-open");
+  if (shouldResume) {
+    setPaused(false);
+  }
+}
+
+async function requestLandscapeLock() {
+  if (!game.mobileUi || typeof screen.orientation?.lock !== "function") {
+    return;
+  }
+  try {
+    await screen.orientation.lock("landscape");
+  } catch (_error) {
+    // Many mobile browsers only allow this in fullscreen/PWA or not at all.
+  }
+}
+
+function updateOrientationState() {
+  const shouldBlock = game.mobileUi && isPortraitOrientation();
+  if (game.orientationBlocked === shouldBlock) {
+    return;
+  }
+
+  game.orientationBlocked = shouldBlock;
+  document.body.classList.toggle("orientation-blocked", shouldBlock);
+  ui.orientationGate.hidden = !shouldBlock;
+
+  if (shouldBlock) {
+    clearMobileMovement();
+    if (game.infoModalOpen) {
+      closeInfoModal();
+    }
+    game.resumeAfterOrientation = !isPaused() && !game.gameOver;
+    if (game.resumeAfterOrientation) {
+      setPaused(true, "menu");
+    }
+    return;
+  }
+
+  if (game.resumeAfterOrientation && !game.gameOver && game.pauseMode !== "ready") {
+    game.resumeAfterOrientation = false;
+    setPaused(false);
+  }
+}
+
+function updateMobileUiState(force = false) {
+  const useMobileUi = shouldUseMobileUi();
+  if (!force && game.mobileUi === useMobileUi) {
+    updateOrientationState();
+    return;
+  }
+
+  game.mobileUi = useMobileUi;
+  document.body.classList.toggle("mobile-ui", useMobileUi);
+  ui.mobileControls.setAttribute("aria-hidden", String(!useMobileUi));
+  if (useMobileUi) {
+    closeInfoModal();
+    setPlacementMode(false);
+    requestLandscapeLock();
+  } else {
+    clearMobileMovement();
+    closeInfoModal();
+  }
+  updateOrientationState();
 }
 
 function heroCenter() {
@@ -476,12 +598,13 @@ function resetSummonState(resetLock = false) {
 }
 
 function setPlacementMode(enabled, announce = false) {
-  game.summon.modeEnabled = enabled;
+  const resolved = game.mobileUi ? false : enabled;
+  game.summon.modeEnabled = resolved;
   resetSummonState(true);
   if (!announce) {
     return;
   }
-  showMessage(enabled ? "Placement mode engaged." : "Placement mode dismissed.");
+  showMessage(resolved ? "Placement mode engaged." : "Placement mode dismissed.");
 }
 
 function projectileHitsEnemy(projectile, enemy) {
@@ -1294,9 +1417,7 @@ function updateUi() {
   ui.essenceLabel.textContent = `Essence: ${Math.floor(game.essence)}`;
   ui.heroHealthFill.style.width = `${(Math.max(0, game.hero.hp) / game.hero.maxHp) * 100}%`;
   ui.heroManaFill.style.width = `${(game.hero.mana / game.hero.maxMana) * 100}%`;
-  ui.heroHealthValue.textContent = `${Math.max(0, Math.ceil(game.hero.hp))} / ${game.hero.maxHp}`;
-  ui.heroManaValue.textContent = `${Math.floor(game.hero.mana)} / ${game.hero.maxMana}`;
-  ui.enemies.textContent = `Enemies: ${getLiveEnemyCount()}`;
+  ui.enemies.textContent = `${getLiveEnemyCount()}`;
 }
 
 function drawBackground() {
@@ -1776,7 +1897,13 @@ function drawOverlay() {
   ctx.fillText("Skyhold Rampart", 34, 42);
   ctx.font = '14px "Avenir Next", "Segoe UI", sans-serif';
   ctx.fillStyle = "#9fc7de";
-  if (isPrepPhase()) {
+  if (game.mobileUi && isPrepPhase()) {
+    ctx.fillText("Use the left pad to move and the right buttons to fight.", 34, 68);
+    ctx.fillText("Placement is off on mobile for now. Tap ? for the full panel.", 34, 92);
+  } else if (game.mobileUi) {
+    ctx.fillText("Use the left pad to move and the right buttons to jump or attack.", 34, 68);
+    ctx.fillText("Placement is off on mobile for now. Tap ? for the full panel.", 34, 92);
+  } else if (isPrepPhase()) {
     ctx.fillText(`Preparation window: place defenders instantly before the wave breaks.`, 34, 68);
     ctx.fillText(`F places now. Tab toggles placement. Tap R revives one. Hold R revives the line.`, 34, 92);
   } else {
@@ -1840,11 +1967,19 @@ function drawPauseOverlay() {
   ctx.font = '16px "Avenir Next", "Segoe UI", sans-serif';
   ctx.fillStyle = "#bdd4e4";
   if (readyMode) {
-    ctx.fillText("A / D / W / Space will drop you straight into the fight", WIDTH / 2, boxY + 138);
+    ctx.fillText(
+      game.mobileUi ? "Move with the left pad to begin. Tap ? for controls." : "A / D / W / Space will drop you straight into the fight",
+      WIDTH / 2,
+      boxY + 138,
+    );
   } else {
     ctx.fillText("Controls", WIDTH / 2, boxY + 136);
-    ctx.fillText("Move: A / D / W / Space", WIDTH / 2, boxY + 160);
-    ctx.fillText("Attack: Mouse 1    Magic: Mouse 2", WIDTH / 2, boxY + 184);
+    ctx.fillText(
+      game.mobileUi ? "Move: left pad    Jump / Strike / Bolt: right buttons" : "Move: A / D / W / Space",
+      WIDTH / 2,
+      boxY + 160,
+    );
+    ctx.fillText(game.mobileUi ? "Tap ? for the full info panel" : "Attack: Mouse 1    Magic: Mouse 2", WIDTH / 2, boxY + 184);
   }
 
   ctx.textAlign = "left";
@@ -1979,7 +2114,70 @@ function onJump() {
   }
 }
 
+function startGameFromMovement() {
+  requestLandscapeLock();
+  if (game.pauseMode === "ready") {
+    setPaused(false);
+  }
+}
+
+function bindHoldButton(element, onPress, onRelease) {
+  if (!element) {
+    return;
+  }
+
+  let activePointerId = null;
+
+  const release = (event) => {
+    if (activePointerId === null) {
+      return;
+    }
+    if (event?.pointerId !== undefined && event.pointerId !== activePointerId) {
+      return;
+    }
+    activePointerId = null;
+    element.classList.remove("is-active");
+    onRelease?.(event);
+  };
+
+  element.addEventListener("pointerdown", (event) => {
+    if (!game.mobileUi) {
+      return;
+    }
+    event.preventDefault();
+    requestLandscapeLock();
+    activePointerId = event.pointerId;
+    element.classList.add("is-active");
+    element.setPointerCapture?.(event.pointerId);
+    onPress?.(event);
+  });
+
+  element.addEventListener("pointerup", release);
+  element.addEventListener("pointercancel", release);
+  element.addEventListener("pointerleave", (event) => {
+    if (event.pointerType !== "mouse") {
+      release(event);
+    }
+  });
+}
+
+function bindTapButton(element, action) {
+  bindHoldButton(
+    element,
+    (event) => {
+      action(event);
+    },
+    () => {},
+  );
+}
+
 document.addEventListener("keydown", (event) => {
+  if (event.code === "Escape" && game.infoModalOpen) {
+    event.preventDefault();
+    closeInfoModal();
+    return;
+  }
+
   if (event.code === "Escape" && !game.gameOver) {
     event.preventDefault();
     if (game.pauseMode === "ready") {
@@ -2084,11 +2282,77 @@ canvas.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
 
+ui.infoToggle.addEventListener("click", () => {
+  if (game.infoModalOpen) {
+    closeInfoModal();
+  } else {
+    openInfoModal();
+  }
+});
+
+ui.infoClose.addEventListener("click", () => {
+  closeInfoModal();
+});
+
+ui.infoBackdrop.addEventListener("click", () => {
+  closeInfoModal();
+});
+
+bindHoldButton(ui.moveLeftBtn, () => {
+  startGameFromMovement();
+  setVirtualKey("KeyA", true, "a");
+}, () => {
+  setVirtualKey("KeyA", false, "a");
+});
+
+bindHoldButton(ui.moveRightBtn, () => {
+  startGameFromMovement();
+  setVirtualKey("KeyD", true, "d");
+}, () => {
+  setVirtualKey("KeyD", false, "d");
+});
+
+bindTapButton(ui.jumpBtn, () => {
+  if (isPaused()) {
+    return;
+  }
+  onJump();
+});
+
+bindTapButton(ui.attackBtn, () => {
+  if (isPaused()) {
+    return;
+  }
+  performHeroStrike();
+});
+
+bindTapButton(ui.magicBtn, () => {
+  if (isPaused()) {
+    return;
+  }
+  castHeroBolt();
+});
+
 for (const button of ui.buttons) {
   button.addEventListener("click", () => setSelectedType(button.dataset.type));
 }
 
+window.addEventListener("resize", () => {
+  updateMobileUiState();
+});
+
+window.addEventListener("blur", () => {
+  clearMobileMovement();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    clearMobileMovement();
+  }
+});
+
 game.hero = createHero();
 setSelectedType("warrior");
+updateMobileUiState(true);
 updateUi();
 requestAnimationFrame(frame);

@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skyhold Rampart</title>
-    <link rel="stylesheet" href="./styles.css?v=20260417b" />
+    <link rel="stylesheet" href="./styles.css?v=20260417d" />
   </head>
   <body>
     <div class="shell">
       <aside class="hud-panel">
+        <button id="infoClose" class="info-close" type="button" aria-label="Close information panel">
+          Close
+        </button>
         <p class="eyebrow">Platform Defense Prototype</p>
         <h1>Skyhold Rampart</h1>
         <p class="summary">
@@ -24,6 +27,7 @@
             <li><kbd>W</kbd> or <kbd>Space</kbd> Jump</li>
             <li><kbd>Mouse 1</kbd> Arc strike</li>
             <li><kbd>Mouse 2</kbd> Cast bolt</li>
+            <li><kbd>Mobile</kbd> Left / right pad, jump, strike, and bolt buttons</li>
             <li><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Select defender</li>
             <li><kbd>F</kbd> Place defender (instant in prep, 2s cast in wave)</li>
             <li><kbd>Tab</kbd> Toggle placement mode</li>
@@ -55,41 +59,67 @@
 
       <main class="game-panel">
         <div class="game-stage">
-          <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
+          <div class="game-frame">
+            <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
+          </div>
+          <button id="infoToggle" class="info-toggle" type="button" aria-label="Open information panel">
+            ?
+          </button>
           <div class="game-wave-badge" aria-live="polite">
             <span>Wave</span>
             <strong id="wave">0</strong>
+          </div>
+          <div id="mobileControls" class="mobile-controls" aria-hidden="true">
+            <div class="mobile-joystick" aria-label="Movement controls">
+              <button id="moveLeftBtn" class="mobile-control mobile-control-move" type="button" aria-label="Move left">
+                Left
+              </button>
+              <div class="mobile-joystick-core" aria-hidden="true"></div>
+              <button id="moveRightBtn" class="mobile-control mobile-control-move" type="button" aria-label="Move right">
+                Right
+              </button>
+            </div>
+            <div class="mobile-actions" aria-label="Action controls">
+              <button id="jumpBtn" class="mobile-control mobile-control-action" type="button">Jump</button>
+              <button id="attackBtn" class="mobile-control mobile-control-action" type="button">Strike</button>
+              <button id="magicBtn" class="mobile-control mobile-control-action" type="button">Bolt</button>
+            </div>
           </div>
         </div>
         <div class="status-strip">
           <div class="status-stack">
             <span id="essenceLabel">Essence: 0</span>
-            <span id="selectedUnit">Selected: Warrior</span>
+            <div id="selectedUnit" class="selected-unit-icon" aria-label="Selected defender: Warrior"></div>
           </div>
           <div class="hero-mini-hud">
             <div class="hero-portrait" aria-hidden="true"></div>
             <div class="hero-bars">
               <div class="hero-bar-row">
-                <span>HP</span>
                 <div class="hero-bar-track">
                   <div id="heroHealthFill" class="hero-bar-fill hero-bar-fill-health"></div>
                 </div>
-                <strong id="heroHealthValue">0 / 0</strong>
               </div>
               <div class="hero-bar-row">
-                <span>MP</span>
                 <div class="hero-bar-track">
                   <div id="heroManaFill" class="hero-bar-fill hero-bar-fill-mana"></div>
                 </div>
-                <strong id="heroManaValue">0 / 0</strong>
               </div>
             </div>
           </div>
-          <span id="enemies">Enemies: 0</span>
+          <span id="enemies">0</span>
         </div>
       </main>
     </div>
+    <div id="infoBackdrop" class="info-backdrop" hidden></div>
+    <div id="orientationGate" class="orientation-gate" hidden>
+      <div class="orientation-card">
+        <div class="orientation-phone" aria-hidden="true"></div>
+        <h2>Rotate To Landscape</h2>
+        <p>Terscha TD plays in landscape mode.</p>
+        <p>Turn your phone sideways to continue.</p>
+      </div>
+    </div>
 
-    <script src="./script.js?v=20260417b"></script>
+    <script src="./script.js?v=20260417d"></script>
   </body>
 </html>
