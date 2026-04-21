@@ -38,6 +38,10 @@ body.orientation-blocked {
   overflow: hidden;
 }
 
+body.pause-ready .mobile-joystick-thumb {
+  opacity: 0.92;
+}
+
 .shell {
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
@@ -136,6 +140,18 @@ h2 {
   margin-top: 22px;
 }
 
+.mobile-guide {
+  display: none;
+}
+
+.mobile-guide-modal {
+  display: none;
+}
+
+.mobile-guide-modal[hidden] {
+  display: none !important;
+}
+
 .controls ul {
   margin: 0;
   padding: 0;
@@ -199,6 +215,193 @@ kbd {
   line-height: 1.5;
 }
 
+.mobile-guide-tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.mobile-guide-tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 14px 14px 10px 10px;
+  border: 1px solid rgba(148, 195, 232, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mobile-guide-tab.is-active {
+  color: #f7e8ff;
+  border-color: rgba(214, 141, 255, 0.36);
+  background: linear-gradient(180deg, rgba(92, 48, 113, 0.42), rgba(37, 22, 54, 0.3));
+}
+
+.mobile-guide-layout {
+  margin-top: 14px;
+  display: grid;
+  gap: 14px;
+}
+
+.mobile-guide-stage {
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 195, 232, 0.12);
+  background: linear-gradient(180deg, rgba(13, 23, 35, 0.92), rgba(8, 14, 24, 0.96));
+}
+
+.mobile-guide-stage-label {
+  color: #edf5ff;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 1rem;
+}
+
+.mobile-guide-stage-panel {
+  position: relative;
+  margin-top: 14px;
+  min-height: 210px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 195, 232, 0.12);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(124, 211, 255, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(11, 22, 36, 0.98), rgba(7, 13, 22, 0.98));
+  overflow: hidden;
+}
+
+.mobile-guide-stage-panel::before {
+  content: "";
+  position: absolute;
+  inset: 18px 18px 18px 18px;
+  border-radius: 18px;
+  border: 1px dashed rgba(148, 195, 232, 0.1);
+}
+
+.mobile-guide-stage-panel::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 22px;
+  height: 52px;
+  border-radius: 18px 18px 10px 10px;
+  background: linear-gradient(180deg, rgba(92, 118, 138, 0.32), rgba(35, 50, 65, 0.48));
+}
+
+.mobile-guide-marker {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(129, 246, 255, 0.28);
+  background: rgba(18, 32, 44, 0.56);
+  color: #e7f3ff;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mobile-guide-marker-rally {
+  top: 22px;
+  left: 20px;
+}
+
+.mobile-guide-marker-revive {
+  right: 24px;
+  bottom: 62px;
+}
+
+.mobile-guide-marker-place {
+  left: 50%;
+  bottom: 84px;
+  transform: translateX(-50%);
+}
+
+.mobile-guide-marker-info {
+  top: 18px;
+  right: 18px;
+  min-width: 32px;
+  width: 32px;
+  padding: 0;
+}
+
+.mobile-guide-callouts,
+.mobile-guide-phases,
+.mobile-defender-guide {
+  display: grid;
+  gap: 12px;
+}
+
+.mobile-guide-card,
+.mobile-phase-card,
+.mobile-defender-card {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 195, 232, 0.12);
+  background: linear-gradient(180deg, rgba(15, 27, 40, 0.92), rgba(8, 15, 24, 0.98));
+}
+
+.mobile-guide-card h2,
+.mobile-defender-card h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.mobile-guide-card p,
+.mobile-phase-card p,
+.mobile-defender-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mobile-phase-eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.mobile-defender-card {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.mobile-defender-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 195, 232, 0.18);
+  background-color: rgba(7, 16, 28, 0.78);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+}
+
+.mobile-defender-icon-warrior {
+  background-image: url("./assets/defenders/warrior.png");
+}
+
+.mobile-defender-icon-archer {
+  background-image: url("./assets/defenders/archer.png");
+}
+
+.mobile-defender-icon-mage {
+  background-image: url("./assets/defenders/mage.png");
+}
+
 .game-panel {
   display: flex;
   flex-direction: column;
@@ -211,6 +414,10 @@ kbd {
 
 .game-frame {
   width: 100%;
+}
+
+.mobile-bottom-bar {
+  display: contents;
 }
 
 canvas {
@@ -241,6 +448,18 @@ canvas {
   justify-content: center;
   z-index: 3;
   touch-action: manipulation;
+}
+
+.mobile-build-toggle,
+.mobile-build-menu,
+.mobile-cancel-placement {
+  display: none;
+}
+
+.mobile-build-menu[hidden],
+.mobile-cancel-placement[hidden],
+.mobile-build-toggle[hidden] {
+  display: none !important;
 }
 
 .game-wave-badge {
@@ -275,6 +494,46 @@ canvas {
 
 .mobile-controls {
   display: none;
+}
+
+.mobile-joystick-zone {
+  display: none;
+}
+
+.mobile-joystick-base {
+  position: relative;
+  width: 124px;
+  height: 124px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 195, 232, 0.16);
+  background:
+    radial-gradient(circle at center, rgba(73, 122, 167, 0.16), rgba(7, 16, 28, 0.22) 62%, rgba(7, 16, 28, 0.06) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 18px 32px rgba(0, 0, 0, 0.24);
+}
+
+.mobile-joystick-thumb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(circle at 35% 35%, rgba(235, 248, 255, 0.96), rgba(123, 196, 246, 0.94) 42%, rgba(30, 74, 117, 0.96) 100%);
+  box-shadow:
+    0 14px 24px rgba(0, 0, 0, 0.26),
+    0 0 18px rgba(111, 182, 222, 0.2);
+  transform: translate3d(0, 0, 0);
+  opacity: 0.08;
+  transition: opacity 140ms ease;
+}
+
+.mobile-joystick-base.is-engaged .mobile-joystick-thumb {
+  opacity: 0.18;
 }
 
 .info-backdrop {
@@ -393,25 +652,53 @@ canvas {
   html,
   body {
     min-height: 100dvh;
-  }
-
-  :root {
-    --mobile-top-safe: 0px;
-    --mobile-bottom-safe: 0px;
+    width: 100vw;
+    min-width: 100vw;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+    background:
+      radial-gradient(circle at top, rgba(87, 204, 255, 0.22), transparent 36%),
+      linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
   }
 
   body {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    min-width: 100vw;
+    height: 100dvh;
     padding: 0;
   }
 
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -24vw;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 30% 16%, rgba(118, 219, 255, 0.22), transparent 26%),
+      linear-gradient(180deg, #07111f 0%, #17314b 58%, #0c1723 100%);
+  }
+
   .shell {
+    width: 100dvw;
+    min-width: 100dvw;
     gap: 0;
+    grid-template-columns: 1fr;
     max-width: none;
+    height: 100dvh;
+    margin: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .game-panel {
     position: relative;
     display: block;
+    width: 100dvw;
+    min-width: 100dvw;
     min-height: 100vh;
     min-height: 100dvh;
     border-radius: 0;
@@ -421,18 +708,73 @@ canvas {
     background: linear-gradient(180deg, rgba(8, 17, 31, 0.98), rgba(10, 20, 31, 0.98));
   }
 
+  .game-panel::before,
+  .game-panel::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: max(32px, calc((100vw - 100dvw) / 2 + 32px));
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(118, 219, 255, 0.18), transparent 28%),
+      linear-gradient(180deg, #07111f 0%, #17314b 58%, #0c1723 100%);
+  }
+
+  .game-panel::before {
+    left: 0;
+  }
+
+  .game-panel::after {
+    right: 0;
+  }
+
   .hud-panel {
     position: fixed;
     inset: 18px 14px 18px 14px;
     z-index: 30;
     overflow: auto;
+    touch-action: pan-y;
     display: none;
     padding: 20px 18px 18px;
     border-radius: 24px;
   }
 
   body.info-modal-open .hud-panel {
+    display: none !important;
+  }
+
+  .mobile-guide-modal {
+    position: fixed;
+    inset: 18px 14px 18px 14px;
+    z-index: 30;
+    overflow: auto;
+    touch-action: pan-y;
+    padding: 20px 18px 18px;
+    border-radius: 24px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(18px);
+  }
+
+  body.info-modal-open .mobile-guide-modal:not([hidden]) {
     display: block;
+  }
+
+  .mobile-guide {
+    display: grid !important;
+    gap: 14px;
+    color: var(--text);
+  }
+
+  .mobile-guide-modal .mobile-guide {
+    margin-top: 0;
+  }
+
+  .hud-panel > :not(.info-close):not(.mobile-guide) {
+    display: none !important;
   }
 
   .info-backdrop {
@@ -460,6 +802,10 @@ canvas {
     color: var(--text);
   }
 
+  .mobile-guide-close {
+    display: inline-flex;
+  }
+
   .info-toggle {
     display: inline-flex;
   }
@@ -471,71 +817,82 @@ canvas {
   .game-stage {
     display: grid;
     place-items: center;
-    width: 100vw;
+    justify-content: center;
+    width: 100dvw;
     height: 100dvh;
     overflow: hidden;
     touch-action: none;
-    padding: 10px;
+    padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .game-frame {
-    width: min(
-      calc((100dvh - 20px - var(--mobile-top-safe) - var(--mobile-bottom-safe)) * 16 / 9),
-      calc(100vw - 20px)
-    );
-    max-width: calc(100vw - 20px);
-    max-height: calc(100dvh - 20px - var(--mobile-top-safe) - var(--mobile-bottom-safe));
-    aspect-ratio: 16 / 9;
-    border-radius: 18px;
+    width: 100dvw;
+    height: 100dvh;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+    box-shadow: none;
   }
 
   canvas {
     width: 100%;
     height: 100%;
-    border-radius: 18px;
+    object-fit: cover;
+    object-position: center bottom;
+    border-radius: 0;
     touch-action: none;
+  }
+
+  .mobile-bottom-bar {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: block;
+    padding: 0;
+    pointer-events: none;
+    background: none;
   }
 
   .status-strip {
     position: absolute;
-    bottom: 10px;
     left: 50%;
-    z-index: 3;
+    bottom: calc(env(safe-area-inset-bottom, 0px) - 2px);
     transform: translateX(-50%);
-    width: min(40vw, 236px);
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    width: min(47vw, 236px);
+    max-width: 236px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 6px;
     margin: 0;
     padding: 4px 6px;
     border-radius: 14px;
-    border: 1px solid rgba(148, 195, 232, 0.14);
-    background: rgba(7, 16, 28, 0.62);
-    backdrop-filter: blur(10px);
-    font-size: 0.62rem;
+    border: 1px solid rgba(148, 195, 232, 0.1);
+    background: rgba(7, 16, 28, 0.22);
+    backdrop-filter: blur(6px);
+    font-size: 0.68rem;
+    pointer-events: none;
   }
 
   .hero-mini-hud {
-    justify-content: center;
-    width: auto;
-    max-width: none;
-    gap: 4px;
-    padding: 3px 4px;
+    min-width: 0;
+    width: 100%;
+    gap: 5px;
+    padding: 2px 4px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .hero-portrait {
-    width: 20px;
-    height: 20px;
-    background-size: 160px 20px;
+    width: 18px;
+    height: 18px;
+    background-size: 144px 18px;
   }
 
   .hero-bars {
-    min-width: 74px;
-    gap: 2px;
+    min-width: 0;
+    width: 100%;
+    gap: 3px;
   }
 
   .hero-bar-row {
@@ -543,27 +900,28 @@ canvas {
   }
 
   .hero-bar-track {
-    height: 8px;
+    height: 7px;
   }
 
   .status-stack,
   #enemies {
-    justify-self: center;
-    text-align: center;
+    justify-self: stretch;
   }
 
   .status-stack {
-    gap: 2px;
+    gap: 0;
+    justify-items: start;
+    min-width: 54px;
   }
 
   .selected-unit-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 6px;
+    display: none;
   }
 
   #enemies {
-    font-size: 1.4rem;
+    justify-self: end;
+    text-align: right;
+    font-size: 1.45rem;
     line-height: 1;
   }
 
@@ -571,13 +929,21 @@ canvas {
     top: 8px;
     left: 14px;
     right: auto;
-    min-width: 110px;
-    padding: 8px 10px 9px;
+    min-width: 86px;
+    padding: 6px 8px 7px;
+    border-radius: 14px;
+    border-color: rgba(247, 201, 106, 0.26);
+    background: rgba(28, 20, 10, 0.18);
+    box-shadow: none;
     z-index: 4;
   }
 
+  .game-wave-badge span {
+    font-size: 0.62rem;
+  }
+
   .game-wave-badge strong {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   .info-toggle {
@@ -585,83 +951,246 @@ canvas {
     right: 12px;
     width: 38px;
     height: 38px;
+    border-color: rgba(247, 201, 106, 0.26);
+    background: rgba(32, 23, 12, 0.18);
+    box-shadow: none;
     z-index: 4;
+  }
+
+  .mobile-build-toggle {
+    position: absolute;
+    top: 68px;
+    left: 14px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 76px;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(105, 227, 255, 0.34);
+    background: rgba(12, 22, 34, 0.28);
+    color: #dff8ff;
+    font: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: none;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .mobile-build-toggle.is-active {
+    border-color: rgba(140, 244, 255, 0.72);
+    background: rgba(17, 40, 52, 0.46);
+    box-shadow: 0 0 18px rgba(84, 221, 255, 0.12);
+  }
+
+  .mobile-build-menu {
+    position: absolute;
+    top: 110px;
+    left: 14px;
+    z-index: 6;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 195, 232, 0.16);
+    background: rgba(7, 16, 28, 0.34);
+    backdrop-filter: blur(8px);
+    pointer-events: auto;
+  }
+
+  .mobile-build-unit {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 195, 232, 0.2);
+    background-color: rgba(10, 18, 30, 0.52);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    image-rendering: pixelated;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .mobile-build-unit.active {
+    border-color: rgba(247, 201, 106, 0.82);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 0 16px rgba(247, 201, 106, 0.16);
+  }
+
+  .mobile-build-unit.is-unaffordable {
+    border-color: rgba(255, 122, 122, 0.54);
+    background-color: rgba(50, 14, 14, 0.58);
+    filter: sepia(1) saturate(6) hue-rotate(-36deg) brightness(0.92);
+  }
+
+  .mobile-cancel-placement {
+    position: absolute;
+    top: 94px;
+    right: 18px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 154, 154, 0.42);
+    background: rgba(35, 10, 14, 0.24);
+    color: #ffe2e2;
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 0 18px rgba(255, 105, 105, 0.08);
+    pointer-events: none;
+  }
+
+  .mobile-cancel-placement.is-hot {
+    border-color: rgba(255, 188, 188, 0.9);
+    background: rgba(96, 18, 26, 0.44);
+    box-shadow: 0 0 24px rgba(255, 108, 108, 0.22);
   }
 
   .mobile-controls {
     position: absolute;
-    inset: auto 0 8px 0;
+    left: 12px;
+    right: 12px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) - 10px);
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 10px;
-    padding: 0 10px;
-    z-index: 4;
+    gap: 14px;
+    width: auto;
     pointer-events: none;
   }
 
-  .mobile-joystick,
-  .mobile-actions {
+  .mobile-joystick-zone {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 140px;
     pointer-events: auto;
   }
 
-  .mobile-joystick {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(148, 195, 232, 0.18);
-    background: rgba(7, 16, 28, 0.72);
-    box-shadow: 0 20px 36px rgba(0, 0, 0, 0.22);
-  }
-
-  .mobile-joystick-core {
-    width: 18px;
-    height: 18px;
-    border-radius: 999px;
-    background: radial-gradient(circle at 35% 35%, #f6fbff, #6fb6de 68%, rgba(111, 182, 222, 0.35));
-    box-shadow: 0 0 18px rgba(120, 205, 255, 0.28);
-    flex: 0 0 auto;
+  .mobile-joystick-base {
+    display: block;
   }
 
   .mobile-actions {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    position: relative;
+    width: 248px;
+    height: 150px;
+    margin-left: auto;
+    pointer-events: auto;
   }
 
   .mobile-control {
-    min-width: 64px;
-    min-height: 50px;
-    padding: 0 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 195, 232, 0.18);
-    background: linear-gradient(180deg, rgba(19, 30, 42, 0.92), rgba(9, 16, 24, 0.92));
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(93, 236, 255, 0.56);
+    background:
+      radial-gradient(circle at 35% 32%, rgba(177, 248, 255, 0.16), rgba(37, 103, 122, 0.18) 52%, rgba(4, 12, 18, 0.22) 100%);
     color: #edf5ff;
-    font: inherit;
-    font-size: 0.84rem;
-    letter-spacing: 0.02em;
-    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.22);
-    touch-action: none;
+    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 0 0 2px rgba(8, 22, 28, 0.52),
+      0 0 16px rgba(71, 221, 255, 0.16);
+    touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
+    overflow: hidden;
+  }
+
+  #reviveBtn::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from -90deg,
+      rgba(146, 255, 211, 0.98) 0turn,
+      rgba(146, 255, 211, 0.98) var(--hold-progress, 0turn),
+      rgba(255, 255, 255, 0.04) var(--hold-progress, 0turn),
+      rgba(255, 255, 255, 0.04) 1turn
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 5px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 5px));
+    opacity: 0;
+    transition: opacity 120ms ease;
+    pointer-events: none;
+  }
+
+  #reviveBtn.is-charging::after {
+    opacity: 1;
+  }
+
+  .hud-panel {
+    touch-action: pan-y;
   }
 
   .mobile-control:active,
   .mobile-control.is-active {
-    transform: translateY(1px) scale(0.98);
-    border-color: rgba(247, 201, 106, 0.52);
-    background: linear-gradient(180deg, rgba(42, 57, 72, 0.96), rgba(16, 26, 36, 0.96));
-  }
-
-  .mobile-control-move {
-    min-width: 72px;
-    border-radius: 999px;
+    transform: scale(0.96);
+    border-color: rgba(129, 246, 255, 0.9);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 0 0 2px rgba(8, 22, 28, 0.62),
+      0 0 24px rgba(71, 221, 255, 0.28);
   }
 
   .mobile-control-action {
-    min-width: 68px;
+    width: 72px;
+    height: 72px;
+  }
+
+  #attackBtn {
+    right: 0;
+    bottom: -10px;
+    width: 88px;
+    height: 88px;
+    font-size: 0.78rem;
+    border-width: 2px;
+  }
+
+  #jumpBtn {
+    left: 92px;
+    bottom: -8px;
+    width: 58px;
+    height: 58px;
+    font-size: 0.56rem;
+  }
+
+  #magicBtn {
+    right: 0;
+    top: 8px;
+    width: 58px;
+    height: 58px;
+    font-size: 0.54rem;
+  }
+
+  #reviveBtn {
+    left: 0;
+    bottom: -8px;
+    width: 58px;
+    height: 58px;
+    font-size: 0.48rem;
   }
 
   .legend {
@@ -740,7 +1269,8 @@ canvas {
 
   body.orientation-blocked .shell,
   body.orientation-blocked .info-backdrop,
-  body.orientation-blocked .hud-panel {
+  body.orientation-blocked .hud-panel,
+  body.orientation-blocked .mobile-guide-modal {
     visibility: hidden;
   }
 }

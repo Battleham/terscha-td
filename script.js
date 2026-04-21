@@ -11,17 +11,29 @@ const ui = {
   heroManaFill: document.getElementById("heroManaFill"),
   messageBox: document.getElementById("messageBox"),
   hudPanel: document.querySelector(".hud-panel"),
+  gameStage: document.getElementById("gameStage"),
+  gameFrame: document.getElementById("gameFrame"),
+  mobileBottomBar: document.getElementById("mobileBottomBar"),
+  statusStrip: document.getElementById("statusStrip"),
   infoToggle: document.getElementById("infoToggle"),
   infoClose: document.getElementById("infoClose"),
   infoBackdrop: document.getElementById("infoBackdrop"),
+  mobileGuideModal: document.getElementById("mobileGuideModal"),
+  mobileGuideClose: document.getElementById("mobileGuideClose"),
   orientationGate: document.getElementById("orientationGate"),
   mobileControls: document.getElementById("mobileControls"),
-  moveLeftBtn: document.getElementById("moveLeftBtn"),
-  moveRightBtn: document.getElementById("moveRightBtn"),
+  joystickZone: document.getElementById("joystickZone"),
+  joystickBase: document.getElementById("joystickBase"),
+  joystickThumb: document.getElementById("joystickThumb"),
+  buildToggle: document.getElementById("buildToggle"),
+  buildMenu: document.getElementById("buildMenu"),
+  cancelPlacementBtn: document.getElementById("cancelPlacementBtn"),
+  reviveBtn: document.getElementById("reviveBtn"),
   jumpBtn: document.getElementById("jumpBtn"),
   attackBtn: document.getElementById("attackBtn"),
   magicBtn: document.getElementById("magicBtn"),
   buttons: [...document.querySelectorAll(".legend-button")],
+  buildUnitButtons: [...document.querySelectorAll(".mobile-build-unit")],
 };
 
 const WIDTH = canvas.width;
@@ -163,6 +175,28 @@ const game = {
   selectedType: "warrior",
   mouse: { x: 0, y: 0 },
   keys: {},
+  mobileStick: {
+    active: false,
+    pointerId: null,
+    radius: 46,
+    x: 0,
+    y: 0,
+    knobX: 0,
+    knobY: 0,
+  },
+  mobileBuildMenuOpen: false,
+  mobilePlacement: {
+    active: false,
+    pointerId: null,
+    cancelHover: false,
+  },
+  mobileSummonCast: {
+    active: false,
+    x: 0,
+    y: 0,
+    type: "warrior",
+    charge: 0,
+  },
   summon: {
     holdDuration: 2,
     charge: 0,
@@ -284,6 +318,7 @@ function addEffect(type, x, y, color, life = 0.4, extra = {}) {
     maxLife: life,
     radius: extra.radius || 16,
     text: extra.text || "",
+    rise: extra.rise || 0,
   });
 }
 
@@ -296,6 +331,9 @@ function showMessage(text, duration = 3.2) {
 function setSelectedType(type) {
   game.selectedType = type;
   for (const button of ui.buttons) {
+    button.classList.toggle("active", button.dataset.type === type);
+  }
+  for (const button of ui.buildUnitButtons) {
     button.classList.toggle("active", button.dataset.type === type);
   }
   ui.selectedUnit.style.backgroundImage = `url("${staticSpriteSources[type]}")`;
@@ -318,6 +356,13 @@ function isPaused() {
   return game.paused && !game.gameOver;
 }
 
+function syncPauseStateClass() {
+  const paused = isPaused();
+  document.body.classList.toggle("game-paused", paused);
+  document.body.classList.toggle("pause-ready", paused && game.pauseMode === "ready");
+  document.body.dataset.pauseMode = game.pauseMode ?? "";
+}
+
 function setPaused(paused, mode = "menu") {
   game.paused = paused;
   game.pauseMode = paused ? mode : null;
@@ -330,6 +375,7 @@ function setPaused(paused, mode = "menu") {
     game.reviveAll.charge = 0;
     game.reviveAll.triggered = false;
   }
+  syncPauseStateClass();
 }
 
 function setVirtualKey(code, pressed, keyValue = code) {
@@ -342,18 +388,66 @@ function setVirtualKey(code, pressed, keyValue = code) {
 function clearMobileMovement() {
   setVirtualKey("KeyA", false, "a");
   setVirtualKey("KeyD", false, "d");
+  resetMobileStick();
+}
+
+function applyMobileStickInput() {
+  const deadZone = 0.18;
+  setVirtualKey("KeyA", game.mobileStick.x < -deadZone, "a");
+  setVirtualKey("KeyD", game.mobileStick.x > deadZone, "d");
+}
+
+function syncMobileStickVisual() {
+  ui.joystickBase.classList.toggle("is-engaged", game.mobileStick.active);
+  ui.joystickThumb.style.transform = `translate3d(${game.mobileStick.knobX}px, ${game.mobileStick.knobY}px, 0)`;
+}
+
+function resetMobileStick() {
+  game.mobileStick.active = false;
+  game.mobileStick.pointerId = null;
+  game.mobileStick.x = 0;
+  game.mobileStick.y = 0;
+  game.mobileStick.knobX = 0;
+  game.mobileStick.knobY = 0;
+  applyMobileStickInput();
+  syncMobileStickVisual();
+}
+
+function updateMobileStick(clientX, clientY) {
+  const rect = ui.joystickBase.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const dx = clientX - centerX;
+  const dy = clientY - centerY;
+  const distance = Math.hypot(dx, dy);
+  const radius = game.mobileStick.radius;
+  const clampedDistance = Math.min(distance, radius);
+  const scale = distance > 0 ? clampedDistance / distance : 0;
+  const clampedX = dx * scale;
+  const clampedY = dy * scale * 0.18;
+
+  game.mobileStick.knobX = clampedX;
+  game.mobileStick.knobY = clampedY;
+  game.mobileStick.x = clampedX / radius;
+  game.mobileStick.y = clampedY / radius;
+  applyMobileStickInput();
+  syncMobileStickVisual();
 }
 
 function openInfoModal() {
   if (!game.mobileUi || game.infoModalOpen) {
     return;
   }
+  resetMobilePlacement();
   game.infoModalOpen = true;
   game.resumeAfterInfoModal = !isPaused() && !game.gameOver;
   if (game.resumeAfterInfoModal) {
     setPaused(true, "menu");
   }
   ui.infoBackdrop.hidden = false;
+  if (ui.mobileGuideModal) {
+    ui.mobileGuideModal.hidden = false;
+  }
   document.body.classList.add("info-modal-open");
 }
 
@@ -365,6 +459,9 @@ function closeInfoModal() {
   game.infoModalOpen = false;
   game.resumeAfterInfoModal = false;
   ui.infoBackdrop.hidden = true;
+  if (ui.mobileGuideModal) {
+    ui.mobileGuideModal.hidden = true;
+  }
   document.body.classList.remove("info-modal-open");
   if (shouldResume) {
     setPaused(false);
@@ -410,10 +507,77 @@ function updateOrientationState() {
   }
 }
 
+function layoutMobileScene() {
+  if (!game.mobileUi) {
+    ui.gameFrame.style.width = "";
+    ui.gameFrame.style.height = "";
+    return;
+  }
+  ui.gameFrame.style.width = `${window.innerWidth}px`;
+  ui.gameFrame.style.height = `${window.innerHeight}px`;
+  game.mobileStick.radius = Math.max(18, (ui.joystickBase.offsetWidth - ui.joystickThumb.offsetWidth) / 2);
+  syncMobileStickVisual();
+}
+
+function getCanvasViewportInsets() {
+  const frameWidth = ui.gameFrame.clientWidth || window.innerWidth || WIDTH;
+  const frameHeight = ui.gameFrame.clientHeight || window.innerHeight || HEIGHT;
+  const frameAspect = frameWidth / Math.max(frameHeight, 1);
+  const canvasAspect = WIDTH / HEIGHT;
+
+  if (frameAspect > canvasAspect) {
+    const visibleHeight = WIDTH / frameAspect;
+    return {
+      insetX: 0,
+      insetY: Math.max(0, (HEIGHT - visibleHeight) / 2),
+      visibleWidth: WIDTH,
+      visibleHeight,
+    };
+  }
+
+  const visibleWidth = HEIGHT * frameAspect;
+  return {
+    insetX: Math.max(0, (WIDTH - visibleWidth) / 2),
+    insetY: 0,
+    visibleWidth,
+    visibleHeight: HEIGHT,
+  };
+}
+
+function updateMobileBuildUi() {
+  const showMobile = game.mobileUi;
+  if (ui.buildToggle) {
+    ui.buildToggle.hidden = !showMobile;
+    ui.buildToggle.classList.toggle("is-active", showMobile && game.mobileBuildMenuOpen);
+    ui.buildToggle.setAttribute("aria-expanded", String(showMobile && game.mobileBuildMenuOpen));
+  }
+  if (ui.buildMenu) {
+    ui.buildMenu.hidden = !(showMobile && game.mobileBuildMenuOpen);
+  }
+  if (ui.cancelPlacementBtn) {
+    ui.cancelPlacementBtn.hidden = !(showMobile && game.mobilePlacement.active);
+    ui.cancelPlacementBtn.classList.toggle("is-hot", showMobile && game.mobilePlacement.cancelHover);
+  }
+  for (const button of ui.buildUnitButtons) {
+    const type = button.dataset.type;
+    const config = defenderTypes[type];
+    button.style.backgroundImage = `url("${staticSpriteSources[type]}")`;
+    button.classList.toggle("active", type === game.selectedType);
+    button.classList.toggle("is-unaffordable", game.essence < config.cost);
+  }
+}
+
+function setMobileBuildMenuOpen(open) {
+  game.mobileBuildMenuOpen = Boolean(open);
+  updateMobileBuildUi();
+}
+
 function updateMobileUiState(force = false) {
   const useMobileUi = shouldUseMobileUi();
   if (!force && game.mobileUi === useMobileUi) {
     updateOrientationState();
+    updateMobileBuildUi();
+    requestAnimationFrame(layoutMobileScene);
     return;
   }
 
@@ -422,13 +586,20 @@ function updateMobileUiState(force = false) {
   ui.mobileControls.setAttribute("aria-hidden", String(!useMobileUi));
   if (useMobileUi) {
     closeInfoModal();
-    setPlacementMode(false);
+    if (isPrepPhase() && !game.gameOver) {
+      setPlacementMode(true);
+    } else {
+      setPlacementMode(false);
+    }
     requestLandscapeLock();
   } else {
     clearMobileMovement();
     closeInfoModal();
+    game.mobileBuildMenuOpen = false;
   }
   updateOrientationState();
+  updateMobileBuildUi();
+  requestAnimationFrame(layoutMobileScene);
 }
 
 function heroCenter() {
@@ -440,6 +611,22 @@ function heroCenter() {
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
+}
+
+function setMouseFromClient(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = WIDTH / rect.width;
+  const scaleY = HEIGHT / rect.height;
+  game.mouse.x = (clientX - rect.left) * scaleX;
+  game.mouse.y = (clientY - rect.top) * scaleY;
+}
+
+function clientPointInside(element, clientX, clientY) {
+  if (!element || element.hidden) {
+    return false;
+  }
+  const rect = element.getBoundingClientRect();
+  return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
 }
 
 function staticSpriteReady(name) {
@@ -597,14 +784,49 @@ function resetSummonState(resetLock = false) {
   }
 }
 
-function setPlacementMode(enabled, announce = false) {
-  const resolved = game.mobileUi ? false : enabled;
-  game.summon.modeEnabled = resolved;
+function resetMobilePlacement() {
+  game.mobilePlacement.active = false;
+  game.mobilePlacement.pointerId = null;
+  game.mobilePlacement.cancelHover = false;
+  updateMobileBuildUi();
+}
+
+function resetMobileSummonCast() {
+  game.mobileSummonCast.active = false;
+  game.mobileSummonCast.charge = 0;
+}
+
+function interruptSummonCast() {
+  const hadDesktopCast = game.summon.charge > 0 && game.summon.placement && !isPrepPhase();
+  const hadMobileCast = game.mobileSummonCast.active;
+  if (!hadDesktopCast && !hadMobileCast) {
+    return false;
+  }
+
   resetSummonState(true);
+  resetMobileSummonCast();
+  addEffect("text", game.hero.x + game.hero.width / 2, game.hero.y - 54, "#ff7a7a", 0.8, {
+    text: "Interrupted!",
+    rise: 26,
+  });
+  return true;
+}
+
+function setPlacementMode(enabled, announce = false) {
+  game.summon.modeEnabled = enabled;
+  resetSummonState(true);
+  if (!enabled) {
+    resetMobilePlacement();
+    resetMobileSummonCast();
+  }
+  if (game.mobileUi) {
+    game.mobileBuildMenuOpen = Boolean(enabled);
+  }
+  updateMobileBuildUi();
   if (!announce) {
     return;
   }
-  showMessage(resolved ? "Placement mode engaged." : "Placement mode dismissed.");
+  showMessage(enabled ? "Placement mode engaged." : "Placement mode dismissed.");
 }
 
 function projectileHitsEnemy(projectile, enemy) {
@@ -698,6 +920,24 @@ function placeDefender(x, y) {
   return true;
 }
 
+function beginMobileSummonCast(x, y) {
+  const placement = validPlacement(x, y);
+  if (!placement) {
+    showMessage("Defenders need stable footing on the ground or a platform.");
+    return false;
+  }
+  if (!canAffordSelectedDefender()) {
+    showMessage(`Not enough essence for a ${defenderTypes[game.selectedType].label.toLowerCase()}.`);
+    return false;
+  }
+  game.mobileSummonCast.active = true;
+  game.mobileSummonCast.x = placement.x;
+  game.mobileSummonCast.y = placement.y;
+  game.mobileSummonCast.type = game.selectedType;
+  game.mobileSummonCast.charge = 0;
+  return true;
+}
+
 function reviveDefender(defender, healthRatio = 0.55) {
   defender.fallen = false;
   defender.fallenTimer = 0;
@@ -759,6 +999,7 @@ function damageEnemy(enemy, amount, options = {}) {
 }
 
 function tryRevive() {
+  interruptSummonCast();
   const hero = game.hero;
   if (hero.reviveCooldown > 0 || game.gameOver) {
     return;
@@ -809,6 +1050,16 @@ function tryReviveAll() {
     reviveDefender(defender, 0.55);
   }
   showMessage(`The fallen line rises again for ${totalCost} essence.`);
+}
+
+function finishReviveInput() {
+  const didHoldLongEnough = game.reviveAll.charge >= game.reviveAll.holdDuration;
+  const wasTriggered = game.reviveAll.triggered;
+  game.reviveAll.charge = 0;
+  game.reviveAll.triggered = false;
+  if (!didHoldLongEnough && !wasTriggered) {
+    tryRevive();
+  }
 }
 
 function updateHero(dt) {
@@ -979,7 +1230,30 @@ function updateReviveAll(dt) {
   }
 }
 
+function updateMobileSummonCast(dt) {
+  const cast = game.mobileSummonCast;
+  if (!cast.active) {
+    return;
+  }
+  if (game.gameOver || isPaused() || isPrepPhase()) {
+    resetMobileSummonCast();
+    return;
+  }
+
+  cast.charge += dt;
+  if (cast.charge < game.summon.holdDuration) {
+    return;
+  }
+
+  const previousType = game.selectedType;
+  game.selectedType = cast.type;
+  placeDefender(cast.x, cast.y);
+  game.selectedType = previousType;
+  resetMobileSummonCast();
+}
+
 function performHeroStrike() {
+  interruptSummonCast();
   const hero = game.hero;
   if (hero.strikeCooldown > 0 || game.gameOver) {
     return;
@@ -1002,6 +1276,7 @@ function performHeroStrike() {
 }
 
 function castHeroBolt() {
+  interruptSummonCast();
   const hero = game.hero;
   if (hero.spellCooldown > 0 || hero.mana < 18 || game.gameOver) {
     return;
@@ -1400,6 +1675,7 @@ function updateState(dt) {
   updateProjectiles(dt);
   updateEffects(dt);
   updateSummon(dt);
+  updateMobileSummonCast(dt);
   updateReviveAll(dt);
   updateWave(dt);
 
@@ -1418,6 +1694,12 @@ function updateUi() {
   ui.heroHealthFill.style.width = `${(Math.max(0, game.hero.hp) / game.hero.maxHp) * 100}%`;
   ui.heroManaFill.style.width = `${(game.hero.mana / game.hero.maxMana) * 100}%`;
   ui.enemies.textContent = `${getLiveEnemyCount()}`;
+  if (ui.reviveBtn) {
+    const reviveProgress = isPrepPhase() ? clamp(game.reviveAll.charge / game.reviveAll.holdDuration, 0, 1) : 0;
+    ui.reviveBtn.style.setProperty("--hold-progress", `${reviveProgress}turn`);
+    ui.reviveBtn.classList.toggle("is-charging", reviveProgress > 0);
+  }
+  updateMobileBuildUi();
 }
 
 function drawBackground() {
@@ -1566,32 +1848,54 @@ function drawHero() {
       { flipX: hero.facing < 0, frameOverride },
     )
   ) {
-    return;
+  } else {
+    ctx.save();
+    ctx.translate(hero.x, hero.y);
+
+    ctx.fillStyle = "#19304e";
+    ctx.fillRect(8, 8, 12, 22);
+    ctx.fillStyle = "#5ba9ff";
+    ctx.fillRect(6, 18, 16, 28);
+    ctx.fillStyle = "#d6e8ff";
+    ctx.beginPath();
+    ctx.arc(14, 10, 9, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#f1c473";
+    ctx.fillRect(hero.facing > 0 ? 23 : -8, 24, 11, 4);
+    ctx.fillRect(6, 48, 5, 10);
+    ctx.fillRect(17, 48, 5, 10);
+
+    ctx.strokeStyle = "rgba(133, 237, 255, 0.7)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(14 + hero.facing * 3, 30, 10, -0.7, 1.2);
+    ctx.stroke();
+
+    ctx.restore();
   }
 
-  ctx.save();
-  ctx.translate(hero.x, hero.y);
+  if (game.reviveAll.charge > 0) {
+    const progress = clamp(game.reviveAll.charge / game.reviveAll.holdDuration, 0, 1);
+    const ringX = hero.x + hero.width / 2 + 4;
+    const ringY = hero.y - 34;
+    drawCastRing(ringX, ringY, progress, {
+      fillColor: game.essence >= getMassReviveCost() ? "#92ffd3" : "#ff9d86",
+      label: "REVIVE",
+    });
+  }
 
-  ctx.fillStyle = "#19304e";
-  ctx.fillRect(8, 8, 12, 22);
-  ctx.fillStyle = "#5ba9ff";
-  ctx.fillRect(6, 18, 16, 28);
-  ctx.fillStyle = "#d6e8ff";
-  ctx.beginPath();
-  ctx.arc(14, 10, 9, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#f1c473";
-  ctx.fillRect(hero.facing > 0 ? 23 : -8, 24, 11, 4);
-  ctx.fillRect(6, 48, 5, 10);
-  ctx.fillRect(17, 48, 5, 10);
-
-  ctx.strokeStyle = "rgba(133, 237, 255, 0.7)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(14 + hero.facing * 3, 30, 10, -0.7, 1.2);
-  ctx.stroke();
-
-  ctx.restore();
+  const desktopSummonProgress =
+    !isPrepPhase() && game.summon.placement ? clamp(game.summon.charge / game.summon.holdDuration, 0, 1) : 0;
+  const mobileSummonProgress = game.mobileSummonCast.active
+    ? clamp(game.mobileSummonCast.charge / game.summon.holdDuration, 0, 1)
+    : 0;
+  const summonProgress = Math.max(desktopSummonProgress, mobileSummonProgress);
+  if (summonProgress > 0) {
+    drawCastBar(hero.x + hero.width / 2, hero.y - 18, summonProgress, {
+      label: "RALLY",
+      fillColor: canAffordSelectedDefender() ? "#f7c96a" : "#ff9d86",
+    });
+  }
 }
 
 function drawDefender(defender) {
@@ -1807,6 +2111,11 @@ function drawEffects() {
       ctx.beginPath();
       ctx.arc(effect.x, effect.y, effect.radius * (1 + (1 - alpha)), 0, Math.PI * 2);
       ctx.stroke();
+    } else if (effect.type === "text") {
+      ctx.font = '18px "Avenir Next", "Segoe UI", sans-serif';
+      ctx.textAlign = "center";
+      ctx.fillText(effect.text, effect.x, effect.y - (1 - alpha) * effect.rise);
+      ctx.textAlign = "left";
     } else if (effect.type === "slash") {
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -1821,19 +2130,90 @@ function drawEffects() {
   }
 }
 
+function drawCastRing(x, y, progress, options = {}) {
+  const radius = options.radius ?? 18;
+  const lineWidth = options.lineWidth ?? 4;
+  const trackColor = options.trackColor ?? "rgba(230, 244, 255, 0.35)";
+  const fillColor = options.fillColor ?? "#92ffd3";
+  const label = options.label ?? "";
+  const labelWidth = options.labelWidth ?? 52;
+  const labelOffsetY = options.labelOffsetY ?? 38;
+  const labelTextOffsetY = options.labelTextOffsetY ?? 27;
+
+  ctx.save();
+  ctx.strokeStyle = trackColor;
+  ctx.lineWidth = lineWidth;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.stroke();
+
+  if (progress > 0) {
+    ctx.strokeStyle = fillColor;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(x, y, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(progress, 0, 1));
+    ctx.stroke();
+  }
+
+  if (label) {
+    ctx.fillStyle = "rgba(7, 16, 28, 0.78)";
+    ctx.fillRect(x - labelWidth / 2, y - labelOffsetY, labelWidth, 14);
+    ctx.fillStyle = "#e7f3ff";
+    ctx.font = '10px "Avenir Next", "Segoe UI", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(label, x, y - labelTextOffsetY);
+    ctx.textAlign = "left";
+  }
+  ctx.restore();
+}
+
+function drawCastBar(x, y, progress, options = {}) {
+  const width = options.width ?? 74;
+  const height = options.height ?? 8;
+  const label = options.label ?? "";
+  const fillColor = options.fillColor ?? "#92ffd3";
+  const trackColor = options.trackColor ?? "rgba(255,255,255,0.1)";
+  const frameColor = options.frameColor ?? "rgba(155, 208, 255, 0.22)";
+
+  ctx.save();
+  if (label) {
+    ctx.fillStyle = "rgba(7, 16, 28, 0.78)";
+    ctx.fillRect(x - width / 2, y - 18, width, 12);
+    ctx.fillStyle = "#e7f3ff";
+    ctx.font = '10px "Avenir Next", "Segoe UI", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(label, x, y - 9);
+  }
+  ctx.fillStyle = trackColor;
+  ctx.fillRect(x - width / 2, y, width, height);
+  ctx.fillStyle = fillColor;
+  ctx.fillRect(x - width / 2, y, width * clamp(progress, 0, 1), height);
+  ctx.strokeStyle = frameColor;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x - width / 2, y, width, height);
+  ctx.textAlign = "left";
+  ctx.restore();
+}
+
 function drawPlacementPreview() {
   if (isPaused() || !game.summon.modeEnabled) {
     return;
   }
+  if (game.mobileUi && !game.mobilePlacement.active && !game.mobileSummonCast.active) {
+    return;
+  }
 
-  const placement = validPlacement(game.mouse.x, game.mouse.y);
+  const cast = game.mobileSummonCast;
+  const placement =
+    game.mobileUi && cast.active ? { x: cast.x, y: cast.y } : validPlacement(game.mouse.x, game.mouse.y);
   if (!placement || game.gameOver) {
     return;
   }
 
-  const config = defenderTypes[game.selectedType];
+  const previewType = game.mobileUi && cast.active ? cast.type : game.selectedType;
+  const config = defenderTypes[previewType];
   const previewFeetY = placement.y + 38;
-  const canAfford = canAffordSelectedDefender();
+  const canAfford = game.mobileUi && cast.active ? game.essence >= defenderTypes[cast.type].cost : canAffordSelectedDefender();
   const ghostTint = canAfford ? null : "rgba(255, 84, 84, 0.78)";
   const ghostBounds = {
     x: placement.x - 38,
@@ -1841,55 +2221,91 @@ function drawPlacementPreview() {
     width: 76,
     height: 76,
   };
-  ctx.save();
-  const drewSprite = ghostTint
-    ? drawTintedStaticSprite(
-        game.selectedType,
-        ghostBounds.x,
-        ghostBounds.y,
-        ghostBounds.width,
-        ghostBounds.height,
-        ghostTint,
-        0.52,
-      )
-    : drawStaticSprite(game.selectedType, ghostBounds.x, ghostBounds.y, ghostBounds.width, ghostBounds.height, {
-        alpha: 0.4,
-      });
-  if (!drewSprite) {
-    ctx.globalAlpha = canAfford ? 0.4 : 0.55;
-    ctx.fillStyle = canAfford ? config.color : "#ff6b6b";
-    ctx.fillRect(placement.x - 12, placement.y, 24, 38);
-  }
-
   const summon = game.summon;
   const instantPlacement = isPrepPhase();
   const progress =
-    !instantPlacement && summon.placement && placementsMatch(summon.placement, placement)
-      ? clamp(summon.charge / summon.holdDuration, 0, 1)
-      : 0;
+    game.mobileUi && cast.active
+      ? clamp(cast.charge / summon.holdDuration, 0, 1)
+      : !instantPlacement && summon.placement && placementsMatch(summon.placement, placement)
+        ? clamp(summon.charge / summon.holdDuration, 0, 1)
+        : 0;
+  const isWaveCast = !instantPlacement && progress > 0;
+  ctx.save();
+  let drewSprite = false;
+  if (isWaveCast && staticSpriteReady(previewType)) {
+    const sprite = staticSprites[previewType];
+    const revealHeight = Math.max(1, Math.floor(ghostBounds.height * progress));
+    const revealY = ghostBounds.y + ghostBounds.height - revealHeight;
+    const sourceY = sprite.naturalHeight * (1 - revealHeight / ghostBounds.height);
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = ghostBounds.width;
+    tempCanvas.height = ghostBounds.height;
+    const tempCtx = tempCanvas.getContext("2d");
+    tempCtx.imageSmoothingEnabled = false;
+    tempCtx.globalAlpha = 0.2 + progress * 0.8;
+    tempCtx.drawImage(
+      sprite,
+      0,
+      sourceY,
+      sprite.naturalWidth,
+      sprite.naturalHeight - sourceY,
+      0,
+      ghostBounds.height - revealHeight,
+      ghostBounds.width,
+      revealHeight,
+    );
+    if (ghostTint) {
+      tempCtx.globalCompositeOperation = "source-atop";
+      tempCtx.fillStyle = ghostTint;
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.globalCompositeOperation = "source-over";
+    }
+    ctx.drawImage(tempCanvas, ghostBounds.x, ghostBounds.y, ghostBounds.width, ghostBounds.height);
+    drewSprite = true;
+  } else {
+    drewSprite = ghostTint
+      ? drawTintedStaticSprite(
+          previewType,
+          ghostBounds.x,
+          ghostBounds.y,
+          ghostBounds.width,
+          ghostBounds.height,
+          ghostTint,
+          0.52,
+        )
+      : drawStaticSprite(previewType, ghostBounds.x, ghostBounds.y, ghostBounds.width, ghostBounds.height, {
+          alpha: 0.4,
+        });
+  }
+  if (!drewSprite) {
+    ctx.globalAlpha = isWaveCast ? 0.2 + progress * 0.8 : canAfford ? 0.4 : 0.55;
+    ctx.fillStyle = canAfford ? config.color : "#ff6b6b";
+    const revealHeight = isWaveCast ? Math.max(4, 38 * progress) : 38;
+    ctx.fillRect(placement.x - 12, placement.y + (38 - revealHeight), 24, revealHeight);
+  }
 
   ctx.globalAlpha = 1;
-  ctx.strokeStyle = !canAfford
-    ? "rgba(255, 116, 116, 0.8)"
-    : instantPlacement
-      ? "rgba(146, 255, 211, 0.6)"
-      : "rgba(230, 244, 255, 0.45)";
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.arc(placement.x, placement.y - 18, 16, 0, Math.PI * 2);
-  ctx.stroke();
-
-  if (progress > 0) {
-    ctx.strokeStyle = "#f7c96a";
-    ctx.beginPath();
-    ctx.arc(placement.x, placement.y - 18, 16, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * progress);
-    ctx.stroke();
+  if (!isWaveCast) {
+    drawCastRing(placement.x, placement.y - 18, progress, {
+      radius: 16,
+      lineWidth: 4,
+      trackColor: !canAfford
+        ? "rgba(255, 116, 116, 0.8)"
+        : instantPlacement
+          ? "rgba(146, 255, 211, 0.6)"
+          : "rgba(230, 244, 255, 0.45)",
+      fillColor: !canAfford ? "#ff8c8c" : "#f7c96a",
+    });
   }
 
   ctx.restore();
 }
 
 function drawOverlay() {
+  if (game.mobileUi) {
+    return;
+  }
+
   ctx.fillStyle = "rgba(10, 16, 24, 0.62)";
   ctx.fillRect(18, 16, 366, 100);
   ctx.fillStyle = "#edf5ff";
@@ -1994,11 +2410,13 @@ function drawPrepCountdown() {
   const secondsLeft = Math.ceil(game.prepTimer);
   const urgent = secondsLeft <= 5;
   const critical = secondsLeft <= 3;
+  const mobile = game.mobileUi;
+  const viewportInsets = mobile ? getCanvasViewportInsets() : { insetY: 0 };
   const pulse = 1 + Math.sin(game.time * (critical ? 12 : urgent ? 8 : 4)) * (critical ? 0.08 : 0.04);
-  const bannerWidth = critical ? 340 : 290;
-  const bannerHeight = critical ? 126 : 102;
+  const bannerWidth = mobile ? (critical ? 214 : 188) : critical ? 340 : 290;
+  const bannerHeight = mobile ? (critical ? 84 : 74) : critical ? 126 : 102;
   const x = WIDTH / 2 - bannerWidth / 2;
-  const y = 22;
+  const y = mobile ? Math.max(viewportInsets.insetY + 72, 88) : 22;
 
   ctx.save();
   ctx.translate(WIDTH / 2, y + bannerHeight / 2);
@@ -2030,19 +2448,25 @@ function drawPrepCountdown() {
 
   ctx.textAlign = "center";
   ctx.fillStyle = critical ? "#ffe6e6" : "#edf5ff";
-  ctx.font = '16px "Avenir Next", "Segoe UI", sans-serif';
-  ctx.fillText(critical ? "BATTLE SURGES IN" : "PREPARE THE RAMPART", WIDTH / 2, y + 28);
+  ctx.font = mobile ? '13px "Avenir Next", "Segoe UI", sans-serif' : '16px "Avenir Next", "Segoe UI", sans-serif';
+  ctx.fillText(critical ? "BATTLE SURGES IN" : "PREPARE THE RAMPART", WIDTH / 2, y + (mobile ? 22 : 28));
 
-  ctx.font = critical ? '58px "Palatino Linotype", Georgia, serif' : '50px "Palatino Linotype", Georgia, serif';
+  ctx.font = mobile
+    ? critical
+      ? '42px "Palatino Linotype", Georgia, serif'
+      : '36px "Palatino Linotype", Georgia, serif'
+    : critical
+      ? '58px "Palatino Linotype", Georgia, serif'
+      : '50px "Palatino Linotype", Georgia, serif';
   ctx.fillStyle = critical ? "#fff2d7" : urgent ? "#ffe6bf" : "#f8fbff";
-  ctx.fillText(`${secondsLeft}`, WIDTH / 2, y + 82);
+  ctx.fillText(`${secondsLeft}`, WIDTH / 2, y + (mobile ? 62 : 82));
 
   const fallenDefenders = getFallenDefenders();
   const totalReviveCost = getMassReviveCost();
   const reviveProgress = clamp(game.reviveAll.charge / game.reviveAll.holdDuration, 0, 1);
-  const calloutY = y + bannerHeight + 22;
+  const calloutY = y + bannerHeight + (mobile ? 12 : 22);
 
-  if (!critical) {
+  if (!critical && !game.mobileUi) {
     const calloutWidth = fallenDefenders.length > 0 ? 520 : 460;
     const calloutHeight = 54;
     const calloutX = WIDTH / 2 - calloutWidth / 2;
@@ -2104,6 +2528,7 @@ function frame(timestamp) {
 }
 
 function onJump() {
+  interruptSummonCast();
   if (game.hero.onGround && !game.gameOver) {
     game.hero.vy = -game.hero.jumpStrength;
     game.hero.jumpBoostTimer = game.hero.jumpBoostDuration;
@@ -2239,22 +2664,12 @@ document.addEventListener("keyup", (event) => {
     resetSummonState(true);
   }
   if (event.code === "KeyR" || event.key === "r" || event.key === "R") {
-    const didHoldLongEnough = game.reviveAll.charge >= game.reviveAll.holdDuration;
-    const wasTriggered = game.reviveAll.triggered;
-    game.reviveAll.charge = 0;
-    game.reviveAll.triggered = false;
-    if (!didHoldLongEnough && !wasTriggered) {
-      tryRevive();
-    }
+    finishReviveInput();
   }
 });
 
 canvas.addEventListener("mousemove", (event) => {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = WIDTH / rect.width;
-  const scaleY = HEIGHT / rect.height;
-  game.mouse.x = (event.clientX - rect.left) * scaleX;
-  game.mouse.y = (event.clientY - rect.top) * scaleY;
+  setMouseFromClient(event.clientX, event.clientY);
 });
 
 canvas.addEventListener("mousedown", (event) => {
@@ -2262,13 +2677,7 @@ canvas.addEventListener("mousedown", (event) => {
     return;
   }
 
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = WIDTH / rect.width;
-  const scaleY = HEIGHT / rect.height;
-  const x = (event.clientX - rect.left) * scaleX;
-  const y = (event.clientY - rect.top) * scaleY;
-  game.mouse.x = x;
-  game.mouse.y = y;
+  setMouseFromClient(event.clientX, event.clientY);
 
   if (event.button === 0) {
     performHeroStrike();
@@ -2294,23 +2703,151 @@ ui.infoClose.addEventListener("click", () => {
   closeInfoModal();
 });
 
+if (ui.mobileGuideClose) {
+  ui.mobileGuideClose.addEventListener("click", () => {
+    closeInfoModal();
+  });
+}
+
 ui.infoBackdrop.addEventListener("click", () => {
   closeInfoModal();
 });
 
-bindHoldButton(ui.moveLeftBtn, () => {
-  startGameFromMovement();
-  setVirtualKey("KeyA", true, "a");
-}, () => {
-  setVirtualKey("KeyA", false, "a");
+function handleBuildToggle(event) {
+  if (!game.mobileUi) {
+    return;
+  }
+  event.preventDefault();
+  event.stopPropagation();
+  requestLandscapeLock();
+  setPlacementMode(!game.summon.modeEnabled, true);
+}
+
+ui.buildToggle.addEventListener("pointerdown", (event) => {
+  if (!game.mobileUi) {
+    return;
+  }
+  handleBuildToggle(event);
 });
 
-bindHoldButton(ui.moveRightBtn, () => {
+for (const button of ui.buildUnitButtons) {
+  button.addEventListener("click", (event) => {
+    if (!game.mobileUi) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    setSelectedType(button.dataset.type);
+    setPlacementMode(true);
+  });
+}
+
+ui.joystickZone.addEventListener("pointerdown", (event) => {
+  if (!game.mobileUi || game.orientationBlocked) {
+    return;
+  }
+  event.preventDefault();
+  requestLandscapeLock();
   startGameFromMovement();
-  setVirtualKey("KeyD", true, "d");
-}, () => {
-  setVirtualKey("KeyD", false, "d");
+  game.mobileStick.active = true;
+  game.mobileStick.pointerId = event.pointerId;
+  ui.joystickZone.setPointerCapture?.(event.pointerId);
+  updateMobileStick(event.clientX, event.clientY);
 });
+
+ui.joystickZone.addEventListener("pointermove", (event) => {
+  if (!game.mobileUi || !game.mobileStick.active || event.pointerId !== game.mobileStick.pointerId) {
+    return;
+  }
+  event.preventDefault();
+  updateMobileStick(event.clientX, event.clientY);
+});
+
+function releaseJoystick(event) {
+  if (!game.mobileStick.active) {
+    return;
+  }
+  if (event?.pointerId !== undefined && event.pointerId !== game.mobileStick.pointerId) {
+    return;
+  }
+  resetMobileStick();
+}
+
+window.addEventListener("pointermove", (event) => {
+  if (!game.mobileUi || !game.mobileStick.active || event.pointerId !== game.mobileStick.pointerId) {
+    return;
+  }
+  event.preventDefault?.();
+  updateMobileStick(event.clientX, event.clientY);
+});
+
+window.addEventListener("pointerup", releaseJoystick);
+window.addEventListener("pointercancel", releaseJoystick);
+
+ui.gameStage.addEventListener("pointerdown", (event) => {
+  if (!game.mobileUi || game.orientationBlocked || isPaused() || game.gameOver || !game.summon.modeEnabled) {
+    return;
+  }
+  if (
+    event.target.closest(
+      ".mobile-controls, .status-strip, .mobile-build-toggle, .mobile-build-menu, .mobile-cancel-placement, .info-toggle, .game-wave-badge",
+    )
+  ) {
+    return;
+  }
+  event.preventDefault();
+  requestLandscapeLock();
+  game.mobilePlacement.active = true;
+  game.mobilePlacement.pointerId = event.pointerId;
+  game.mobilePlacement.cancelHover = false;
+  setMouseFromClient(event.clientX, event.clientY);
+  ui.gameStage.setPointerCapture?.(event.pointerId);
+  updateMobileBuildUi();
+});
+
+ui.gameStage.addEventListener("pointermove", (event) => {
+  if (!game.mobileUi || !game.mobilePlacement.active || event.pointerId !== game.mobilePlacement.pointerId) {
+    return;
+  }
+  event.preventDefault();
+  setMouseFromClient(event.clientX, event.clientY);
+  game.mobilePlacement.cancelHover = clientPointInside(ui.cancelPlacementBtn, event.clientX, event.clientY);
+  updateMobileBuildUi();
+});
+
+function releaseMobilePlacement(event) {
+  if (!game.mobilePlacement.active) {
+    return;
+  }
+  if (event?.pointerId !== undefined && event.pointerId !== game.mobilePlacement.pointerId) {
+    return;
+  }
+
+  const hasPointerPosition = typeof event?.clientX === "number" && typeof event?.clientY === "number";
+  const releasedOverCancel = hasPointerPosition && clientPointInside(ui.cancelPlacementBtn, event.clientX, event.clientY);
+  if (hasPointerPosition && !releasedOverCancel) {
+    setMouseFromClient(event.clientX, event.clientY);
+    if (isPrepPhase()) {
+      placeDefender(game.mouse.x, game.mouse.y);
+    } else {
+      beginMobileSummonCast(game.mouse.x, game.mouse.y);
+    }
+  }
+  resetMobilePlacement();
+}
+
+window.addEventListener("pointermove", (event) => {
+  if (!game.mobileUi || !game.mobilePlacement.active || event.pointerId !== game.mobilePlacement.pointerId) {
+    return;
+  }
+  event.preventDefault?.();
+  setMouseFromClient(event.clientX, event.clientY);
+  game.mobilePlacement.cancelHover = clientPointInside(ui.cancelPlacementBtn, event.clientX, event.clientY);
+  updateMobileBuildUi();
+});
+
+window.addEventListener("pointerup", releaseMobilePlacement);
+window.addEventListener("pointercancel", releaseMobilePlacement);
 
 bindTapButton(ui.jumpBtn, () => {
   if (isPaused()) {
@@ -2318,6 +2855,25 @@ bindTapButton(ui.jumpBtn, () => {
   }
   onJump();
 });
+
+bindHoldButton(
+  ui.reviveBtn,
+  () => {
+    if (isPaused()) {
+      return;
+    }
+    game.keys.KeyR = true;
+    game.keys.r = true;
+  },
+  () => {
+    game.keys.KeyR = false;
+    game.keys.r = false;
+    if (isPaused()) {
+      return;
+    }
+    finishReviveInput();
+  },
+);
 
 bindTapButton(ui.attackBtn, () => {
   if (isPaused()) {
@@ -2343,16 +2899,39 @@ window.addEventListener("resize", () => {
 
 window.addEventListener("blur", () => {
   clearMobileMovement();
+  resetMobilePlacement();
 });
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     clearMobileMovement();
+    resetMobilePlacement();
   }
 });
 
+document.addEventListener(
+  "touchmove",
+  (event) => {
+    if (game.mobileUi && !game.infoModalOpen) {
+      event.preventDefault();
+    }
+  },
+  { passive: false },
+);
+
+document.addEventListener(
+  "gesturestart",
+  (event) => {
+    if (game.mobileUi) {
+      event.preventDefault();
+    }
+  },
+  { passive: false },
+);
+
 game.hero = createHero();
 setSelectedType("warrior");
+syncPauseStateClass();
 updateMobileUiState(true);
 updateUi();
 requestAnimationFrame(frame);

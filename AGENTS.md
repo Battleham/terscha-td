@@ -43,3 +43,21 @@
   - satisfying jump/movement
   - clear prep/combat transitions
   - animation timing that matches gameplay events
+
+## UI Workflow
+
+- Before any mobile UI or HUD work, read:
+  - `MOBILE_UI_PRINCIPLES.md`
+  - `UI_CHANGE_CHECKLIST.md`
+- Treat those two files as required context, not optional reference material.
+- For UI changes, use this workflow:
+  - Design pass: interpret the requested change through the principles
+  - Coding pass: implement while actively checking against the checklist
+  - Validation pass: verify the result against the checklist and reject inconsistencies
+- If separate agents are available, the validator agent should review after design and coding are complete and force iteration if any checklist item fails.
+- If only one agent is available, emulate all three roles in sequence before declaring the UI change done.
+- For mobile changes specifically:
+  - preserve fullscreen stage ownership
+  - prefer transparent overlays over opaque panels
+  - keep controls thumb-friendly and latched correctly
+  - prevent browser scrolling or zoom interference during play

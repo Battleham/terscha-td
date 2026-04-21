@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
     <title>Skyhold Rampart</title>
-    <link rel="stylesheet" href="./styles.css?v=20260417d" />
+    <link rel="stylesheet" href="./styles.css?v=20260420s" />
   </head>
   <body>
     <div class="shell">
@@ -19,6 +19,78 @@
           deploy defenders, and revive the fallen before the line breaks.
         </p>
 
+        <section class="mobile-guide" aria-label="Mobile field guide">
+          <div class="mobile-guide-tabs" aria-hidden="true">
+            <span class="mobile-guide-tab is-active">Field Guide</span>
+            <span class="mobile-guide-tab">Defenders</span>
+            <span class="mobile-guide-tab">Tactics</span>
+          </div>
+
+          <div class="mobile-guide-layout">
+            <div class="mobile-guide-stage">
+              <div class="mobile-guide-stage-label">Mobile Battle Layout</div>
+              <div class="mobile-guide-stage-panel">
+                <span class="mobile-guide-marker mobile-guide-marker-rally">Rally</span>
+                <span class="mobile-guide-marker mobile-guide-marker-revive">Revive</span>
+                <span class="mobile-guide-marker mobile-guide-marker-place">Place</span>
+                <span class="mobile-guide-marker mobile-guide-marker-info">?</span>
+              </div>
+            </div>
+
+            <div class="mobile-guide-callouts">
+              <article class="mobile-guide-card">
+                <h2>Rally Mode</h2>
+                <p>Tap <strong>Rally</strong> to open or close the defender tray. When it is open, placement mode is on. When it is closed, placement mode is off.</p>
+              </article>
+
+              <article class="mobile-guide-card">
+                <h2>Placement</h2>
+                <p>During prep, placements land instantly on release. During a wave, release starts a <strong>2 second</strong> channel from the hero. If you jump, strike, cast, or revive, the summon is interrupted.</p>
+              </article>
+
+              <article class="mobile-guide-card">
+                <h2>Revive</h2>
+                <p><strong>Tap Revive</strong> to raise one nearby fallen defender. <strong>Hold Revive during prep</strong> to revive the whole fallen line for the shown essence cost.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="mobile-guide-phases">
+            <article class="mobile-phase-card">
+              <span class="mobile-phase-eyebrow">Prep</span>
+              <p>Tray opens automatically. Place instantly, rebuild the line, and mass-revive if needed.</p>
+            </article>
+            <article class="mobile-phase-card">
+              <span class="mobile-phase-eyebrow">Wave</span>
+              <p>Tray closes automatically, but you can open it manually. New defenders take a full channel to join the fight.</p>
+            </article>
+          </div>
+
+          <div class="mobile-defender-guide">
+            <article class="mobile-defender-card">
+              <span class="mobile-defender-icon mobile-defender-icon-warrior" aria-hidden="true"></span>
+              <div>
+                <h2>Warrior</h2>
+                <p>Tough frontliner with low damage. Best for anchoring the line and buying time.</p>
+              </div>
+            </article>
+            <article class="mobile-defender-card">
+              <span class="mobile-defender-icon mobile-defender-icon-archer" aria-hidden="true"></span>
+              <div>
+                <h2>Archer</h2>
+                <p>Long range support. Less fragile than the mage and ideal for safe sustained fire.</p>
+              </div>
+            </article>
+            <article class="mobile-defender-card">
+              <span class="mobile-defender-icon mobile-defender-icon-mage" aria-hidden="true"></span>
+              <div>
+                <h2>Mage</h2>
+                <p>Fragile mid-range caster with high damage and area-of-effect impact.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <div class="controls">
           <h2>Controls</h2>
           <ul>
@@ -27,7 +99,7 @@
             <li><kbd>W</kbd> or <kbd>Space</kbd> Jump</li>
             <li><kbd>Mouse 1</kbd> Arc strike</li>
             <li><kbd>Mouse 2</kbd> Cast bolt</li>
-            <li><kbd>Mobile</kbd> Left / right pad, jump, strike, and bolt buttons</li>
+            <li><kbd>Mobile</kbd> Left pad, action buttons, and Rally toggle</li>
             <li><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> Select defender</li>
             <li><kbd>F</kbd> Place defender (instant in prep, 2s cast in wave)</li>
             <li><kbd>Tab</kbd> Toggle placement mode</li>
@@ -58,8 +130,8 @@
       </aside>
 
       <main class="game-panel">
-        <div class="game-stage">
-          <div class="game-frame">
+        <div id="gameStage" class="game-stage">
+          <div id="gameFrame" class="game-frame">
             <canvas id="gameCanvas" width="1280" height="720" aria-label="Skyhold Rampart game canvas"></canvas>
           </div>
           <button id="infoToggle" class="info-toggle" type="button" aria-label="Open information panel">
@@ -69,48 +141,135 @@
             <span>Wave</span>
             <strong id="wave">0</strong>
           </div>
+          <button id="buildToggle" class="mobile-build-toggle" type="button" aria-label="Toggle rally menu" aria-expanded="false">
+            Rally
+          </button>
+          <div id="buildMenu" class="mobile-build-menu" hidden>
+            <button id="buildWarriorBtn" class="mobile-build-unit" type="button" data-type="warrior" aria-label="Select warrior defender"></button>
+            <button id="buildArcherBtn" class="mobile-build-unit" type="button" data-type="archer" aria-label="Select archer defender"></button>
+            <button id="buildMageBtn" class="mobile-build-unit" type="button" data-type="mage" aria-label="Select mage defender"></button>
+          </div>
+          <button id="cancelPlacementBtn" class="mobile-cancel-placement" type="button" hidden aria-label="Cancel placement">
+            X
+          </button>
+        </div>
+        <div id="mobileBottomBar" class="mobile-bottom-bar">
+          <div id="statusStrip" class="status-strip">
+            <div class="status-stack">
+              <span id="essenceLabel">Essence: 0</span>
+              <div id="selectedUnit" class="selected-unit-icon" aria-label="Selected defender: Warrior"></div>
+            </div>
+            <div class="hero-mini-hud">
+              <div class="hero-portrait" aria-hidden="true"></div>
+              <div class="hero-bars">
+                <div class="hero-bar-row">
+                  <div class="hero-bar-track">
+                    <div id="heroHealthFill" class="hero-bar-fill hero-bar-fill-health"></div>
+                  </div>
+                </div>
+                <div class="hero-bar-row">
+                  <div class="hero-bar-track">
+                    <div id="heroManaFill" class="hero-bar-fill hero-bar-fill-mana"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span id="enemies">0</span>
+          </div>
           <div id="mobileControls" class="mobile-controls" aria-hidden="true">
-            <div class="mobile-joystick" aria-label="Movement controls">
-              <button id="moveLeftBtn" class="mobile-control mobile-control-move" type="button" aria-label="Move left">
-                Left
-              </button>
-              <div class="mobile-joystick-core" aria-hidden="true"></div>
-              <button id="moveRightBtn" class="mobile-control mobile-control-move" type="button" aria-label="Move right">
-                Right
-              </button>
+            <div id="joystickZone" class="mobile-joystick-zone" aria-label="Movement joystick">
+              <div id="joystickBase" class="mobile-joystick-base" aria-hidden="true">
+                <div id="joystickThumb" class="mobile-joystick-thumb"></div>
+              </div>
             </div>
             <div class="mobile-actions" aria-label="Action controls">
+              <button id="reviveBtn" class="mobile-control mobile-control-action" type="button">Revive</button>
               <button id="jumpBtn" class="mobile-control mobile-control-action" type="button">Jump</button>
-              <button id="attackBtn" class="mobile-control mobile-control-action" type="button">Strike</button>
-              <button id="magicBtn" class="mobile-control mobile-control-action" type="button">Bolt</button>
+              <button id="attackBtn" class="mobile-control mobile-control-action" type="button">Attack</button>
+              <button id="magicBtn" class="mobile-control mobile-control-action" type="button">Magic</button>
             </div>
           </div>
-        </div>
-        <div class="status-strip">
-          <div class="status-stack">
-            <span id="essenceLabel">Essence: 0</span>
-            <div id="selectedUnit" class="selected-unit-icon" aria-label="Selected defender: Warrior"></div>
-          </div>
-          <div class="hero-mini-hud">
-            <div class="hero-portrait" aria-hidden="true"></div>
-            <div class="hero-bars">
-              <div class="hero-bar-row">
-                <div class="hero-bar-track">
-                  <div id="heroHealthFill" class="hero-bar-fill hero-bar-fill-health"></div>
-                </div>
-              </div>
-              <div class="hero-bar-row">
-                <div class="hero-bar-track">
-                  <div id="heroManaFill" class="hero-bar-fill hero-bar-fill-mana"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <span id="enemies">0</span>
         </div>
       </main>
     </div>
     <div id="infoBackdrop" class="info-backdrop" hidden></div>
+    <div id="mobileGuideModal" class="mobile-guide-modal" hidden>
+      <button id="mobileGuideClose" class="info-close mobile-guide-close" type="button" aria-label="Close field guide">
+        Close
+      </button>
+
+      <section class="mobile-guide" aria-label="Mobile field guide">
+        <div class="mobile-guide-tabs" aria-hidden="true">
+          <span class="mobile-guide-tab is-active">Field Guide</span>
+          <span class="mobile-guide-tab">Defenders</span>
+          <span class="mobile-guide-tab">Tactics</span>
+        </div>
+
+        <div class="mobile-guide-layout">
+          <div class="mobile-guide-stage">
+            <div class="mobile-guide-stage-label">Mobile Battle Layout</div>
+            <div class="mobile-guide-stage-panel">
+              <span class="mobile-guide-marker mobile-guide-marker-rally">Rally</span>
+              <span class="mobile-guide-marker mobile-guide-marker-revive">Revive</span>
+              <span class="mobile-guide-marker mobile-guide-marker-place">Place</span>
+              <span class="mobile-guide-marker mobile-guide-marker-info">?</span>
+            </div>
+          </div>
+
+          <div class="mobile-guide-callouts">
+            <article class="mobile-guide-card">
+              <h2>Rally Mode</h2>
+              <p>Tap <strong>Rally</strong> to open or close the defender tray. When it is open, placement mode is on. When it is closed, placement mode is off.</p>
+            </article>
+
+            <article class="mobile-guide-card">
+              <h2>Placement</h2>
+              <p>During prep, placements land instantly on release. During a wave, release starts a <strong>2 second</strong> channel from the hero. If you jump, strike, cast, or revive, the summon is interrupted.</p>
+            </article>
+
+            <article class="mobile-guide-card">
+              <h2>Revive</h2>
+              <p><strong>Tap Revive</strong> to raise one nearby fallen defender. <strong>Hold Revive during prep</strong> to revive the whole fallen line for the shown essence cost.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="mobile-guide-phases">
+          <article class="mobile-phase-card">
+            <span class="mobile-phase-eyebrow">Prep</span>
+            <p>Tray opens automatically. Place instantly, rebuild the line, and mass-revive if needed.</p>
+          </article>
+          <article class="mobile-phase-card">
+            <span class="mobile-phase-eyebrow">Wave</span>
+            <p>Tray closes automatically, but you can open it manually. New defenders take a full channel to join the fight.</p>
+          </article>
+        </div>
+
+        <div class="mobile-defender-guide">
+          <article class="mobile-defender-card">
+            <span class="mobile-defender-icon mobile-defender-icon-warrior" aria-hidden="true"></span>
+            <div>
+              <h2>Warrior</h2>
+              <p>Tough frontliner with low damage. Best for anchoring the line and buying time.</p>
+            </div>
+          </article>
+          <article class="mobile-defender-card">
+            <span class="mobile-defender-icon mobile-defender-icon-archer" aria-hidden="true"></span>
+            <div>
+              <h2>Archer</h2>
+              <p>Long range support. Less fragile than the mage and ideal for safe sustained fire.</p>
+            </div>
+          </article>
+          <article class="mobile-defender-card">
+            <span class="mobile-defender-icon mobile-defender-icon-mage" aria-hidden="true"></span>
+            <div>
+              <h2>Mage</h2>
+              <p>Fragile mid-range caster with high damage and area-of-effect impact.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
     <div id="orientationGate" class="orientation-gate" hidden>
       <div class="orientation-card">
         <div class="orientation-phone" aria-hidden="true"></div>
@@ -120,6 +279,6 @@
       </div>
     </div>
 
-    <script src="./script.js?v=20260417d"></script>
+    <script src="./script.js?v=20260420s"></script>
   </body>
 </html>
