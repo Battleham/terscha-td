@@ -1,0 +1,202 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 1->2 may pop: diff=0.589",
+    "Frames 3->4 may pop: diff=0.599",
+    "Frames 8->1 may pop: diff=0.901",
+    "Frame height variance is high; review pose consistency."
+  ],
+  "scale": 0.726667,
+  "adjacent_silhouette_diffs": [
+    0.5893,
+    0.5377,
+    0.5986,
+    0.5333,
+    0.3127,
+    0.2662,
+    0.2314,
+    0.9009
+  ],
+  "alpha_zero_ratio_avg": 0.8172,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        8,
+        8,
+        249,
+        302
+      ],
+      "final_bbox": [
+        40,
+        6,
+        215,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        260,
+        295
+      ],
+      "final_bbox": [
+        36,
+        11,
+        219,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        264,
+        259
+      ],
+      "final_bbox": [
+        35,
+        38,
+        221,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        271,
+        195
+      ],
+      "final_bbox": [
+        32,
+        84,
+        223,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        273,
+        153
+      ],
+      "final_bbox": [
+        32,
+        115,
+        225,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        268,
+        107
+      ],
+      "final_bbox": [
+        34,
+        148,
+        223,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        246,
+        96
+      ],
+      "final_bbox": [
+        42,
+        156,
+        215,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        266,
+        81
+      ],
+      "final_bbox": [
+        34,
+        167,
+        221,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/death.png",
+  "output": "assets/hero/hero_new_death_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/death_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/death",
+  "frame_count": 8,
+  "frame_size": 256,
+  "sheet_size": [
+    2048,
+    256
+  ]
+}

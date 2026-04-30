@@ -1,0 +1,43 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for run motion study
+Primary request: Build a continuous frame-by-frame grounded run sequence from the provided references, with 50 usable poses.
+
+Frame count: 50
+Layout: one sheet, 10 columns x 5 rows, exactly 50 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 50-cell reference grid (10x5) for framing, center, and ground
+
+Definitions:
+- Near leg = leg closer to camera/viewer.
+- Far leg = leg farther from camera/viewer.
+
+Hard constraints:
+- Character always faces right.
+- Strict temporal continuity from frame 1 to 50.
+- Grounded run only (not sprint): moderate stride, short airtime.
+- Explicit near/far alternation; no one-leg-always-behind bias.
+- Arms stay opposite legs; torso bob is subtle.
+- Keep exact identity, proportions, outfit, weapon, and rendering style.
+- No clipping, no overlap between cells, no scale/perspective drift.
+- Frame 50 transitions cleanly back to frame 1.
+
+Critical spacing and anti-clipping rules:
+- Use each grid cell as a hard boundary; never draw across cell borders.
+- Keep the full silhouette inside an INNER SAFE BOX in every cell:
+  - left/right padding: at least 24 px from the cell edge
+  - top padding: at least 20 px from the cell edge
+  - bottom padding: at least 18 px from the cell edge
+- Staff tips, hands, feet, and beard must remain fully inside the safe box.
+- Keep character center aligned to the reference cross and feet grounded to the reference ground line.
+- Keep consistent character scale (no zoom spikes).
+
+Motion pacing across 50 frames:
+- Treat frames as a smooth run cycle with fine in-betweens.
+- Do not duplicate neighboring poses.
+- Avoid phase jumps or pose popping.
+- Keep knee lift moderate; no high-knee sprint poses.
+
+Avoid:
+high-knee frames, phase reversals, disconnected leg sequencing, repeated neighboring poses, one-leg-always-behind bias, random hops, pose popping, border touching, clipped limbs, text, logos, watermark.

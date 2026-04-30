@@ -1,0 +1,68 @@
+{
+  "asset": "hero_windmage",
+  "prompt_schema": [
+    "Use case",
+    "Asset type",
+    "Primary request",
+    "Input images",
+    "Scene/backdrop",
+    "Subject",
+    "Style/medium",
+    "Composition/framing",
+    "Lighting/mood",
+    "Color palette",
+    "Materials/textures",
+    "Text (verbatim)",
+    "Constraints",
+    "Avoid"
+  ],
+  "shared_lock": {
+    "subject": "bald bearded monk, bare torso with a single chest/shoulder tattoo, arm wraps, blue pants, purple waist sash, sandals, simple straight wooden staff with cyan glowing tips, no scarf, no cloak, no back accessory",
+    "style": "clean 2D hand-painted game sprite style, side-view platformer readability, consistent character proportions",
+    "background": "plain light checkerboard background plus magenta guide lines and outer guide border only"
+  },
+  "prompts": [
+    {
+      "animation": "idle",
+      "frame_count": 8,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "run",
+      "frame_count": 10,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "jump",
+      "frame_count": 8,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "attack",
+      "frame_count": 10,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "magic",
+      "frame_count": 12,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "hit",
+      "frame_count": 6,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    },
+    {
+      "animation": "death",
+      "frame_count": 8,
+      "use_case": "stylized-concept",
+      "asset_type": "2D game sprite reference grid for Terscha TD hero animation source"
+    }
+  ]
+}

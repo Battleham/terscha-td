@@ -1,0 +1,40 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for the described motion
+Primary request: Build a continuous frame-by-frame loop for the described motion from the provided references.
+
+Frame count: 8
+Layout: one horizontal strip, exactly 8 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 8-frame reference grid (must match Frame count)
+
+Definitions:
+- Near leg = leg closer to camera/viewer.
+- Far leg = leg farther from camera/viewer.
+
+Hard constraints:
+- Character always faces right.
+- Strict temporal continuity and clean loop (8 -> 1).
+- Grounded run only (not sprint): moderate stride, short airtime.
+- Knee height cap: in frames 4 and 8, swing-knee height must stay BELOW the waist sash line.
+- No crouch tuck: do not fold both knees deeply at once in passing/down frames.
+- Alternation must be explicit: near and far legs must take turns as lead/support.
+- Prevent bias: no one-leg-always-behind pattern.
+- Keep arms opposite legs and torso bob subtle.
+- Keep exact identity, proportions, outfit, weapon, and rendering style.
+- No clipping, no overlap between cells, no scale/perspective drift.
+- Keep centered and grounded per reference grid.
+
+Frame ownership sequence (must follow exactly):
+1) Near leg contact forward, far leg trailing.
+2) Near leg support/down (lowest), far leg beginning swing.
+3) Near leg push-off behind, far leg passing under hips.
+4) Far leg lead/toe-off prep with MODERATE knee (below waist), near leg recovering.
+5) Far leg contact forward, near leg trailing.
+6) Far leg support/down (lowest), near leg beginning swing.
+7) Far leg push-off behind, near leg passing under hips.
+8) Near leg lead/toe-off prep with MODERATE knee (below waist), far leg recovering; transitions cleanly to frame 1.
+
+Avoid:
+high-knee frames, phase reversals, disconnected leg sequencing, repeated neighboring poses, one-leg-always-behind bias, random hops, pose popping, text, logos, watermark.

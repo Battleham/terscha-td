@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: animation sprite-sheet spreadsheet source, sprint run cycle
+Primary request: Generate a new 10-frame sprint cycle from the provided character reference. This is animation production art: frame-to-frame motion must be continuous, and frame 10 must loop cleanly to frame 1.
+Input images: Image 1 = character reference. Image 2 = 10-frame reference grid.
+Style/medium: preserve identical character design and proportions in every frame.
+Composition/framing: one horizontal strip with exactly 10 equal cells, one full-body pose per cell, facing right in all frames, generous spacing between poses, no clipping.
+Constraints: sprint in place with consistent speed and cadence; clear pose contrast per half-cycle using contact -> down (lowest compression) -> push -> peak (highest airborne), then repeat on opposite side. Alternate support leg cleanly. Keep center and ground alignment consistent with the reference grid.
+Avoid: repeated near-identical neighboring poses, disconnected leg mechanics, random jumps, proportion drift, weapon drift, perspective flips, extra limbs, text, logos, watermark.

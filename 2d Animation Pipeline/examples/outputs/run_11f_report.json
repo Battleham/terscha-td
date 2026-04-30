@@ -1,0 +1,389 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 1->2 may be too similar: diff=0.011"
+  ],
+  "scale": 0.612149,
+  "adjacent_silhouette_diffs": [
+    0.0111,
+    0.363,
+    0.3724,
+    0.2649,
+    0.3881,
+    0.2695,
+    0.3255,
+    0.4153,
+    0.4706,
+    0.4372,
+    0.4487
+  ],
+  "alpha_zero_ratio_avg": 0.7873,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        80,
+        93,
+        433,
+        424
+      ],
+      "final_bbox": [
+        20,
+        17,
+        236,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        80,
+        93,
+        433,
+        424
+      ],
+      "final_bbox": [
+        20,
+        17,
+        236,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        65,
+        98,
+        431,
+        426
+      ],
+      "final_bbox": [
+        16,
+        19,
+        240,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        49,
+        103,
+        430,
+        431
+      ],
+      "final_bbox": [
+        11,
+        19,
+        244,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        44,
+        101,
+        429,
+        431
+      ],
+      "final_bbox": [
+        10,
+        18,
+        246,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        37,
+        92,
+        427,
+        429
+      ],
+      "final_bbox": [
+        9,
+        14,
+        248,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        36,
+        87,
+        424,
+        423
+      ],
+      "final_bbox": [
+        9,
+        14,
+        247,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        33,
+        85,
+        423,
+        418
+      ],
+      "final_bbox": [
+        9,
+        16,
+        248,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 9,
+      "source_bbox": [
+        34,
+        88,
+        423,
+        437
+      ],
+      "final_bbox": [
+        9,
+        6,
+        247,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 10,
+      "source_bbox": [
+        46,
+        95,
+        433,
+        441
+      ],
+      "final_bbox": [
+        10,
+        8,
+        247,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 11,
+      "source_bbox": [
+        64,
+        96,
+        437,
+        440
+      ],
+      "final_bbox": [
+        14,
+        9,
+        242,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "2d Animation Pipeline/examples/sources/FancyOrkin-run.png",
+  "output": "/tmp/pipeline_run_11f_sheet.png",
+  "preview": "/tmp/pipeline_run_11f_preview.png",
+  "frames_dir": "/tmp/pipeline_run_frames",
+  "frame_count": 11,
+  "frame_size": 256,
+  "sheet_size": [
+    2816,
+    256
+  ],
+  "split_mode": "grid",
+  "source_cells": [
+    {
+      "index": 1,
+      "row": 1,
+      "col": 1,
+      "source_box": [
+        0,
+        0,
+        512,
+        512
+      ]
+    },
+    {
+      "index": 2,
+      "row": 1,
+      "col": 2,
+      "source_box": [
+        512,
+        0,
+        1024,
+        512
+      ]
+    },
+    {
+      "index": 3,
+      "row": 1,
+      "col": 3,
+      "source_box": [
+        1024,
+        0,
+        1536,
+        512
+      ]
+    },
+    {
+      "index": 4,
+      "row": 1,
+      "col": 4,
+      "source_box": [
+        1536,
+        0,
+        2048,
+        512
+      ]
+    },
+    {
+      "index": 5,
+      "row": 1,
+      "col": 5,
+      "source_box": [
+        2048,
+        0,
+        2560,
+        512
+      ]
+    },
+    {
+      "index": 6,
+      "row": 1,
+      "col": 6,
+      "source_box": [
+        2560,
+        0,
+        3072,
+        512
+      ]
+    },
+    {
+      "index": 7,
+      "row": 1,
+      "col": 7,
+      "source_box": [
+        3072,
+        0,
+        3584,
+        512
+      ]
+    },
+    {
+      "index": 8,
+      "row": 1,
+      "col": 8,
+      "source_box": [
+        3584,
+        0,
+        4096,
+        512
+      ]
+    },
+    {
+      "index": 9,
+      "row": 2,
+      "col": 1,
+      "source_box": [
+        0,
+        512,
+        512,
+        1024
+      ]
+    },
+    {
+      "index": 10,
+      "row": 2,
+      "col": 2,
+      "source_box": [
+        512,
+        512,
+        1024,
+        1024
+      ]
+    },
+    {
+      "index": 11,
+      "row": 2,
+      "col": 3,
+      "source_box": [
+        1024,
+        512,
+        1536,
+        1024
+      ]
+    }
+  ]
+}

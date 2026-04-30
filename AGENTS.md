@@ -29,6 +29,7 @@
 - Enemy sheets live in `assets/enemy/`
 - Defender sheets live in `assets/defenders/`
 - Animated sheets are horizontal strips unless intentionally changed
+- Before generating, cleaning, or replacing hero animation sheets, read and follow `assets/hero/reference/ANIMATION_PIPELINE_NOTES.md`; it is the canonical hero animation cleanup pipeline and overrides older assumptions.
 - If a frame’s gameplay meaning changes, update both art assumptions and the related timing logic in `script.js`
 
 ## Working Preferences

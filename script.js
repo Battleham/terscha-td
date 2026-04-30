@@ -40,8 +40,15 @@ const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 const GRAVITY = 0.46;
 const ENEMY_DEATH_FEET_OFFSET = 66;
-const FLOOR_Y = HEIGHT - 86;
+const PREVIOUS_FLOOR_Y = HEIGHT - 86;
+const FLOOR_Y = HEIGHT - 180;
+const PLATFORM_Y_OFFSET = FLOOR_Y - PREVIOUS_FLOOR_Y;
 const MAX_ACTIVE_ENEMIES = 5;
+const GAME_ART_VERSION = "20260430f";
+const PLATFORM_COLLISION_INSET_X = 12;
+const HERO_SURFACE_EDGE_GRACE = 0;
+const PLATFORM_SNAP_DOWN = 18;
+const PLATFORM_SNAP_UP = 8;
 
 const staticSpriteSources = {
   warrior: "./assets/defenders/warrior.png",
@@ -57,6 +64,21 @@ const staticSprites = Object.fromEntries(
   }),
 );
 
+const generatedSpriteSources = {
+  background: `./assets/environment/skyhold_background.png?v=${GAME_ART_VERSION}`,
+  arrow: `./assets/effects/arrow.png?v=${GAME_ART_VERSION}`,
+};
+
+const generatedSprites = Object.fromEntries(
+  Object.entries(generatedSpriteSources).map(([key, source]) => {
+    const image = new Image();
+    image.src = source;
+    return [key, image];
+  }),
+);
+
+const HERO_SHEET_VERSION = "20260423i";
+
 const animationSources = {
   warrior_idle: "./assets/defenders/warrior_idle.png",
   warrior_attack: "./assets/defenders/warrior_attack.png",
@@ -64,19 +86,23 @@ const animationSources = {
   archer_attack: "./assets/defenders/archer_attack.png",
   mage_idle: "./assets/defenders/mage_idle.png",
   mage_attack: "./assets/defenders/mage_attack.png",
-  hero_idle: "./assets/hero/hero_idle.png",
-  hero_walk: "./assets/hero/hero_walk.png",
-  hero_run: "./assets/hero/hero_run.png",
-  hero_jump: "./assets/hero/hero_jump.png",
-  hero_hit: "./assets/hero/hero_hit.png",
-  hero_defeat: "./assets/hero/hero_defeat.png",
-  hero_melee: "./assets/hero/hero_melee.png",
-  hero_magic: "./assets/hero/hero_magic.png",
+  hero_idle: `./assets/hero/hero_new_idle_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_walk: `./assets/hero/hero_new_run_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_run: `./assets/hero/hero_new_run_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_jump: `./assets/hero/hero_new_jump_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_hit: `./assets/hero/hero_new_hit_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_defeat: `./assets/hero/hero_new_death_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_melee: `./assets/hero/hero_new_attack_sheet_256.png?v=${HERO_SHEET_VERSION}`,
+  hero_magic: `./assets/hero/hero_new_magic_sheet_256.png?v=${HERO_SHEET_VERSION}`,
   enemy_idle: "./assets/enemy/enemy_idle.png",
   enemy_fly: "./assets/enemy/enemy_fly.png",
   enemy_attack: "./assets/enemy/enemy_attack.png",
   enemy_hit: "./assets/enemy/enemy_hit.png",
   enemy_defeat: "./assets/enemy/enemy_defeat.png",
+  cloud_platform: `./assets/environment/cloud_platform_sheet.png?v=${GAME_ART_VERSION}`,
+  core: `./assets/environment/core_sheet.png?v=${GAME_ART_VERSION}`,
+  mage_spell: `./assets/effects/mage_spell_sheet.png?v=${GAME_ART_VERSION}`,
+  warrior_slash: `./assets/effects/warrior_slash_sheet.png?v=${GAME_ART_VERSION}`,
 };
 
 const animationSheets = Object.fromEntries(
@@ -88,26 +114,55 @@ const animationSheets = Object.fromEntries(
 );
 
 const animationDefs = {
-  warrior_idle: { frameWidth: 134, frameHeight: 134, fps: 8, loop: true },
-  warrior_attack: { frameWidth: 134, frameHeight: 134, fps: 11.5, loop: false },
-  archer_idle: { frameWidth: 138, frameHeight: 138, fps: 8, loop: true },
-  archer_attack: { frameWidth: 138, frameHeight: 138, fps: 11.5, loop: false },
-  mage_idle: { frameWidth: 108, frameHeight: 108, fps: 8, loop: true },
-  mage_attack: { frameWidth: 108, frameHeight: 108, fps: 8, loop: false },
-  hero_idle: { frameWidth: 92, frameHeight: 92, fps: 7, loop: true },
-  hero_walk: { frameWidth: 92, frameHeight: 92, fps: 10, loop: true },
-  hero_run: { frameWidth: 96, frameHeight: 92, fps: 12, loop: true },
-  hero_jump: { frameWidth: 92, frameHeight: 92, fps: 8, loop: true },
-  hero_hit: { frameWidth: 92, frameHeight: 92, fps: 12, loop: false },
-  hero_defeat: { frameWidth: 92, frameHeight: 92, fps: 10, loop: false },
-  hero_melee: { frameWidth: 92, frameHeight: 92, fps: 12, loop: false },
-  hero_magic: { frameWidth: 92, frameHeight: 92, fps: 12, loop: false },
-  enemy_idle: { frameWidth: 184, frameHeight: 184, fps: 7, loop: true },
-  enemy_fly: { frameWidth: 184, frameHeight: 184, fps: 10, loop: true },
-  enemy_attack: { frameWidth: 184, frameHeight: 184, fps: 11, loop: false },
-  enemy_hit: { frameWidth: 184, frameHeight: 184, fps: 12, loop: false },
-  enemy_defeat: { frameWidth: 184, frameHeight: 184, fps: 12, loop: false },
+  warrior_idle: { frameWidth: 134, frameHeight: 134, fps: 6, loop: true },
+  warrior_attack: { frameWidth: 134, frameHeight: 134, fps: 8.625, loop: false },
+  archer_idle: { frameWidth: 138, frameHeight: 138, fps: 6, loop: true },
+  archer_attack: { frameWidth: 138, frameHeight: 138, fps: 8.625, loop: false },
+  mage_idle: { frameWidth: 108, frameHeight: 108, fps: 6, loop: true },
+  mage_attack: { frameWidth: 108, frameHeight: 108, fps: 6, loop: false },
+  hero_idle: { frameWidth: 256, frameHeight: 256, fps: 5.625, loop: true },
+  hero_walk: { frameWidth: 256, frameHeight: 256, fps: 7.5, loop: true },
+  hero_run: { frameWidth: 256, frameHeight: 256, fps: 16.2, loop: true },
+  hero_jump: { frameWidth: 256, frameHeight: 256, fps: 9, loop: true },
+  hero_hit: { frameWidth: 256, frameHeight: 256, fps: 9, loop: false },
+  hero_defeat: { frameWidth: 256, frameHeight: 256, fps: 6, loop: false },
+  hero_melee: { frameWidth: 256, frameHeight: 256, fps: 8.25, loop: false },
+  hero_magic: { frameWidth: 256, frameHeight: 256, fps: 7.5, loop: false },
+  enemy_idle: { frameWidth: 184, frameHeight: 184, fps: 5.25, loop: true },
+  enemy_fly: { frameWidth: 184, frameHeight: 184, fps: 7.5, loop: true },
+  enemy_attack: { frameWidth: 184, frameHeight: 184, fps: 8.25, loop: false },
+  enemy_hit: { frameWidth: 184, frameHeight: 184, fps: 9, loop: false },
+  enemy_defeat: { frameWidth: 184, frameHeight: 184, fps: 9, loop: false },
+  cloud_platform: { frameWidth: 160, frameHeight: 128, fps: 5, loop: true },
+  core: { frameWidth: 256, frameHeight: 256, fps: 8, loop: true },
+  mage_spell: { frameWidth: 192, frameHeight: 96, fps: 18, loop: true },
+  warrior_slash: { frameWidth: 192, frameHeight: 128, fps: 24, loop: false },
 };
+
+const HERO_JUMP_STARTUP_FRAME_COUNT = 6;
+const HERO_JUMP_AIR_UP_FRAME = 6;
+const HERO_JUMP_AIR_APEX_FRAME = 8;
+const HERO_JUMP_AIR_DOWN_FRAME = 10;
+const HERO_JUMP_LANDING_START_FRAME = 11;
+const HERO_JUMP_LANDING_FRAME_COUNT = 5;
+const HERO_JUMP_STARTUP_FRAME_DURATION = 0.055;
+const HERO_JUMP_LANDING_FRAME_DURATION = 0.055;
+const HERO_JUMP_APEX_UPWARD_SPEED_MIN = -0.08;
+const HERO_JUMP_APEX_UPWARD_SPEED_MAX = 0.45;
+const HERO_MELEE_RELEASE_FRAME = 5;
+const HERO_MAGIC_RELEASE_FRAME = 8;
+const HERO_RENDER_SIZE = 108;
+const HERO_SPRITE_GROUND_Y = 220;
+const HERO_RENDER_SCALE_BY_ANIM = {
+  hero_walk: 1.03,
+  hero_run: 1.03,
+  hero_jump: 1.28,
+  hero_hit: 1.08,
+  hero_defeat: 1.12,
+  hero_melee: 1.22,
+  hero_magic: 1.17,
+};
+const CLOUD_PLATFORM_FRAME_SEQUENCE = [0, 1, 2, 3, 2, 1, 5, 6, 7];
 
 const defenderTypes = {
   warrior: {
@@ -141,11 +196,11 @@ const defenderTypes = {
 };
 
 const surfaces = [
-  { x: 0, y: FLOOR_Y, width: WIDTH, height: HEIGHT - FLOOR_Y },
-  { x: 232, y: 512, width: 245, height: 16 },
-  { x: 456, y: 432, width: 252, height: 16 },
-  { x: 828, y: 360, width: 220, height: 16 },
-  { x: 828, y: 532, width: 210, height: 16 },
+  { x: 0, y: FLOOR_Y, width: WIDTH, height: HEIGHT - FLOOR_Y, kind: "floor" },
+  { x: 232, y: 512 + PLATFORM_Y_OFFSET, width: 245, height: 16, kind: "platform", collisionInsetX: PLATFORM_COLLISION_INSET_X },
+  { x: 456, y: 432 + PLATFORM_Y_OFFSET, width: 252, height: 16, kind: "platform", collisionInsetX: PLATFORM_COLLISION_INSET_X },
+  { x: 780, y: 360 + PLATFORM_Y_OFFSET, width: 220, height: 16, kind: "platform", collisionInsetX: 0 },
+  { x: 828, y: 532 + PLATFORM_Y_OFFSET, width: 210, height: 16, kind: "platform", collisionInsetX: PLATFORM_COLLISION_INSET_X },
 ];
 
 const game = {
@@ -239,9 +294,11 @@ function createHero() {
     jumpBoostDuration: 0.032,
     jumpHangTimer: 0,
     jumpHangDuration: 0.055,
-    jumpAnimElapsed: 0,
-    landingAnimTimer: 0,
-    landingAnimDuration: 0.12,
+    jumpStartupFrame: 0,
+    jumpStartupTimer: 0,
+    jumpLandingActive: false,
+    jumpLandingFrame: 0,
+    jumpLandingTimer: 0,
     onGround: false,
     hp: 170,
     maxHp: 170,
@@ -253,6 +310,8 @@ function createHero() {
     invuln: 0,
     meleeAnimTimer: 0,
     magicAnimTimer: 0,
+    meleeReleaseDone: true,
+    magicReleaseDone: true,
     hitAnimTimer: 0,
     animName: "idle",
     animTime: 0,
@@ -310,6 +369,7 @@ function createEnemy(wave) {
 
 function addEffect(type, x, y, color, life = 0.4, extra = {}) {
   game.effects.push({
+    ...extra,
     type,
     x,
     y,
@@ -634,9 +694,32 @@ function staticSpriteReady(name) {
   return Boolean(sprite && sprite.complete && sprite.naturalWidth > 0);
 }
 
+function generatedSpriteReady(name) {
+  const sprite = generatedSprites[name];
+  return Boolean(sprite && sprite.complete && sprite.naturalWidth > 0);
+}
+
 function drawStaticSprite(name, x, y, width, height, options = {}) {
   const sprite = staticSprites[name];
   if (!staticSpriteReady(name)) {
+    return false;
+  }
+
+  ctx.save();
+  ctx.translate(x + width / 2, y + height / 2);
+  ctx.scale(options.flipX ? -1 : 1, 1);
+  if (options.rotation) {
+    ctx.rotate(options.rotation);
+  }
+  ctx.globalAlpha = options.alpha ?? 1;
+  ctx.drawImage(sprite, -width / 2, -height / 2, width, height);
+  ctx.restore();
+  return true;
+}
+
+function drawGeneratedSprite(name, x, y, width, height, options = {}) {
+  const sprite = generatedSprites[name];
+  if (!generatedSpriteReady(name)) {
     return false;
   }
 
@@ -705,11 +788,25 @@ function drawAnimation(name, x, y, width, height, elapsed, options = {}) {
   const sheet = animationSheets[name];
   const def = animationDefs[name];
   const frameCount = getAnimationFrameCount(name);
-  let frameIndex = Math.floor(elapsed * def.fps);
-  if (def.loop) {
-    frameIndex %= frameCount;
+  const frameSequence = Array.isArray(options.frameSequence) && options.frameSequence.length > 0
+    ? options.frameSequence
+    : null;
+  let frameIndex;
+  if (frameSequence) {
+    let sequenceIndex = Math.floor(elapsed * def.fps);
+    if (def.loop) {
+      sequenceIndex %= frameSequence.length;
+    } else {
+      sequenceIndex = Math.min(frameSequence.length - 1, sequenceIndex);
+    }
+    frameIndex = clamp(frameSequence[sequenceIndex], 0, frameCount - 1);
   } else {
-    frameIndex = Math.min(frameCount - 1, frameIndex);
+    frameIndex = Math.floor(elapsed * def.fps);
+    if (def.loop) {
+      frameIndex %= frameCount;
+    } else {
+      frameIndex = Math.min(frameCount - 1, frameIndex);
+    }
   }
   if (typeof options.frameOverride === "number") {
     frameIndex = clamp(options.frameOverride, 0, frameCount - 1);
@@ -857,18 +954,35 @@ function explodeProjectile(projectile) {
   }
 }
 
+function getSurfaceBounds(surface) {
+  const leftInsetX = surface.collisionLeftInsetX ?? surface.collisionInsetX ?? 0;
+  const rightInsetX = surface.collisionRightInsetX ?? surface.collisionInsetX ?? 0;
+  return {
+    left: surface.x + leftInsetX,
+    right: surface.x + surface.width - rightInsetX,
+    top: surface.y,
+    bottom: surface.y + surface.height,
+  };
+}
+
+function overlapsSurfaceX(surface, left, right, edgeGrace = 0) {
+  const bounds = getSurfaceBounds(surface);
+  return right - edgeGrace > bounds.left && left + edgeGrace < bounds.right;
+}
+
 function surfaceAt(x, y, tolerance = 18) {
   let bestSurface = null;
   let bestScore = Infinity;
 
   for (const surface of surfaces) {
-    const withinX = x >= surface.x + 18 && x <= surface.x + surface.width - 18;
-    const closeY = y <= surface.y + 20 && y >= surface.y - 150 - tolerance;
+    const bounds = getSurfaceBounds(surface);
+    const withinX = x >= bounds.left + 8 && x <= bounds.right - 8;
+    const closeY = y <= bounds.top + 24 && y >= bounds.top - 150 - tolerance;
     if (!withinX || !closeY) {
       continue;
     }
 
-    const score = Math.abs(surface.y - y);
+    const score = Math.abs(bounds.top - y);
     if (score < bestScore) {
       bestScore = score;
       bestSurface = surface;
@@ -1097,22 +1211,35 @@ function updateHero(dt) {
 
   hero.x = clamp(hero.x, 20, WIDTH - hero.width - 20);
 
+  let landedSurface = null;
+  const previousFeetY = hero.y + hero.height - hero.vy;
+  const currentFeetY = hero.y + hero.height;
   for (const surface of surfaces) {
-    const onTop =
-      hero.x + hero.width > surface.x &&
-      hero.x < surface.x + surface.width &&
-      hero.y + hero.height >= surface.y &&
-      hero.y + hero.height - hero.vy <= surface.y &&
-      hero.vy >= 0;
-    if (onTop) {
-      hero.y = surface.y - hero.height;
-      hero.vy = 0;
-      hero.onGround = true;
-      hero.jumpBoostTimer = 0;
-      hero.jumpHangTimer = 0;
-      if (!wasOnGround) {
-        hero.landingAnimTimer = hero.landingAnimDuration;
-      }
+    const bounds = getSurfaceBounds(surface);
+    const crossesTop = previousFeetY <= bounds.top && currentFeetY >= bounds.top;
+    const closeEnoughToTop = currentFeetY >= bounds.top - PLATFORM_SNAP_UP && currentFeetY <= bounds.top + PLATFORM_SNAP_DOWN;
+    const withinX = overlapsSurfaceX(surface, hero.x, hero.x + hero.width, HERO_SURFACE_EDGE_GRACE);
+    if (
+      hero.vy >= 0 &&
+      withinX &&
+      (crossesTop || closeEnoughToTop) &&
+      (!landedSurface || bounds.top < getSurfaceBounds(landedSurface).top)
+    ) {
+      landedSurface = surface;
+    }
+  }
+
+  if (landedSurface) {
+    const bounds = getSurfaceBounds(landedSurface);
+    hero.y = bounds.top - hero.height;
+    hero.vy = 0;
+    hero.onGround = true;
+    hero.jumpBoostTimer = 0;
+    hero.jumpHangTimer = 0;
+    if (!wasOnGround) {
+      hero.jumpLandingActive = true;
+      hero.jumpLandingFrame = 0;
+      hero.jumpLandingTimer = 0;
     }
   }
 
@@ -1123,14 +1250,42 @@ function updateHero(dt) {
   hero.meleeAnimTimer = Math.max(0, hero.meleeAnimTimer - dt);
   hero.magicAnimTimer = Math.max(0, hero.magicAnimTimer - dt);
   hero.hitAnimTimer = Math.max(0, hero.hitAnimTimer - dt);
-  hero.landingAnimTimer = Math.max(0, hero.landingAnimTimer - dt);
   hero.mana = clamp(hero.mana + 8 * dt, 0, hero.maxMana);
   hero.hp = clamp(hero.hp + 1.8 * dt, 0, hero.maxHp);
 
   if (!hero.onGround) {
-    hero.jumpAnimElapsed += dt;
-  } else if (!wasOnGround) {
-    hero.jumpAnimElapsed = 0;
+    hero.jumpLandingActive = false;
+    hero.jumpLandingFrame = 0;
+    hero.jumpLandingTimer = 0;
+    if (hero.jumpStartupFrame < HERO_JUMP_STARTUP_FRAME_COUNT) {
+      hero.jumpStartupTimer += dt;
+      while (
+        hero.jumpStartupTimer >= HERO_JUMP_STARTUP_FRAME_DURATION &&
+        hero.jumpStartupFrame < HERO_JUMP_STARTUP_FRAME_COUNT
+      ) {
+        hero.jumpStartupTimer -= HERO_JUMP_STARTUP_FRAME_DURATION;
+        hero.jumpStartupFrame += 1;
+      }
+    }
+  } else {
+    hero.jumpStartupFrame = 0;
+    hero.jumpStartupTimer = 0;
+    if (hero.jumpLandingActive) {
+      hero.jumpLandingTimer += dt;
+      if (
+        hero.jumpLandingFrame < HERO_JUMP_LANDING_FRAME_COUNT - 1 &&
+        hero.jumpLandingTimer >= HERO_JUMP_LANDING_FRAME_DURATION
+      ) {
+        hero.jumpLandingTimer -= HERO_JUMP_LANDING_FRAME_DURATION;
+        hero.jumpLandingFrame += 1;
+      } else if (
+        hero.jumpLandingFrame >= HERO_JUMP_LANDING_FRAME_COUNT - 1 &&
+        hero.jumpLandingTimer >= HERO_JUMP_LANDING_FRAME_DURATION
+      ) {
+        hero.jumpLandingActive = false;
+        hero.jumpLandingTimer = 0;
+      }
+    }
   }
 
   let animName = "idle";
@@ -1142,7 +1297,7 @@ function updateHero(dt) {
     animName = "magic";
   } else if (hero.meleeAnimTimer > 0) {
     animName = "melee";
-  } else if (!hero.onGround || hero.landingAnimTimer > 0) {
+  } else if (!hero.onGround || hero.jumpLandingActive) {
     animName = "jump";
   } else if (Math.abs(hero.vx) > hero.walkSpeed + 0.2) {
     animName = "run";
@@ -1152,6 +1307,7 @@ function updateHero(dt) {
 
   setAnimation(hero, animName);
   hero.animTime += dt;
+  resolveHeroAnimationEvents(hero);
 }
 
 function placementsMatch(a, b) {
@@ -1258,10 +1414,48 @@ function performHeroStrike() {
   if (hero.strikeCooldown > 0 || game.gameOver) {
     return;
   }
+  const meleeFrames = getAnimationFrameCount("hero_melee") || 10;
   hero.strikeCooldown = 0.42;
-  hero.meleeAnimTimer = 0.45;
+  hero.meleeAnimTimer = meleeFrames / animationDefs.hero_melee.fps;
+  hero.meleeReleaseDone = false;
+  hero.animName = "melee";
+  hero.animTime = 0;
+}
+
+function castHeroBolt() {
+  interruptSummonCast();
+  const hero = game.hero;
+  if (hero.spellCooldown > 0 || hero.mana < 18 || game.gameOver) {
+    return;
+  }
+
+  const magicFrames = getAnimationFrameCount("hero_magic") || 12;
+  hero.spellCooldown = 0.55;
+  hero.magicAnimTimer = magicFrames / animationDefs.hero_magic.fps;
+  hero.magicReleaseDone = false;
+  hero.animName = "magic";
+  hero.animTime = 0;
+  hero.mana -= 18;
+}
+
+function getAnimationFrameNumber(name, elapsed) {
+  const frameCount = getAnimationFrameCount(name);
+  if (!frameCount) {
+    return 1;
+  }
+  const def = animationDefs[name];
+  const frameIndex = def.loop
+    ? Math.floor(elapsed * def.fps) % frameCount
+    : Math.min(frameCount - 1, Math.floor(elapsed * def.fps));
+  return frameIndex + 1;
+}
+
+function resolveHeroStrikeRelease(hero) {
   const origin = heroCenter();
-  addEffect("slash", origin.x + hero.facing * 24, origin.y - 6, "#ffd08d", 0.24, { radius: 34 });
+  addEffect("slash", origin.x + hero.facing * 28, origin.y - 8, "#ffd08d", 0.32, {
+    radius: 34,
+    facing: hero.facing,
+  });
 
   for (const enemy of game.enemies) {
     const bodyPoint = getEnemyBodyPoint(enemy);
@@ -1275,16 +1469,7 @@ function performHeroStrike() {
   }
 }
 
-function castHeroBolt() {
-  interruptSummonCast();
-  const hero = game.hero;
-  if (hero.spellCooldown > 0 || hero.mana < 18 || game.gameOver) {
-    return;
-  }
-
-  hero.spellCooldown = 0.55;
-  hero.magicAnimTimer = 0.5;
-  hero.mana -= 18;
+function resolveHeroMagicRelease(hero) {
   const origin = heroCenter();
   game.projectiles.push({
     owner: "hero",
@@ -1301,6 +1486,24 @@ function castHeroBolt() {
     life: 0.65,
   });
   addEffect("ring", origin.x + hero.facing * 10, origin.y - 12, "#8af7ff", 0.22, { radius: 12 });
+}
+
+function resolveHeroAnimationEvents(hero) {
+  if (hero.meleeAnimTimer > 0 && !hero.meleeReleaseDone) {
+    const frameNumber = getAnimationFrameNumber("hero_melee", hero.animTime);
+    if (frameNumber >= HERO_MELEE_RELEASE_FRAME) {
+      resolveHeroStrikeRelease(hero);
+      hero.meleeReleaseDone = true;
+    }
+  }
+
+  if (hero.magicAnimTimer > 0 && !hero.magicReleaseDone) {
+    const frameNumber = getAnimationFrameNumber("hero_magic", hero.animTime);
+    if (frameNumber >= HERO_MAGIC_RELEASE_FRAME) {
+      resolveHeroMagicRelease(hero);
+      hero.magicReleaseDone = true;
+    }
+  }
 }
 
 function updateDefenders(dt) {
@@ -1324,7 +1527,10 @@ function updateDefenders(dt) {
         ) {
           damageEnemy(defender.attackTarget, config.damage, { silent: true });
           defender.attackTarget.vx -= 0.25;
-          addEffect("slash", defender.attackTarget.x, defender.attackTarget.y, config.color, 0.2, { radius: 18 });
+          addEffect("slash", defender.attackTarget.x, defender.attackTarget.y, config.color, 0.28, {
+            radius: 18,
+            facing: defender.facing,
+          });
         }
         defender.cooldown = config.cooldown;
         defender.attackResolved = true;
@@ -1442,11 +1648,12 @@ function updateEnemies(dt) {
         enemy.vx *= 0.985;
 
         for (const surface of surfaces) {
-          const overlapsX = enemy.x + 18 >= surface.x && enemy.x - 18 <= surface.x + surface.width;
+          const overlapsX = overlapsSurfaceX(surface, enemy.x - 18, enemy.x + 18);
           const enemyFeetY = getEnemyFeetY(enemy);
-          const crossedSurface = previousFeetY <= surface.y && enemyFeetY >= surface.y;
+          const surfaceTop = getSurfaceBounds(surface).top;
+          const crossedSurface = previousFeetY <= surfaceTop && enemyFeetY >= surfaceTop;
           if (overlapsX && crossedSurface) {
-            enemy.y = surface.y - ENEMY_DEATH_FEET_OFFSET;
+            enemy.y = surfaceTop - ENEMY_DEATH_FEET_OFFSET;
             enemy.vy = 0;
             enemy.vx = 0;
             enemy.deadGrounded = true;
@@ -1703,6 +1910,18 @@ function updateUi() {
 }
 
 function drawBackground() {
+  if (generatedSpriteReady("background")) {
+    ctx.drawImage(generatedSprites.background, 0, 0, WIDTH, HEIGHT);
+
+    const readability = ctx.createLinearGradient(0, 0, 0, HEIGHT);
+    readability.addColorStop(0, "rgba(3, 8, 16, 0.08)");
+    readability.addColorStop(0.58, "rgba(3, 8, 16, 0.03)");
+    readability.addColorStop(1, "rgba(3, 8, 16, 0.32)");
+    ctx.fillStyle = readability;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    return;
+  }
+
   const sky = ctx.createLinearGradient(0, 0, 0, HEIGHT);
   sky.addColorStop(0, "#081320");
   sky.addColorStop(0.45, "#173754");
@@ -1739,7 +1958,31 @@ function drawBackground() {
 }
 
 function drawTerrain() {
-  for (const surface of surfaces) {
+  for (const [index, surface] of surfaces.entries()) {
+    if (index === 0) {
+      if (!generatedSpriteReady("background")) {
+        const gradient = ctx.createLinearGradient(0, surface.y, 0, surface.y + surface.height);
+        gradient.addColorStop(0, "#537085");
+        gradient.addColorStop(1, "#223645");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(surface.x, surface.y, surface.width, surface.height);
+        ctx.fillStyle = "rgba(234, 247, 255, 0.18)";
+        ctx.fillRect(surface.x, surface.y, surface.width, 3);
+      }
+      continue;
+    }
+
+    if (animationReady("cloud_platform")) {
+      const platformHeight = 92;
+      const platformWidth = surface.width + 34;
+      const platformX = surface.x - 17;
+      const platformY = surface.y - platformHeight * 0.42;
+      drawAnimation("cloud_platform", platformX, platformY, platformWidth, platformHeight, game.time + index * 0.23, {
+        frameSequence: CLOUD_PLATFORM_FRAME_SEQUENCE,
+      });
+      continue;
+    }
+
     const gradient = ctx.createLinearGradient(0, surface.y, 0, surface.y + surface.height);
     gradient.addColorStop(0, "#537085");
     gradient.addColorStop(1, "#223645");
@@ -1751,41 +1994,53 @@ function drawTerrain() {
   }
 
   ctx.fillStyle = "#314858";
-  ctx.fillRect(game.core.x - 48, FLOOR_Y - 12, 96, 12);
+  ctx.fillRect(game.core.x - 50, FLOOR_Y - 12, 100, 12);
 
   ctx.fillStyle = "rgba(255, 212, 132, 0.18)";
   ctx.fillRect(game.core.x - 34, FLOOR_Y - 18, 68, 6);
 
-  const pulse = 1 + Math.sin(game.time * 3.2) * 0.04;
-  const coreGradient = ctx.createRadialGradient(game.core.x, game.core.y, 8, game.core.x, game.core.y, 45);
-  coreGradient.addColorStop(0, "#f2f0ff");
-  coreGradient.addColorStop(0.45, "#9be1ff");
-  coreGradient.addColorStop(1, "rgba(84, 164, 212, 0.2)");
-  ctx.save();
-  ctx.translate(game.core.x, game.core.y);
-  ctx.scale(pulse, pulse);
-  ctx.fillStyle = coreGradient;
-  ctx.beginPath();
-  ctx.moveTo(0, -34);
-  ctx.lineTo(23, 0);
-  ctx.lineTo(0, 34);
-  ctx.lineTo(-23, 0);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
+  if (animationReady("core")) {
+    const pulse = 1 + Math.sin(game.time * 3.2) * 0.035;
+    drawAnimation(
+      "core",
+      game.core.x - 60 * pulse,
+      game.core.y - 82 * pulse,
+      120 * pulse,
+      164 * pulse,
+      game.time,
+    );
+  } else {
+    const pulse = 1 + Math.sin(game.time * 3.2) * 0.04;
+    const coreGradient = ctx.createRadialGradient(game.core.x, game.core.y, 8, game.core.x, game.core.y, 45);
+    coreGradient.addColorStop(0, "#f2f0ff");
+    coreGradient.addColorStop(0.45, "#9be1ff");
+    coreGradient.addColorStop(1, "rgba(84, 164, 212, 0.2)");
+    ctx.save();
+    ctx.translate(game.core.x, game.core.y);
+    ctx.scale(pulse, pulse);
+    ctx.fillStyle = coreGradient;
+    ctx.beginPath();
+    ctx.moveTo(0, -34);
+    ctx.lineTo(23, 0);
+    ctx.lineTo(0, 34);
+    ctx.lineTo(-23, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
 
-  ctx.strokeStyle = "rgba(239, 248, 255, 0.75)";
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.arc(game.core.x, game.core.y, 30 + Math.sin(game.time * 2.6) * 2, 0, Math.PI * 2);
-  ctx.stroke();
+    ctx.strokeStyle = "rgba(239, 248, 255, 0.75)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(game.core.x, game.core.y, 30 + Math.sin(game.time * 2.6) * 2, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 }
 
 function drawCoreHealthBar() {
   const barWidth = 92;
   const barHeight = 8;
   const x = game.core.x - barWidth / 2;
-  const y = game.core.y - 50;
+  const y = game.core.y - (animationReady("core") ? 104 : 50);
 
   ctx.fillStyle = "rgba(7, 16, 28, 0.82)";
   ctx.fillRect(x - 7, y - 16, barWidth + 14, 26);
@@ -1817,31 +2072,49 @@ function drawHero() {
 
   ctx.fillStyle = "rgba(6, 10, 16, 0.38)";
   ctx.beginPath();
-  ctx.ellipse(hero.x + hero.width / 2, hero.y + hero.height + 4, 18, 6, 0, 0, Math.PI * 2);
+  ctx.ellipse(hero.x + hero.width / 2, hero.y + hero.height + 4, 22, 7, 0, 0, Math.PI * 2);
   ctx.fill();
 
   const animKey = `hero_${hero.hp <= 0 ? "defeat" : hero.animName}`;
   const heroFeetY = hero.y + hero.height;
-  const heroRenderWidth = 82;
-  const heroRenderHeight = 82;
+  const renderScale = HERO_RENDER_SCALE_BY_ANIM[animKey] ?? 1;
+  const heroRenderWidth = HERO_RENDER_SIZE * renderScale;
+  const heroRenderHeight = HERO_RENDER_SIZE * renderScale;
+  const animDef = animationDefs[animKey];
+  const spriteGroundRatio = HERO_SPRITE_GROUND_Y / (animDef?.frameHeight ?? 256);
+  const heroRenderX = hero.x + hero.width / 2 - heroRenderWidth / 2;
+  const heroRenderY = heroFeetY - heroRenderHeight * spriteGroundRatio;
   let frameOverride;
   if (animKey === "hero_jump") {
-    if (hero.onGround && hero.landingAnimTimer > 0) {
-      const landingProgress = 1 - hero.landingAnimTimer / hero.landingAnimDuration;
-      frameOverride = landingProgress < 0.5 ? 6 : 7;
-    } else if (hero.jumpAnimElapsed < 0.08) {
-      frameOverride = Math.min(3, Math.floor(hero.jumpAnimElapsed / 0.02));
+    if (hero.onGround && hero.jumpLandingActive) {
+      frameOverride = HERO_JUMP_LANDING_START_FRAME + clamp(hero.jumpLandingFrame, 0, HERO_JUMP_LANDING_FRAME_COUNT - 1);
     } else if (hero.vy < 0) {
-      frameOverride = 4;
+      if (hero.jumpStartupFrame < HERO_JUMP_STARTUP_FRAME_COUNT) {
+        frameOverride = clamp(hero.jumpStartupFrame, 0, HERO_JUMP_STARTUP_FRAME_COUNT - 1);
+      } else {
+        frameOverride = -hero.vy > HERO_JUMP_APEX_UPWARD_SPEED_MAX
+          ? HERO_JUMP_AIR_UP_FRAME
+          : HERO_JUMP_AIR_APEX_FRAME;
+      }
     } else {
-      frameOverride = 5;
+      const upwardSpeed = -hero.vy;
+      if (
+        upwardSpeed >= HERO_JUMP_APEX_UPWARD_SPEED_MIN &&
+        upwardSpeed <= HERO_JUMP_APEX_UPWARD_SPEED_MAX
+      ) {
+        frameOverride = HERO_JUMP_AIR_APEX_FRAME;
+      } else if (upwardSpeed < HERO_JUMP_APEX_UPWARD_SPEED_MIN) {
+        frameOverride = HERO_JUMP_AIR_DOWN_FRAME;
+      } else {
+        frameOverride = HERO_JUMP_AIR_UP_FRAME;
+      }
     }
   }
   if (
     drawAnimation(
       animKey,
-      hero.x + hero.width / 2 - heroRenderWidth / 2,
-      heroFeetY - heroRenderHeight,
+      heroRenderX,
+      heroRenderY,
       heroRenderWidth,
       heroRenderHeight,
       hero.animTime,
@@ -2085,6 +2358,23 @@ function drawEnemy(enemy) {
 
 function drawProjectiles() {
   for (const projectile of game.projectiles) {
+    const angle = Math.atan2(projectile.vy, projectile.vx);
+    if (
+      projectile.subtype === "archer" &&
+      drawGeneratedSprite("arrow", projectile.x - 34, projectile.y - 10, 68, 20, { rotation: angle })
+    ) {
+      continue;
+    }
+
+    if (
+      (projectile.subtype === "mage" || projectile.kind === "bolt") &&
+      drawAnimation("mage_spell", projectile.x - 42, projectile.y - 22, 84, 44, game.time + projectile.life, {
+        rotation: angle,
+      })
+    ) {
+      continue;
+    }
+
     ctx.fillStyle = projectile.color;
     ctx.beginPath();
     ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
@@ -2117,9 +2407,30 @@ function drawEffects() {
       ctx.fillText(effect.text, effect.x, effect.y - (1 - alpha) * effect.rise);
       ctx.textAlign = "left";
     } else if (effect.type === "slash") {
+      const facing = effect.facing ?? 1;
+      const elapsed = effect.maxLife - effect.life;
+      if (
+        drawAnimation(
+          "warrior_slash",
+          effect.x - effect.radius * 1.9,
+          effect.y - effect.radius * 1.25,
+          effect.radius * 3.8,
+          effect.radius * 2.5,
+          elapsed,
+          { flipX: facing < 0, alpha },
+        )
+      ) {
+        ctx.restore();
+        continue;
+      }
+
       ctx.lineWidth = 3;
+      const start = effect.startAngle ?? -0.7;
+      const end = effect.endAngle ?? 1.6;
+      ctx.translate(effect.x, effect.y);
+      ctx.scale(facing < 0 ? -1 : 1, 1);
       ctx.beginPath();
-      ctx.arc(effect.x, effect.y, effect.radius, -0.7, 1.6);
+      ctx.arc(0, 0, effect.radius, start, end);
       ctx.stroke();
     } else {
       ctx.beginPath();
@@ -2533,8 +2844,11 @@ function onJump() {
     game.hero.vy = -game.hero.jumpStrength;
     game.hero.jumpBoostTimer = game.hero.jumpBoostDuration;
     game.hero.jumpHangTimer = game.hero.jumpHangDuration;
-    game.hero.jumpAnimElapsed = 0;
-    game.hero.landingAnimTimer = 0;
+    game.hero.jumpStartupFrame = 0;
+    game.hero.jumpStartupTimer = 0;
+    game.hero.jumpLandingActive = false;
+    game.hero.jumpLandingFrame = 0;
+    game.hero.jumpLandingTimer = 0;
     game.hero.onGround = false;
   }
 }

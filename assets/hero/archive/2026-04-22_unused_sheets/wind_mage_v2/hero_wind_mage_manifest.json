@@ -1,0 +1,47 @@
+[
+  {
+    "animation": "idle",
+    "output_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/wind_mage_v2/hero_wind_mage_idle_sheet_256.png",
+    "frames": 6,
+    "frame_width": 256,
+    "frame_height": 256,
+    "sheet_width": 1536,
+    "sheet_height": 256
+  },
+  {
+    "animation": "run",
+    "output_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/wind_mage_v2/hero_wind_mage_run_sheet_256.png",
+    "frames": 10,
+    "frame_width": 256,
+    "frame_height": 256,
+    "sheet_width": 2560,
+    "sheet_height": 256
+  },
+  {
+    "animation": "jump",
+    "output_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/wind_mage_v2/hero_wind_mage_jump_sheet_256.png",
+    "frames": 7,
+    "frame_width": 256,
+    "frame_height": 256,
+    "sheet_width": 1792,
+    "sheet_height": 256
+  },
+  {
+    "animation": "attack",
+    "output_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/wind_mage_v2/hero_wind_mage_attack_sheet_256.png",
+    "frames": 9,
+    "frame_width": 256,
+    "frame_height": 256,
+    "sheet_width": 2304,
+    "sheet_height": 256
+  },
+  {
+    "animation": "magic",
+    "output_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/wind_mage_v2/hero_wind_mage_magic_sheet_256.png",
+    "frames": 12,
+    "frame_width": 256,
+    "frame_height": 256,
+    "sheet_width": 3072,
+    "sheet_height": 256
+  }
+]

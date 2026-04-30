@@ -1,0 +1,89 @@
+[
+  {
+    "name": "idle",
+    "frames": 8,
+    "status": "pass",
+    "warnings": [],
+    "output": "assets/hero/hero_new_idle_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/idle_preview.png"
+  },
+  {
+    "name": "run",
+    "frames": 8,
+    "status": "pass",
+    "warnings": [],
+    "output": "assets/hero/hero_new_run_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/run_preview.png"
+  },
+  {
+    "name": "jump",
+    "frames": 8,
+    "status": "pass",
+    "warnings": [
+      "Frames 3->4 may pop: diff=0.622",
+      "Frames 6->7 may pop: diff=0.601",
+      "Frames 7->8 may pop: diff=0.627",
+      "Frame height variance is high; review pose consistency."
+    ],
+    "output": "assets/hero/hero_new_jump_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/jump_preview.png"
+  },
+  {
+    "name": "attack",
+    "frames": 10,
+    "status": "pass",
+    "warnings": [
+      "Frames 4->5 may pop: diff=0.635",
+      "Frames 5->6 may pop: diff=0.869",
+      "Frames 7->8 may pop: diff=0.600",
+      "Frames 9->10 may be too similar: diff=0.113",
+      "Frames 10->1 may be too similar: diff=0.103",
+      "Frame height variance is high; review pose consistency.",
+      "Frame width variance is high; long staff or stride may cause scale/readability issues."
+    ],
+    "output": "assets/hero/hero_new_attack_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/attack_preview.png"
+  },
+  {
+    "name": "magic",
+    "frames": 8,
+    "status": "pass",
+    "warnings": [
+      "Frames 1->2 may pop: diff=0.636",
+      "Frames 2->3 may pop: diff=0.654",
+      "Frames 4->5 may pop: diff=0.798",
+      "Frames 5->6 may pop: diff=0.728",
+      "Frames 6->7 may pop: diff=0.756",
+      "Frames 7->8 may pop: diff=0.718",
+      "Frames 8->1 may be too similar: diff=0.045",
+      "Frame height variance is high; review pose consistency.",
+      "Frame width variance is high; long staff or stride may cause scale/readability issues."
+    ],
+    "output": "assets/hero/hero_new_magic_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/magic_preview.png"
+  },
+  {
+    "name": "hit",
+    "frames": 6,
+    "status": "pass",
+    "warnings": [
+      "Frames 3->4 may pop: diff=0.681",
+      "Frames 6->1 may be too similar: diff=0.074"
+    ],
+    "output": "assets/hero/hero_new_hit_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/hit_preview.png"
+  },
+  {
+    "name": "death",
+    "frames": 8,
+    "status": "pass",
+    "warnings": [
+      "Frames 1->2 may pop: diff=0.589",
+      "Frames 3->4 may pop: diff=0.599",
+      "Frames 8->1 may pop: diff=0.901",
+      "Frame height variance is high; review pose consistency."
+    ],
+    "output": "assets/hero/hero_new_death_sheet_256.png",
+    "preview": "assets/hero/temp/asym_ref_anim_v1/previews/death_preview.png"
+  }
+]

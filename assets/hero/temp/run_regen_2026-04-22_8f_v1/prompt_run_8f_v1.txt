@@ -1,0 +1,39 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for the described motion
+Primary request: Build a continuous frame-by-frame loop for the described motion from the provided references.
+
+Frame count: 8
+Layout: one horizontal strip, exactly 8 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 8-frame reference grid (must match Frame count)
+
+Constraints:
+- Character always faces right.
+- Frame-to-frame continuity is mandatory: each frame must be a logical step from the previous frame.
+- Loop continuity is mandatory: frame 8 must transition naturally into frame 1.
+- Keep consistent speed/cadence across the full loop.
+- Keep this as a grounded run, not a jumpy sprint: moderate stride, short flight time, clear contact phases.
+- Generous spacing between poses; no cross-cell overlap.
+- No clipping of body, weapon, or limbs.
+- Character identity lock: same anatomy, proportions, silhouette, outfit, weapon, and facial design in every frame.
+- No scale drift, perspective drift, weapon drift, or extra limbs/accessories.
+- Keep character centered and grounded consistently per grid convention.
+- Output must be clean sprite-sheet production art for game use.
+
+Motion:
+Character runs in place facing right in side view with an orthodox 8-frame game run cycle.
+Use this exact leg phase sequence:
+1) right foot contact forward,
+2) right-leg down/compression (lowest body point),
+3) passing pose (rear leg passing under hips),
+4) right toe-off with left knee drive (rising),
+5) left foot contact forward,
+6) left-leg down/compression (lowest body point),
+7) passing pose,
+8) left toe-off with right knee drive (rising) that returns cleanly to frame 1.
+Arms swing opposite the legs, torso bob is subtle, and each adjacent frame should be a small temporal step forward.
+
+Avoid:
+disconnected leg sequencing, phase reversals, repeated neighboring poses, random hops, pose popping, text, logos, watermark.

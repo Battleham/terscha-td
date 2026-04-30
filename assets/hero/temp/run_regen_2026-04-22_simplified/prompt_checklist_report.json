@@ -1,0 +1,17 @@
+{
+  "prompt_file": "assets/hero/temp/run_regen_2026-04-22_simplified/prompt_v1.txt",
+  "checklist": {
+    "structured_prompt_labels_present": true,
+    "explicit_animation_focus": true,
+    "exact_10_frames_specified": true,
+    "character_consistency_specified": true,
+    "spacing_between_frames_specified": true,
+    "reference_grid_adherence_specified": true,
+    "one_pose_per_cell_specified": true,
+    "loop_closure_specified": true,
+    "no_clipping_specified": true,
+    "game_name_removed": true,
+    "character_fluff_removed": true
+  },
+  "status": "pass"
+}

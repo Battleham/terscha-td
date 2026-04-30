@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: animation sprite-sheet spreadsheet source, run cycle
+Primary request: Generate a new 10-frame run-cycle strip from the provided reference character image. This is animation production art: each frame must be a logical step from the previous frame and frame 10 must loop naturally into frame 1.
+Input images: Image 1 = character reference. Image 2 = 10-frame reference grid.
+Style/medium: keep the character design, anatomy, outfit, and staff identical across all frames.
+Composition/framing: one horizontal strip with exactly 10 equal cells, one full-body pose per cell, facing right in all frames, generous spacing between poses, no clipping.
+Constraints: strict grid adherence; keep each pose centered in its cell and grounded consistently to the same baseline convention shown by the grid. Enforce coherent gait progression (contact -> weight -> passing -> drive -> opposite contact -> opposite weight -> passing -> drive -> approach -> pre-contact).
+Avoid: disconnected poses, random jumps, proportion drift, weapon drift, extra limbs, perspective flips, text, logos, watermark.

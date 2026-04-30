@@ -1,0 +1,39 @@
+{
+  "candidates": [
+    {
+      "candidate": "A",
+      "file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "adjacent_diff_mean": 0.4513,
+      "adjacent_diff_min": 0.4161,
+      "adjacent_diff_max": 0.4921,
+      "loop_diff_f10_to_f1": 0.4642,
+      "near_duplicate_pairs_by_index_1_to_9": [],
+      "heuristic_score_higher_is_better": 0.4468
+    },
+    {
+      "candidate": "B",
+      "file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "adjacent_diff_mean": 0.3941,
+      "adjacent_diff_min": 0.3413,
+      "adjacent_diff_max": 0.4445,
+      "loop_diff_f10_to_f1": 0.3942,
+      "near_duplicate_pairs_by_index_1_to_9": [],
+      "heuristic_score_higher_is_better": 0.394
+    },
+    {
+      "candidate": "C",
+      "file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "adjacent_diff_mean": 0.4171,
+      "adjacent_diff_min": 0.3819,
+      "adjacent_diff_max": 0.473,
+      "loop_diff_f10_to_f1": 0.4261,
+      "near_duplicate_pairs_by_index_1_to_9": [],
+      "heuristic_score_higher_is_better": 0.414
+    }
+  ],
+  "ranking": [
+    "A",
+    "C",
+    "B"
+  ]
+}

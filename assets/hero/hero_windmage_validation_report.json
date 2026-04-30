@@ -1,0 +1,91 @@
+{
+  "status": "pass",
+  "animations": [
+    {
+      "animation": "idle",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_idle_sheet_256.png",
+      "size": {
+        "width": 2048,
+        "height": 256
+      },
+      "frame_count": 8,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.7885
+    },
+    {
+      "animation": "run",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_run_sheet_256.png",
+      "size": {
+        "width": 2560,
+        "height": 256
+      },
+      "frame_count": 10,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.8168
+    },
+    {
+      "animation": "jump",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_jump_sheet_256.png",
+      "size": {
+        "width": 2048,
+        "height": 256
+      },
+      "frame_count": 8,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.8458
+    },
+    {
+      "animation": "attack",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_attack_sheet_256.png",
+      "size": {
+        "width": 2560,
+        "height": 256
+      },
+      "frame_count": 10,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.8446
+    },
+    {
+      "animation": "magic",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_magic_sheet_256.png",
+      "size": {
+        "width": 3072,
+        "height": 256
+      },
+      "frame_count": 12,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.857
+    },
+    {
+      "animation": "hit",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_hit_sheet_256.png",
+      "size": {
+        "width": 1536,
+        "height": 256
+      },
+      "frame_count": 6,
+      "errors": [],
+      "warnings": [],
+      "alpha_zero_ratio_avg": 0.7952
+    },
+    {
+      "animation": "death",
+      "output": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_death_sheet_256.png",
+      "size": {
+        "width": 2048,
+        "height": 256
+      },
+      "frame_count": 8,
+      "errors": [],
+      "warnings": [
+        "Large frame-height variance (3.81) for death; review timing/pose readability in-engine."
+      ],
+      "alpha_zero_ratio_avg": 0.8719
+    }
+  ]
+}

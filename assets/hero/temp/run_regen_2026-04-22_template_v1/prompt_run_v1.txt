@@ -1,0 +1,29 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for the described motion
+Primary request: Build a continuous frame-by-frame loop for the described motion from the provided references.
+
+Frame count: 10
+Layout: one horizontal strip, exactly 10 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 10-frame reference grid (must match Frame count)
+
+Constraints:
+- Character always faces right.
+- Frame-to-frame continuity is mandatory: each frame must be a logical step from the previous frame.
+- Loop continuity is mandatory: final frame must transition naturally into frame 1.
+- Strong leg/pose mechanics clarity for the described motion.
+- Keep consistent speed/cadence across the full loop.
+- Generous spacing between poses; no cross-cell overlap.
+- No clipping of body, weapon, or limbs.
+- Character identity lock: same anatomy, proportions, silhouette, outfit, weapon, and facial design in every frame.
+- No scale drift, perspective drift, weapon drift, or extra limbs/accessories.
+- Keep character centered and grounded consistently per grid convention.
+- Output must be clean sprite-sheet production art for game use.
+
+Motion:
+Character is sprinting straight facing east to the right like in a sidescrolling game, athletic running form, energetic stride with pumping arms. Approximately 3s loop; keep speed consistent. Character sprints in place.
+
+Avoid:
+disconnected poses, repeated near-identical neighboring frames, random hops, pose popping, text, logos, watermark.

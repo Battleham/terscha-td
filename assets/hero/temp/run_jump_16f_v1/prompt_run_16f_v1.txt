@@ -1,0 +1,29 @@
+Use case: stylized-concept
+Asset type: 2D game hero animation sprite sheet, 16 frames, horizontal strip.
+Input images: locked asymmetrical hero reference and 16-cell horizontal layout reference.
+
+Create a clean 16-frame run animation pose sheet for the exact hero, facing right, full body visible in every frame.
+
+Preserve: bald head, black beard, shirtless muscular torso, shoulder tattoo, white forearm wraps, purple sash, dark blue pants, sandals, wooden staff with turquoise-and-gold caps. The camera-near/right leg has ornate gold embroidery; the far/left leg is plain.
+
+Run mechanics: live athletic run, forward torso lean, shoulder/hip counter-rotation, slight staff and sash follow-through, believable foot contact, clear airborne phase.
+
+Frame plan:
+1. Plain far/left leg forward contact, embroidered near/right leg back.
+2. Left-leg down/load, knee bent, torso lowest.
+3. Left-leg push-off, right knee begins passing.
+4. Right leg passing under body, left leg leaving ground.
+5. Right high knee recovery, both feet airborne.
+6. Leg spread in air: embroidered right leg forward, plain left back.
+7. Embroidered right leg landing/contact.
+8. Right-leg down/load.
+9. Right-leg push-off, plain left knee begins passing.
+10. Left leg passing under body.
+11. Plain left high knee recovery, both feet airborne.
+12. Leg spread in air: plain left forward, embroidered right back.
+13. Plain left landing/contact again.
+14. Left-leg down/load.
+15. Left-leg push-off, opposite knee comes through.
+16. Airborne transition looping back to frame 1.
+
+Flat uniform #00ff00 chroma-key background only, no text, no labels, no watermark, no floor, no shadow.

@@ -1,0 +1,197 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "scale": 0.69817,
+  "adjacent_silhouette_diffs": [
+    0.2814,
+    0.3862,
+    0.3843,
+    0.3282,
+    0.3902,
+    0.2729,
+    0.1592,
+    0.2267
+  ],
+  "alpha_zero_ratio_avg": 0.7875,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        8,
+        8,
+        282,
+        314
+      ],
+      "final_bbox": [
+        32,
+        6,
+        223,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        279,
+        305
+      ],
+      "final_bbox": [
+        33,
+        13,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        268,
+        301
+      ],
+      "final_bbox": [
+        37,
+        15,
+        219,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        276,
+        308
+      ],
+      "final_bbox": [
+        34,
+        11,
+        221,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        264,
+        311
+      ],
+      "final_bbox": [
+        39,
+        8,
+        218,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        278,
+        311
+      ],
+      "final_bbox": [
+        34,
+        8,
+        223,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        277,
+        307
+      ],
+      "final_bbox": [
+        34,
+        11,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        277,
+        308
+      ],
+      "final_bbox": [
+        34,
+        11,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/run.png",
+  "output": "assets/hero/hero_new_run_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/run_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/run",
+  "frame_count": 8,
+  "frame_size": 256,
+  "sheet_size": [
+    2048,
+    256
+  ]
+}

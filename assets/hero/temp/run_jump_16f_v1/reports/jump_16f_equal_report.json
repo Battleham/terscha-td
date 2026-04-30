@@ -1,0 +1,416 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Source frame 1 has foreground on left edge before repack (18px)",
+    "Source frame 1 has foreground on right edge before repack (9px)",
+    "Source frame 2 has foreground on left edge before repack (16px)",
+    "Source frame 2 has foreground on right edge before repack (9px)",
+    "Source frame 3 has foreground on left edge before repack (8px)",
+    "Source frame 3 has foreground on right edge before repack (51px)",
+    "Source frame 4 has foreground on left edge before repack (47px)",
+    "Source frame 4 has foreground on right edge before repack (159px)",
+    "Source frame 5 has foreground on left edge before repack (158px)",
+    "Source frame 5 has foreground on right edge before repack (206px)",
+    "Source frame 6 has foreground on left edge before repack (220px)",
+    "Source frame 6 has foreground on right edge before repack (130px)",
+    "Source frame 7 has foreground on left edge before repack (130px)",
+    "Source frame 7 has foreground on right edge before repack (101px)",
+    "Source frame 8 has foreground on left edge before repack (103px)",
+    "Source frame 8 has foreground on right edge before repack (37px)",
+    "Source frame 9 has foreground on left edge before repack (31px)",
+    "Source frame 9 has foreground on right edge before repack (22px)",
+    "Source frame 10 has foreground on left edge before repack (34px)",
+    "Source frame 10 has foreground on right edge before repack (24px)",
+    "Source frame 11 has foreground on left edge before repack (25px)",
+    "Source frame 11 has foreground on right edge before repack (8px)",
+    "Source frame 12 has foreground on left edge before repack (20px)",
+    "Source frame 12 has foreground on right edge before repack (55px)",
+    "Source frame 13 has foreground on left edge before repack (38px)",
+    "Source frame 13 has foreground on right edge before repack (148px)",
+    "Source frame 14 has foreground on left edge before repack (149px)",
+    "Source frame 14 has foreground on right edge before repack (129px)",
+    "Source frame 15 has foreground on left edge before repack (130px)",
+    "Source frame 15 has foreground on right edge before repack (91px)",
+    "Source frame 16 has foreground on left edge before repack (110px)",
+    "Frames 2->3 may pop: diff=0.591",
+    "Frames 4->5 may pop: diff=0.733",
+    "Frames 5->6 may pop: diff=0.667",
+    "Frames 6->7 may pop: diff=0.621",
+    "Frames 7->8 may pop: diff=0.946",
+    "Frames 12->13 may pop: diff=0.661",
+    "Frames 13->14 may pop: diff=0.701",
+    "Frames 14->15 may pop: diff=0.772",
+    "Frames 15->16 may pop: diff=0.616",
+    "Frames 16->1 may pop: diff=0.727",
+    "Frame height variance is high; review pose consistency."
+  ],
+  "scale": 0.615677,
+  "adjacent_silhouette_diffs": [
+    0.276,
+    0.591,
+    0.5156,
+    0.7327,
+    0.6673,
+    0.6208,
+    0.9465,
+    0.5414,
+    0.4429,
+    0.5411,
+    0.5558,
+    0.6613,
+    0.7011,
+    0.7724,
+    0.6162,
+    0.7274
+  ],
+  "alpha_zero_ratio_avg": 0.917,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        0,
+        324,
+        136,
+        508
+      ],
+      "final_bbox": [
+        86,
+        107,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 18,
+        "right": 9,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        0,
+        328,
+        136,
+        508
+      ],
+      "final_bbox": [
+        86,
+        109,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 16,
+        "right": 9,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        0,
+        251,
+        135,
+        508
+      ],
+      "final_bbox": [
+        86,
+        62,
+        169,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 8,
+        "right": 51,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        0,
+        211,
+        136,
+        512
+      ],
+      "final_bbox": [
+        86,
+        35,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 47,
+        "right": 159,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        0,
+        198,
+        136,
+        512
+      ],
+      "final_bbox": [
+        86,
+        27,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 158,
+        "right": 206,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        0,
+        175,
+        135,
+        510
+      ],
+      "final_bbox": [
+        86,
+        14,
+        169,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 220,
+        "right": 130,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        0,
+        161,
+        136,
+        508
+      ],
+      "final_bbox": [
+        86,
+        6,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 130,
+        "right": 101,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        0,
+        162,
+        136,
+        380
+      ],
+      "final_bbox": [
+        86,
+        86,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 103,
+        "right": 37,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 9,
+      "source_bbox": [
+        0,
+        171,
+        136,
+        383
+      ],
+      "final_bbox": [
+        86,
+        89,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 31,
+        "right": 22,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 10,
+      "source_bbox": [
+        0,
+        192,
+        136,
+        408
+      ],
+      "final_bbox": [
+        86,
+        87,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 34,
+        "right": 24,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 11,
+      "source_bbox": [
+        0,
+        203,
+        135,
+        419
+      ],
+      "final_bbox": [
+        86,
+        87,
+        169,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 25,
+        "right": 8,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 12,
+      "source_bbox": [
+        0,
+        226,
+        136,
+        513
+      ],
+      "final_bbox": [
+        86,
+        43,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 20,
+        "right": 55,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 13,
+      "source_bbox": [
+        0,
+        315,
+        136,
+        514
+      ],
+      "final_bbox": [
+        86,
+        97,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 38,
+        "right": 148,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 14,
+      "source_bbox": [
+        0,
+        336,
+        135,
+        515
+      ],
+      "final_bbox": [
+        86,
+        110,
+        169,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 149,
+        "right": 129,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 15,
+      "source_bbox": [
+        0,
+        309,
+        136,
+        513
+      ],
+      "final_bbox": [
+        86,
+        94,
+        170,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 130,
+        "right": 91,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 16,
+      "source_bbox": [
+        0,
+        310,
+        133,
+        513
+      ],
+      "final_bbox": [
+        87,
+        95,
+        169,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 110,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/run_jump_16f_v1/raw/jump_16f_raw.png",
+  "output": "assets/hero/temp/run_jump_16f_v1/hero_new_jump_sheet_16f_v1_equal.png",
+  "preview": "assets/hero/temp/run_jump_16f_v1/previews/jump_16f_equal_preview.png",
+  "frames_dir": "assets/hero/temp/run_jump_16f_v1/frames/jump_equal",
+  "frame_count": 16,
+  "frame_size": 256,
+  "sheet_size": [
+    4096,
+    256
+  ]
+}

@@ -1,0 +1,12 @@
+Use case: precise-object-edit
+Asset type: 2D video game sprite sheet for run motion
+Primary request: Edit this 8-frame run strip and fix leg phase logic while preserving the current style, character identity, and layout.
+Input images: Image 1 = current 8-frame run strip to edit. Image 2 = locked character identity reference.
+Constraints:
+- Keep exactly 8 frames in one horizontal strip with the same cell boundaries and spacing.
+- Keep frame 1 and frame 2 almost unchanged (these are correct).
+- Fix frame 3 transition logic: keep overall pose intent but swap leg phase so the far leg is the one lifting up, and the near leg is in support/setting phase.
+- Frame 4 must NEVER lift the leg as high as current frame 4; reduce knee lift to a moderate height.
+- Preserve coherent run progression from frames 1->8 and clean loop from frame 8->1.
+- Keep character facing right, same proportions, same staff, same outfit, same rendering style.
+Avoid: phase reversals, random jumps, extra limbs, changed character design, text, logo, watermark.

@@ -1,0 +1,43 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for the described motion
+Primary request: Build a continuous frame-by-frame loop for the described motion from the provided references.
+
+Frame count: 8
+Layout: one horizontal strip, exactly 8 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 8-frame reference grid (must match Frame count)
+
+Constraints:
+- Character always faces right.
+- Keep frame-to-frame continuity strict; every next frame is a small forward-in-time step.
+- Keep loop continuity strict; frame 8 transitions naturally into frame 1.
+- Grounded run only: moderate stride, short airtime, no exaggerated sprint leaps.
+- NEVER raise any knee above the waist sash line in any frame.
+- Keep leg phasing balanced and alternating: support alternates sides across the cycle.
+- Do not keep the same leg trailing behind for most frames.
+- Symmetry rule: frames 5-8 are a left/right phase mirror of frames 1-4.
+- Keep arms swinging opposite to legs.
+- Keep torso bob subtle and consistent.
+- Generous spacing between poses; no cross-cell overlap.
+- No clipping of body, weapon, or limbs.
+- Character identity lock: same anatomy, proportions, silhouette, outfit, weapon, and facial design in every frame.
+- No scale drift, perspective drift, weapon drift, or extra limbs/accessories.
+- Keep character centered and grounded consistently per grid convention.
+- Output must be clean sprite-sheet production art for game use.
+
+Motion:
+Orthodox 8-frame run cycle in place, side view facing right.
+Frame phase order:
+1) right contact,
+2) right down/compression,
+3) passing,
+4) right toe-off with left knee drive (moderate, below waist),
+5) left contact,
+6) left down/compression,
+7) passing,
+8) left toe-off with right knee drive (moderate, below waist).
+
+Avoid:
+phase reversals, disconnected leg sequencing, repeated neighboring poses, one-leg-always-behind pattern, high-knee poses, random hops, pose popping, text, logos, watermark.

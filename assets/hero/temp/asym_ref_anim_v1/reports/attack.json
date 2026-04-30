@@ -1,0 +1,249 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 4->5 may pop: diff=0.635",
+    "Frames 5->6 may pop: diff=0.869",
+    "Frames 7->8 may pop: diff=0.600",
+    "Frames 9->10 may be too similar: diff=0.113",
+    "Frames 10->1 may be too similar: diff=0.103",
+    "Frame height variance is high; review pose consistency.",
+    "Frame width variance is high; long staff or stride may cause scale/readability issues."
+  ],
+  "scale": 0.734158,
+  "adjacent_silhouette_diffs": [
+    0.5125,
+    0.5384,
+    0.5031,
+    0.6354,
+    0.8694,
+    0.37,
+    0.6001,
+    0.4569,
+    0.1128,
+    0.1026
+  ],
+  "alpha_zero_ratio_avg": 0.8512,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        8,
+        8,
+        182,
+        238
+      ],
+      "final_bbox": [
+        64,
+        51,
+        192,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        211,
+        284
+      ],
+      "final_bbox": [
+        53,
+        17,
+        202,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        225,
+        299
+      ],
+      "final_bbox": [
+        48,
+        6,
+        207,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        250,
+        236
+      ],
+      "final_bbox": [
+        39,
+        53,
+        217,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        305,
+        226
+      ],
+      "final_bbox": [
+        19,
+        60,
+        237,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        193,
+        220
+      ],
+      "final_bbox": [
+        60,
+        64,
+        196,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        235,
+        233
+      ],
+      "final_bbox": [
+        45,
+        55,
+        212,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        183,
+        237
+      ],
+      "final_bbox": [
+        64,
+        52,
+        192,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 9,
+      "source_bbox": [
+        8,
+        8,
+        180,
+        239
+      ],
+      "final_bbox": [
+        65,
+        50,
+        191,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 10,
+      "source_bbox": [
+        8,
+        8,
+        180,
+        237
+      ],
+      "final_bbox": [
+        65,
+        52,
+        191,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/attack.png",
+  "output": "assets/hero/hero_new_attack_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/attack_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/attack",
+  "frame_count": 10,
+  "frame_size": 256,
+  "sheet_size": [
+    2560,
+    256
+  ]
+}

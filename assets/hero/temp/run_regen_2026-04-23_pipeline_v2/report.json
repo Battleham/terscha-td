@@ -1,0 +1,243 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 6->7 may pop: diff=0.591"
+  ],
+  "scale": 0.765735,
+  "adjacent_silhouette_diffs": [
+    0.3384,
+    0.4036,
+    0.2121,
+    0.5125,
+    0.568,
+    0.5914,
+    0.5427,
+    0.4715,
+    0.485,
+    0.3583
+  ],
+  "alpha_zero_ratio_avg": 0.8032,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        7,
+        8,
+        253,
+        279
+      ],
+      "final_bbox": [
+        34,
+        12,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        268,
+        287
+      ],
+      "final_bbox": [
+        28,
+        6,
+        227,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        253,
+        283
+      ],
+      "final_bbox": [
+        34,
+        9,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        257,
+        282
+      ],
+      "final_bbox": [
+        33,
+        10,
+        224,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        260,
+        259
+      ],
+      "final_bbox": [
+        32,
+        28,
+        225,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        237,
+        275
+      ],
+      "final_bbox": [
+        40,
+        16,
+        215,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        246,
+        255
+      ],
+      "final_bbox": [
+        37,
+        31,
+        219,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        239,
+        275
+      ],
+      "final_bbox": [
+        40,
+        16,
+        217,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 9,
+      "source_bbox": [
+        8,
+        8,
+        224,
+        275
+      ],
+      "final_bbox": [
+        45,
+        16,
+        210,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 10,
+      "source_bbox": [
+        8,
+        8,
+        229,
+        280
+      ],
+      "final_bbox": [
+        43,
+        12,
+        212,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "/Users/yuriysrybnik/.codex/generated_images/019dbb8c-4994-7712-a948-898706c51f12/ig_0c93c732246c3cef0169ea64d99ad4819a952d67b52073379a.png",
+  "output": "assets/hero/hero_new_run_sheet_256.png",
+  "preview": "assets/hero/temp/run_regen_2026-04-23_pipeline_v2/hero_new_run_sheet_256_preview.png",
+  "frames_dir": "assets/hero/temp/run_regen_2026-04-23_pipeline_v2/frames",
+  "frame_count": 10,
+  "frame_size": 256,
+  "sheet_size": [
+    2560,
+    256
+  ]
+}

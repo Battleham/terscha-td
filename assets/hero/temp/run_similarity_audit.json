@@ -1,0 +1,10 @@
+{
+  "pairs": [
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "mean_abs_diff_0_255": 24.357,
+      "rms_diff_0_255": 60.851
+    }
+  ]
+}

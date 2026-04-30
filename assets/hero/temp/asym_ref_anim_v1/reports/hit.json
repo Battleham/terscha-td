@@ -1,0 +1,156 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 3->4 may pop: diff=0.681",
+    "Frames 6->1 may be too similar: diff=0.074"
+  ],
+  "scale": 0.523627,
+  "adjacent_silhouette_diffs": [
+    0.3556,
+    0.5666,
+    0.6814,
+    0.4275,
+    0.3931,
+    0.0744
+  ],
+  "alpha_zero_ratio_avg": 0.7819,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        8,
+        8,
+        320,
+        392
+      ],
+      "final_bbox": [
+        46,
+        19,
+        209,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        335,
+        390
+      ],
+      "final_bbox": [
+        42,
+        20,
+        213,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        325,
+        416
+      ],
+      "final_bbox": [
+        45,
+        6,
+        211,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        307,
+        368
+      ],
+      "final_bbox": [
+        50,
+        31,
+        207,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        327,
+        354
+      ],
+      "final_bbox": [
+        44,
+        39,
+        211,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        320,
+        388
+      ],
+      "final_bbox": [
+        46,
+        21,
+        209,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/hit.png",
+  "output": "assets/hero/hero_new_hit_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/hit_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/hit",
+  "frame_count": 6,
+  "frame_size": 256,
+  "sheet_size": [
+    1536,
+    256
+  ]
+}

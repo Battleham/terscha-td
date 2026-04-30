@@ -1,0 +1,8 @@
+Use case: precise-object-edit
+Asset type: 2D video game sprite sheet for run motion
+Primary request: Fix this run sprite-sheet animation so the leg movement is physically consistent frame-to-frame.
+Input images: Image 1 = current run strip to correct. Image 2 = character identity reference.
+Constraints: Keep the same character identity and visual style. Keep 10 frames in one horizontal strip with one full-body pose per cell. Keep facing right. Keep grid separators and spacing style. Preserve staff design and overall framing.
+Critical fix: this makes absolutely no sense as an animation. it's it's inconsistent leg movement. the leg that is in the early stages of coming up cannot be setting down in the next frame.
+Motion requirements: enforce coherent gait progression and smooth sequencing from frame 1 to frame 10, then clean loop back to frame 1. Adjacent frames must show small logical temporal progression, not jumps.
+Avoid: disconnected poses, leg phase reversals, repeated near-identical neighbors, extra limbs, text, logo, watermark.

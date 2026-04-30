@@ -1,0 +1,14 @@
+Use case: stylized-concept
+Asset type: 2D game animation sprite-sheet spreadsheet source (run cycle), 10-frame reference strip
+Primary request: Generate a brand-new RUN animation spreadsheet strip for the Terscha TD wind-mage hero. This is animation production art: every frame must be a logical step from the previous frame and the sequence must loop naturally from frame 10 back to frame 1.
+Input images: Image 1 = locked hero design reference (hero_new.png). Image 2 = standardized 10-frame grid reference for center and ground conventions.
+Scene/backdrop: plain light checkerboard background only, with magenta outer border plus magenta vertical cell separators only.
+Subject: bald bearded monk, bare torso with one shoulder/chest tattoo, arm wraps, blue pants, purple waist sash, sandals, straight wooden staff with cyan tips, no scarf, no cloak, no back accessory.
+Style/medium: clean 2D painted sprite style for side-view platformer, strict visual consistency and same character proportions in all frames.
+Composition/framing: one horizontal strip with exactly 10 equal cells, one full-body pose per cell, facing right in every frame, no clipping, no overlap between cells, consistent character scale.
+Lighting/mood: neutral readable gameplay lighting.
+Color palette: stable colors matching the reference hero.
+Materials/textures: crisp sprite edges, no blur.
+Text (verbatim): ""
+Constraints: make a physically coherent run gait with explicit progression: frame 1 right-foot contact forward, frame 2 weight acceptance, frame 3 passing, frame 4 right toe-off / left knee drive, frame 5 left-foot contact forward, frame 6 weight acceptance, frame 7 passing, frame 8 left toe-off / right knee drive, frame 9 approach contact, frame 10 recoil/pre-contact returning smoothly to frame 1. Keep pelvis and torso bob subtle, avoid random airborne jumps, and keep staff inertia smooth and continuous across all 10 frames.
+Avoid: disconnected poses, impossible leg bends, proportion drift, weapon shape changes, mirrored perspective flips, extra limbs, extra accessories, text, logos, watermarks.

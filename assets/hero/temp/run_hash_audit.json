@@ -1,0 +1,109 @@
+{
+  "pairs": [
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "hamming_256": 3
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "hamming_256": 7
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 8
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "hamming_256": 8
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 9
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "hamming_256": 13
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "hamming_256": 13
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 13
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "hamming_256": 14
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "hamming_256": 15
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "hamming_256": 15
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 15
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "hamming_256": 16
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 16
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+      "hamming_256": 16
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "hamming_256": 17
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "hamming_256": 18
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+      "hamming_256": 18
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+      "hamming_256": 19
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "hamming_256": 19
+    },
+    {
+      "a": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+      "b": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+      "hamming_256": 24
+    }
+  ]
+}

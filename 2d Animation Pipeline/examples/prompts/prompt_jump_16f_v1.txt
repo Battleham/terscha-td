@@ -1,0 +1,31 @@
+Use case: stylized-concept
+Asset type: 2D game hero animation sprite sheet, 16 frames in a 4x4 grid, repacked later to a horizontal strip.
+Input images: locked asymmetrical hero reference and 4x4 green/magenta 16-cell grid reference.
+
+Create a clean 16-frame jump animation pose sheet for the exact hero, facing right, full body visible in every cell.
+
+Critical layout: exactly 4 rows and 4 columns, exactly one complete hero pose in every cell, row-major order. No dust-only, wind-only, empty, or staff-only cells. Nothing crosses a cell border.
+
+Preserve: bald head, black beard, shirtless muscular torso, shoulder tattoo, white forearm wraps, purple sash, dark blue pants, sandals, wooden staff with turquoise-and-gold caps. The camera-near/right leg has ornate gold embroidery; the far/left leg is plain.
+
+Jump intent: platformer jump with stable readable midair pose. Most midair frames are very similar; only liftoff and landing change strongly. Staff stays mostly diagonal with small follow-through.
+
+Frame plan:
+1. Grounded crouch anticipation.
+2. Deeper crouch.
+3. Start liftoff, small blue-white wind jets.
+4. Strong liftoff, clear wind jets, tiny dust puffs.
+5. Leaving ground, stronger downward wind jets.
+6. Final liftoff, jets taper, dust expands.
+7. Airborne going up, stable tuck.
+8. Airborne going up, almost same as 7.
+9. Apex/float, very similar to 7-8.
+10. Airborne going down, almost same pose.
+11. Pre-landing, legs extend slightly downward.
+12. Feet near ground, small dust begins.
+13. Landing contact, knees bend, dust around sandals.
+14. Landing squash, bigger dust cloud.
+15. Recovery from landing, dust fading.
+16. Ready stance after landing, dust almost gone.
+
+Wind jets only frames 3-6. Dust only frames 4-6 and 12-16. Flat uniform #00ff00 chroma-key background inside every cell, magenta guide borders allowed for later removal.

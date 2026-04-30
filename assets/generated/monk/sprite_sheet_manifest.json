@@ -1,0 +1,35 @@
+[
+  {
+    "name": "idle",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7e89d14088198ad75be406ef39b9f.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/monk_idle_sheet_clean.png",
+    "frame_count": 6,
+    "cell_width": 386,
+    "cell_height": 503,
+    "sheet_width": 2316,
+    "sheet_height": 503,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/idle_frames"
+  },
+  {
+    "name": "run",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7e8fac2708198a3a2c72926a9c947.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/monk_run_sheet_clean.png",
+    "frame_count": 8,
+    "cell_width": 296,
+    "cell_height": 412,
+    "sheet_width": 2368,
+    "sheet_height": 412,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/run_frames"
+  },
+  {
+    "name": "jump",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7e950abc08198a873b1e5312b0a67.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/monk_jump_sheet_clean.png",
+    "frame_count": 12,
+    "cell_width": 205,
+    "cell_height": 428,
+    "sheet_width": 2460,
+    "sheet_height": 428,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/jump_frames"
+  }
+]

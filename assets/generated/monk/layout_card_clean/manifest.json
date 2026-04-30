@@ -1,0 +1,35 @@
+[
+  {
+    "name": "run",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7ecdf554481988a9b42c946e30fd8.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/monk_run_sheet_gridclean.png",
+    "frame_count": 8,
+    "cell_width": 258,
+    "cell_height": 389,
+    "sheet_width": 2064,
+    "sheet_height": 389,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/run_frames"
+  },
+  {
+    "name": "idle",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7ed440a788198a2fb68aba8bf73e1.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/monk_idle_sheet_gridclean.png",
+    "frame_count": 6,
+    "cell_width": 352,
+    "cell_height": 495,
+    "sheet_width": 2112,
+    "sheet_height": 495,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/idle_frames"
+  },
+  {
+    "name": "jump",
+    "source": "/Users/yuriysrybnik/.codex/generated_images/019db1c9-1222-7fe2-aad8-20b8079a0198/ig_0cada7b5db6860ec0169e7ed834b948198b2710d45082e2c62.png",
+    "output": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/monk_jump_sheet_gridclean.png",
+    "frame_count": 12,
+    "cell_width": 164,
+    "cell_height": 307,
+    "sheet_width": 1968,
+    "sheet_height": 307,
+    "frames_dir": "/Users/yuriysrybnik/Documents/New project/assets/generated/monk/layout_card_clean/jump_frames"
+  }
+]

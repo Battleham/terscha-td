@@ -1,0 +1,51 @@
+[
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22/run_grid_candidate_20260422_2010.png",
+    "sha1": "e3d83dfd2e907fce3fc4e245c9134153cd24aa89",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e955235a308198b685182a28ac13fe.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_motion_v2/run_grid_candidate_motion_v2.png",
+    "sha1": "ef8e11f5589e40bba08b313800a47db863a87efb",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e960f8f02c8198acf268f0cce81025.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_A.png",
+    "sha1": "09f2303dce2e68bac039923a9eb2802aae382bb7",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e95a1bd72c81988035b0daea88747e.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_B.png",
+    "sha1": "1c2851f0771e7c6825b45e6c256d615d350988c6",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e95a540be081988634d1a4d8b0c5c1.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_research_v2/run_grid_candidate_C.png",
+    "sha1": "370dfeb29d363c66858b7fad79f28c2b6c43fa16",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e95a853c448198a67e89d03471e447.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_simplified/run_grid_candidate_simplified_20260422.png",
+    "sha1": "a990580d76295a2f21834ec803cbdf9b06dbc4df",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e95709b5cc81988487b544da644da0.png"
+    ]
+  },
+  {
+    "temp_file": "assets/hero/temp/run_regen_2026-04-22_template_v1/run_grid_candidate_template_v1.png",
+    "sha1": "e08c8cc2dd7ba156892d038d56aa32b506aacd41",
+    "matching_generated_files": [
+      "/Users/yuriysrybnik/.codex/generated_images/019db5c4-1098-7032-82d0-039d4d89f5b1/ig_092bd27d7f2376d10169e95ee2d4e48198899b31879168cbe8.png"
+    ]
+  }
+]

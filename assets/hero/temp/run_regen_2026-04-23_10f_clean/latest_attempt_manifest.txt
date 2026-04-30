@@ -1,0 +1,15 @@
+prompt_file=assets/hero/temp/run_regen_2026-04-23_10f_clean/prompt_run_10f_clean_v1.txt
+ref_1=/Users/yuriysrybnik/Documents/New project/assets/hero/hero_new.png
+ref_2=/Users/yuriysrybnik/Documents/New project/assets/hero/grids/sprite_reference_grid_10f_256.png
+
+attempt_files:
+- attempt_1.png
+- attempt_2.png
+- attempt_3.png
+- attempt_4.png
+
+sha1:
+6b7f99868766d437427215abe26c060e0448575d  assets/hero/temp/run_regen_2026-04-23_10f_clean/latest_attempt_outputs/attempt_1.png
+86aab77f6cb9eff4821b5278b6c4467b518e1d34  assets/hero/temp/run_regen_2026-04-23_10f_clean/latest_attempt_outputs/attempt_2.png
+05c1e25d345ca606bf1633858f4309622895778a  assets/hero/temp/run_regen_2026-04-23_10f_clean/latest_attempt_outputs/attempt_3.png
+a6fb6843267db0e4dd868b2720d96756ab52d990  assets/hero/temp/run_regen_2026-04-23_10f_clean/latest_attempt_outputs/attempt_4.png

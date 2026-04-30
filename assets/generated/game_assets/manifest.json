@@ -1,0 +1,581 @@
+[
+  {
+    "name": "background",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/environment/skyhold_background.png",
+    "size": [
+      1280,
+      720
+    ]
+  },
+  {
+    "name": "tiles",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/environment/skyhold_tiles.png",
+    "size": [
+      1024,
+      1024
+    ],
+    "cell": [
+      256,
+      256
+    ]
+  },
+  {
+    "name": "cloud_platform_sheet",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/environment/cloud_platform_sheet.png",
+    "size": [
+      1280,
+      128
+    ],
+    "frames": 8,
+    "cell": [
+      160,
+      128
+    ],
+    "scale": 0.6207,
+    "frame_records": [
+      {
+        "index": 1,
+        "source_bbox": [
+          21,
+          411,
+          207,
+          524
+        ],
+        "final_bbox": [
+          22,
+          48,
+          137,
+          118
+        ]
+      },
+      {
+        "index": 2,
+        "source_bbox": [
+          19,
+          422,
+          207,
+          528
+        ],
+        "final_bbox": [
+          21,
+          52,
+          138,
+          118
+        ]
+      },
+      {
+        "index": 3,
+        "source_bbox": [
+          16,
+          405,
+          220,
+          531
+        ],
+        "final_bbox": [
+          16,
+          40,
+          143,
+          118
+        ]
+      },
+      {
+        "index": 4,
+        "source_bbox": [
+          13,
+          398,
+          221,
+          531
+        ],
+        "final_bbox": [
+          15,
+          35,
+          144,
+          118
+        ]
+      },
+      {
+        "index": 5,
+        "source_bbox": [
+          10,
+          358,
+          220,
+          532
+        ],
+        "final_bbox": [
+          15,
+          10,
+          145,
+          118
+        ]
+      },
+      {
+        "index": 6,
+        "source_bbox": [
+          17,
+          422,
+          205,
+          528
+        ],
+        "final_bbox": [
+          21,
+          52,
+          138,
+          118
+        ]
+      },
+      {
+        "index": 7,
+        "source_bbox": [
+          18,
+          422,
+          205,
+          528
+        ],
+        "final_bbox": [
+          22,
+          52,
+          138,
+          118
+        ]
+      },
+      {
+        "index": 8,
+        "source_bbox": [
+          17,
+          422,
+          204,
+          528
+        ],
+        "final_bbox": [
+          22,
+          52,
+          138,
+          118
+        ]
+      }
+    ]
+  },
+  {
+    "name": "core_sheet",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/environment/core_sheet.png",
+    "size": [
+      2048,
+      256
+    ],
+    "frames": 8,
+    "cell": [
+      256,
+      256
+    ],
+    "scale": 0.6073,
+    "frame_records": [
+      {
+        "index": 1,
+        "source_bbox": [
+          23,
+          246,
+          222,
+          627
+        ],
+        "final_bbox": [
+          67,
+          12,
+          188,
+          243
+        ]
+      },
+      {
+        "index": 2,
+        "source_bbox": [
+          0,
+          244,
+          222,
+          625
+        ],
+        "final_bbox": [
+          60,
+          12,
+          195,
+          243
+        ]
+      },
+      {
+        "index": 3,
+        "source_bbox": [
+          15,
+          244,
+          218,
+          625
+        ],
+        "final_bbox": [
+          66,
+          12,
+          189,
+          243
+        ]
+      },
+      {
+        "index": 4,
+        "source_bbox": [
+          11,
+          244,
+          216,
+          626
+        ],
+        "final_bbox": [
+          65,
+          12,
+          190,
+          244
+        ]
+      },
+      {
+        "index": 5,
+        "source_bbox": [
+          7,
+          244,
+          211,
+          626
+        ],
+        "final_bbox": [
+          66,
+          12,
+          190,
+          244
+        ]
+      },
+      {
+        "index": 6,
+        "source_bbox": [
+          2,
+          244,
+          206,
+          625
+        ],
+        "final_bbox": [
+          66,
+          12,
+          190,
+          243
+        ]
+      },
+      {
+        "index": 7,
+        "source_bbox": [
+          0,
+          244,
+          222,
+          625
+        ],
+        "final_bbox": [
+          60,
+          12,
+          195,
+          243
+        ]
+      },
+      {
+        "index": 8,
+        "source_bbox": [
+          0,
+          248,
+          199,
+          629
+        ],
+        "final_bbox": [
+          67,
+          12,
+          188,
+          243
+        ]
+      }
+    ]
+  },
+  {
+    "name": "arrow",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/effects/arrow.png",
+    "size": [
+      128,
+      40
+    ],
+    "source_bbox": [
+      148,
+      364,
+      1627,
+      541
+    ],
+    "scale": 0.0838
+  },
+  {
+    "name": "mage_spell_sheet",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/effects/mage_spell_sheet.png",
+    "size": [
+      1536,
+      96
+    ],
+    "frames": 8,
+    "cell": [
+      192,
+      96
+    ],
+    "scale": 0.6929,
+    "frame_records": [
+      {
+        "index": 1,
+        "source_bbox": [
+          52,
+          402,
+          222,
+          486
+        ],
+        "final_bbox": [
+          37,
+          20,
+          155,
+          77
+        ]
+      },
+      {
+        "index": 2,
+        "source_bbox": [
+          0,
+          401,
+          222,
+          488
+        ],
+        "final_bbox": [
+          19,
+          18,
+          173,
+          78
+        ]
+      },
+      {
+        "index": 3,
+        "source_bbox": [
+          0,
+          386,
+          221,
+          494
+        ],
+        "final_bbox": [
+          19,
+          10,
+          172,
+          85
+        ]
+      },
+      {
+        "index": 4,
+        "source_bbox": [
+          0,
+          387,
+          195,
+          499
+        ],
+        "final_bbox": [
+          28,
+          9,
+          163,
+          87
+        ]
+      },
+      {
+        "index": 5,
+        "source_bbox": [
+          0,
+          381,
+          222,
+          508
+        ],
+        "final_bbox": [
+          19,
+          4,
+          173,
+          92
+        ]
+      },
+      {
+        "index": 6,
+        "source_bbox": [
+          0,
+          394,
+          221,
+          489
+        ],
+        "final_bbox": [
+          19,
+          16,
+          172,
+          81
+        ]
+      },
+      {
+        "index": 7,
+        "source_bbox": [
+          0,
+          399,
+          222,
+          492
+        ],
+        "final_bbox": [
+          19,
+          16,
+          173,
+          80
+        ]
+      },
+      {
+        "index": 8,
+        "source_bbox": [
+          0,
+          404,
+          159,
+          488
+        ],
+        "final_bbox": [
+          41,
+          19,
+          151,
+          77
+        ]
+      }
+    ]
+  },
+  {
+    "name": "warrior_slash_sheet",
+    "path": "/Users/yuriysrybnik/Documents/New project/assets/effects/warrior_slash_sheet.png",
+    "size": [
+      1536,
+      128
+    ],
+    "frames": 8,
+    "cell": [
+      192,
+      128
+    ],
+    "scale": 0.4301,
+    "frame_records": [
+      {
+        "index": 1,
+        "source_bbox": [
+          35,
+          333,
+          168,
+          579
+        ],
+        "final_bbox": [
+          68,
+          11,
+          124,
+          116
+        ]
+      },
+      {
+        "index": 2,
+        "source_bbox": [
+          19,
+          322,
+          222,
+          585
+        ],
+        "final_bbox": [
+          52,
+          7,
+          139,
+          120
+        ]
+      },
+      {
+        "index": 3,
+        "source_bbox": [
+          0,
+          319,
+          207,
+          589
+        ],
+        "final_bbox": [
+          51,
+          6,
+          140,
+          122
+        ]
+      },
+      {
+        "index": 4,
+        "source_bbox": [
+          5,
+          311,
+          222,
+          590
+        ],
+        "final_bbox": [
+          49,
+          4,
+          142,
+          124
+        ]
+      },
+      {
+        "index": 5,
+        "source_bbox": [
+          0,
+          318,
+          222,
+          590
+        ],
+        "final_bbox": [
+          48,
+          5,
+          143,
+          122
+        ]
+      },
+      {
+        "index": 6,
+        "source_bbox": [
+          0,
+          325,
+          221,
+          587
+        ],
+        "final_bbox": [
+          48,
+          7,
+          143,
+          120
+        ]
+      },
+      {
+        "index": 7,
+        "source_bbox": [
+          0,
+          332,
+          201,
+          588
+        ],
+        "final_bbox": [
+          53,
+          9,
+          139,
+          119
+        ]
+      },
+      {
+        "index": 8,
+        "source_bbox": [
+          40,
+          326,
+          184,
+          583
+        ],
+        "final_bbox": [
+          68,
+          8,
+          127,
+          119
+        ]
+      }
+    ]
+  }
+]

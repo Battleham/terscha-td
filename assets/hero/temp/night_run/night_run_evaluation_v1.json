@@ -1,0 +1,107 @@
+{
+  "contact_sheet": "/Users/yuriysrybnik/Documents/New project/assets/hero/temp/night_run/night_run_contact_sheet.png",
+  "runs": [
+    {
+      "run": "run_night_01.png",
+      "adjacent_diff_mean": 0.3911,
+      "adjacent_diff_min": 0.3572,
+      "adjacent_diff_max": 0.4305,
+      "loop_diff_8_to_1": 0.4183,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.3795
+    },
+    {
+      "run": "run_night_02.png",
+      "adjacent_diff_mean": 0.3876,
+      "adjacent_diff_min": 0.3131,
+      "adjacent_diff_max": 0.4725,
+      "loop_diff_8_to_1": 0.4463,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.3651
+    },
+    {
+      "run": "run_night_03.png",
+      "adjacent_diff_mean": 0.4065,
+      "adjacent_diff_min": 0.3974,
+      "adjacent_diff_max": 0.4186,
+      "loop_diff_8_to_1": 0.4149,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.4015
+    },
+    {
+      "run": "run_night_04.png",
+      "adjacent_diff_mean": 0.3742,
+      "adjacent_diff_min": 0.342,
+      "adjacent_diff_max": 0.4039,
+      "loop_diff_8_to_1": 0.4068,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.3608
+    },
+    {
+      "run": "run_night_05.png",
+      "adjacent_diff_mean": 0.3655,
+      "adjacent_diff_min": 0.3162,
+      "adjacent_diff_max": 0.4257,
+      "loop_diff_8_to_1": 0.3619,
+      "bottom_variation_px": 0,
+      "heuristic_score": 0.3642
+    },
+    {
+      "run": "run_night_06.png",
+      "adjacent_diff_mean": 0.4119,
+      "adjacent_diff_min": 0.3909,
+      "adjacent_diff_max": 0.4383,
+      "loop_diff_8_to_1": 0.4261,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.4049
+    },
+    {
+      "run": "run_night_07.png",
+      "adjacent_diff_mean": 0.4011,
+      "adjacent_diff_min": 0.3673,
+      "adjacent_diff_max": 0.4293,
+      "loop_diff_8_to_1": 0.443,
+      "bottom_variation_px": 0,
+      "heuristic_score": 0.3864
+    },
+    {
+      "run": "run_night_08.png",
+      "adjacent_diff_mean": 0.3751,
+      "adjacent_diff_min": 0.2971,
+      "adjacent_diff_max": 0.4161,
+      "loop_diff_8_to_1": 0.3958,
+      "bottom_variation_px": 0,
+      "heuristic_score": 0.3679
+    },
+    {
+      "run": "run_night_09.png",
+      "adjacent_diff_mean": 0.3972,
+      "adjacent_diff_min": 0.3023,
+      "adjacent_diff_max": 0.4791,
+      "loop_diff_8_to_1": 0.4719,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.3691
+    },
+    {
+      "run": "run_night_10.png",
+      "adjacent_diff_mean": 0.3918,
+      "adjacent_diff_min": 0.3156,
+      "adjacent_diff_max": 0.4495,
+      "loop_diff_8_to_1": 0.4399,
+      "bottom_variation_px": 1,
+      "heuristic_score": 0.373
+    }
+  ],
+  "ranking_by_heuristic": [
+    "run_night_06.png",
+    "run_night_03.png",
+    "run_night_07.png",
+    "run_night_01.png",
+    "run_night_10.png",
+    "run_night_09.png",
+    "run_night_08.png",
+    "run_night_02.png",
+    "run_night_05.png",
+    "run_night_04.png"
+  ]
+}

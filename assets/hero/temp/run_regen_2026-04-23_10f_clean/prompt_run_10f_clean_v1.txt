@@ -1,0 +1,44 @@
+Use case: stylized-concept
+Asset type: 2D video game sprite sheet for the described motion
+Primary request: Build a continuous frame-by-frame loop for the described motion from the provided references.
+
+Frame count: 10
+Layout: one horizontal strip, exactly 10 equal cells, one full-body pose per cell
+
+Input images:
+- Image 1: locked character identity reference (must match exactly)
+- Image 2: 10-frame empty reference grid (must match Frame count)
+
+Definitions:
+- Near leg = leg closer to camera/viewer.
+- Far leg = leg farther from camera/viewer.
+
+Hard constraints:
+- Character always faces right.
+- Strict frame-to-frame continuity and clean loop (frame 10 -> frame 1).
+- Grounded run only: moderate stride, short airtime.
+- Knee height cap: no knee rises above waist sash line in any frame.
+- No crouch-tuck: do not fold both knees deeply at once.
+- Leg alternation must be explicit: near/far legs alternate lead and support roles.
+- Prevent one-leg-behind bias: the same leg cannot trail in most frames.
+- Arms swing opposite legs; torso bob remains subtle.
+- Keep exact character identity, proportions, outfit, staff, and rendering style.
+- Keep centered and grounded consistently per grid convention.
+- No clipping, no cross-cell overlap, no extra limbs/accessories.
+
+Motion:
+Orthodox 10-frame in-place run cycle, side view facing right.
+Frame phase order:
+1) near-leg contact,
+2) near-leg down/compression,
+3) passing,
+4) near push-off / far knee drive (moderate),
+5) far-leg contact,
+6) far-leg down/compression,
+7) passing,
+8) far push-off / near knee drive (moderate),
+9) recovery toward near contact,
+10) pre-contact transition into frame 1.
+
+Avoid:
+phase reversals, disconnected leg sequencing, repeated neighboring poses, high-knee poses, random hops, pose popping, text, logos, watermark.

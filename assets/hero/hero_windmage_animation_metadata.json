@@ -1,0 +1,574 @@
+{
+  "character": "hero_windmage",
+  "design_lock": {
+    "head": "bald bearded monk",
+    "torso": "bare torso with tattoo",
+    "arms": "arm wraps",
+    "legs": "blue pants",
+    "waist": "purple sash",
+    "feet": "sandals",
+    "weapon": "simple straight wooden staff with cyan tips",
+    "forbidden_accessories": [
+      "scarf",
+      "cloak",
+      "back accessory"
+    ]
+  },
+  "frame_size": 256,
+  "standard_reference_grids": {
+    "8f": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/sprite_reference_grid_8f_256.png",
+    "10f": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/sprite_reference_grid_10f_256.png",
+    "12f": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/sprite_reference_grid_12f_256.png",
+    "16f": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/sprite_reference_grid_16f_256.png"
+  },
+  "animations": [
+    {
+      "name": "idle",
+      "frame_count": 8,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_idle_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_idle_grid_8f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_idle_grid_8f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 130,
+        "fps_equivalent": 7.692,
+        "loop": true
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.607271,
+        "grid": {
+          "grid_top": 105,
+          "grid_bottom": 561,
+          "frame_start_x": 9,
+          "frame_end_x": 2161
+        },
+        "final_bboxes": [
+          [
+            52,
+            11,
+            203,
+            217
+          ],
+          [
+            50,
+            12,
+            206,
+            217
+          ],
+          [
+            54,
+            14,
+            202,
+            217
+          ],
+          [
+            56,
+            15,
+            201,
+            217
+          ],
+          [
+            51,
+            15,
+            204,
+            217
+          ],
+          [
+            47,
+            15,
+            204,
+            217
+          ],
+          [
+            43,
+            16,
+            206,
+            217
+          ],
+          [
+            51,
+            17,
+            205,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "run",
+      "frame_count": 10,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_run_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_run_grid_10f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_run_grid_10f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 80,
+        "fps_equivalent": 12.5,
+        "loop": true
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.779792,
+        "grid": {
+          "grid_top": 141,
+          "grid_bottom": 553,
+          "frame_start_x": 9,
+          "frame_end_x": 2159
+        },
+        "final_bboxes": [
+          [
+            50,
+            26,
+            205,
+            217
+          ],
+          [
+            51,
+            28,
+            205,
+            217
+          ],
+          [
+            53,
+            19,
+            203,
+            217
+          ],
+          [
+            52,
+            12,
+            204,
+            217
+          ],
+          [
+            54,
+            21,
+            203,
+            217
+          ],
+          [
+            52,
+            24,
+            203,
+            217
+          ],
+          [
+            54,
+            23,
+            203,
+            217
+          ],
+          [
+            53,
+            11,
+            203,
+            217
+          ],
+          [
+            52,
+            27,
+            204,
+            217
+          ],
+          [
+            52,
+            28,
+            204,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "jump",
+      "frame_count": 8,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_jump_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_jump_grid_8f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_jump_grid_8f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 95,
+        "fps_equivalent": 10.526,
+        "loop": false
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.645345,
+        "grid": {
+          "grid_top": 39,
+          "grid_bottom": 684,
+          "frame_start_x": 24,
+          "frame_end_x": 2146
+        },
+        "final_bboxes": [
+          [
+            52,
+            92,
+            205,
+            217
+          ],
+          [
+            45,
+            52,
+            210,
+            217
+          ],
+          [
+            45,
+            11,
+            208,
+            217
+          ],
+          [
+            48,
+            15,
+            208,
+            217
+          ],
+          [
+            45,
+            28,
+            209,
+            217
+          ],
+          [
+            47,
+            85,
+            208,
+            217
+          ],
+          [
+            55,
+            87,
+            201,
+            217
+          ],
+          [
+            50,
+            14,
+            206,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "attack",
+      "frame_count": 10,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_attack_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_attack_grid_10f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_attack_grid_10f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 75,
+        "fps_equivalent": 13.333,
+        "loop": false,
+        "event": {
+          "name": "staff_strike_release",
+          "frame": 8
+        }
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.765297,
+        "grid": {
+          "grid_top": 205,
+          "grid_bottom": 581,
+          "frame_start_x": 4,
+          "frame_end_x": 1978
+        },
+        "final_bboxes": [
+          [
+            73,
+            29,
+            184,
+            217
+          ],
+          [
+            57,
+            63,
+            199,
+            217
+          ],
+          [
+            58,
+            34,
+            199,
+            217
+          ],
+          [
+            66,
+            37,
+            189,
+            217
+          ],
+          [
+            55,
+            66,
+            200,
+            217
+          ],
+          [
+            55,
+            62,
+            200,
+            217
+          ],
+          [
+            58,
+            11,
+            197,
+            217
+          ],
+          [
+            67,
+            36,
+            189,
+            217
+          ],
+          [
+            63,
+            35,
+            193,
+            217
+          ],
+          [
+            74,
+            31,
+            183,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "magic",
+      "frame_count": 12,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_magic_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_magic_grid_12f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_magic_grid_12f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 85,
+        "fps_equivalent": 11.765,
+        "loop": false,
+        "event": {
+          "name": "projectile_spawn",
+          "frame": 8
+        }
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.69549,
+        "grid": {
+          "grid_top": 148,
+          "grid_bottom": 574,
+          "frame_start_x": 7,
+          "frame_end_x": 2164
+        },
+        "final_bboxes": [
+          [
+            74,
+            61,
+            182,
+            217
+          ],
+          [
+            73,
+            63,
+            182,
+            217
+          ],
+          [
+            75,
+            64,
+            182,
+            217
+          ],
+          [
+            75,
+            63,
+            181,
+            217
+          ],
+          [
+            71,
+            43,
+            184,
+            217
+          ],
+          [
+            61,
+            11,
+            195,
+            217
+          ],
+          [
+            70,
+            70,
+            185,
+            217
+          ],
+          [
+            55,
+            37,
+            201,
+            217
+          ],
+          [
+            71,
+            49,
+            185,
+            217
+          ],
+          [
+            72,
+            49,
+            185,
+            217
+          ],
+          [
+            74,
+            63,
+            182,
+            217
+          ],
+          [
+            73,
+            63,
+            182,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "hit",
+      "frame_count": 6,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_hit_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_hit_grid_6f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_hit_grid_6f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 90,
+        "fps_equivalent": 11.111,
+        "loop": false
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.474343,
+        "grid": {
+          "grid_top": 55,
+          "grid_bottom": 662,
+          "frame_start_x": 21,
+          "frame_end_x": 2150
+        },
+        "final_bboxes": [
+          [
+            54,
+            11,
+            202,
+            217
+          ],
+          [
+            58,
+            20,
+            199,
+            217
+          ],
+          [
+            49,
+            34,
+            207,
+            217
+          ],
+          [
+            63,
+            39,
+            192,
+            217
+          ],
+          [
+            50,
+            19,
+            206,
+            217
+          ],
+          [
+            55,
+            13,
+            202,
+            217
+          ]
+        ]
+      }
+    },
+    {
+      "name": "death",
+      "frame_count": 8,
+      "sheet_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/hero_windmage_death_sheet_256.png",
+      "source_grid_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_death_grid_8f.png",
+      "programmatic_grid_template_path": "/Users/yuriysrybnik/Documents/New project/assets/hero/grids/windmage_death_grid_8f_programmatic.png",
+      "timing": {
+        "ms_per_frame": 120,
+        "fps_equivalent": 8.333,
+        "loop": false
+      },
+      "normalization": {
+        "frame_size": 256,
+        "fit_scale": 0.53058,
+        "grid": {
+          "grid_top": 125,
+          "grid_bottom": 581,
+          "frame_start_x": 23,
+          "frame_end_x": 2142
+        },
+        "final_bboxes": [
+          [
+            64,
+            11,
+            191,
+            217
+          ],
+          [
+            57,
+            36,
+            190,
+            217
+          ],
+          [
+            70,
+            60,
+            186,
+            217
+          ],
+          [
+            71,
+            72,
+            200,
+            217
+          ],
+          [
+            69,
+            97,
+            204,
+            219
+          ],
+          [
+            63,
+            135,
+            194,
+            217
+          ],
+          [
+            61,
+            155,
+            194,
+            217
+          ],
+          [
+            61,
+            163,
+            195,
+            217
+          ]
+        ]
+      }
+    }
+  ]
+}

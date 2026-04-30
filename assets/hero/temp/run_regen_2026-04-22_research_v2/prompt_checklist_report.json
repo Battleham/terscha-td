@@ -1,0 +1,18 @@
+{
+  "prompt_file": "assets/hero/temp/run_regen_2026-04-22_research_v2/prompt_v2.txt",
+  "checklist": {
+    "structured_labels": true,
+    "animation_focus": true,
+    "exact_10_cells": true,
+    "character_consistency": true,
+    "spacing_specified": true,
+    "grid_adherence": true,
+    "sprint_in_place": true,
+    "consistent_speed": true,
+    "keypose_sequence": true,
+    "loop_closure": true,
+    "no_fluff_game_name": true,
+    "no_character_micro_description": true
+  },
+  "status": "pass"
+}

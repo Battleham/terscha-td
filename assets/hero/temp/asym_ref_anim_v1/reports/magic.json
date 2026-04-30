@@ -1,0 +1,207 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 1->2 may pop: diff=0.636",
+    "Frames 2->3 may pop: diff=0.654",
+    "Frames 4->5 may pop: diff=0.798",
+    "Frames 5->6 may pop: diff=0.728",
+    "Frames 6->7 may pop: diff=0.756",
+    "Frames 7->8 may pop: diff=0.718",
+    "Frames 8->1 may be too similar: diff=0.045",
+    "Frame height variance is high; review pose consistency.",
+    "Frame width variance is high; long staff or stride may cause scale/readability issues."
+  ],
+  "scale": 0.613908,
+  "adjacent_silhouette_diffs": [
+    0.636,
+    0.6536,
+    0.3105,
+    0.7977,
+    0.7284,
+    0.7558,
+    0.7181,
+    0.0448
+  ],
+  "alpha_zero_ratio_avg": 0.85,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        6,
+        8,
+        226,
+        282
+      ],
+      "final_bbox": [
+        60,
+        52,
+        195,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        246,
+        346
+      ],
+      "final_bbox": [
+        55,
+        12,
+        201,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        187,
+        356
+      ],
+      "final_bbox": [
+        73,
+        6,
+        183,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        213,
+        352
+      ],
+      "final_bbox": [
+        65,
+        9,
+        191,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        323,
+        261
+      ],
+      "final_bbox": [
+        31,
+        65,
+        224,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        256,
+        293
+      ],
+      "final_bbox": [
+        52,
+        45,
+        204,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        340,
+        253
+      ],
+      "final_bbox": [
+        26,
+        70,
+        230,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        228,
+        281
+      ],
+      "final_bbox": [
+        60,
+        52,
+        195,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/magic_v3_8f.png",
+  "output": "assets/hero/hero_new_magic_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/magic_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/magic",
+  "frame_count": 8,
+  "frame_size": 256,
+  "sheet_size": [
+    2048,
+    256
+  ]
+}

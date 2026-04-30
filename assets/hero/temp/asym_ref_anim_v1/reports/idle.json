@@ -1,0 +1,197 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "scale": 0.575849,
+  "adjacent_silhouette_diffs": [
+    0.2078,
+    0.1351,
+    0.1983,
+    0.1269,
+    0.2412,
+    0.2541,
+    0.3292,
+    0.2026
+  ],
+  "alpha_zero_ratio_avg": 0.7765,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        5,
+        8,
+        292,
+        376
+      ],
+      "final_bbox": [
+        45,
+        8,
+        210,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        294,
+        375
+      ],
+      "final_bbox": [
+        46,
+        9,
+        211,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        294,
+        375
+      ],
+      "final_bbox": [
+        46,
+        9,
+        211,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        304,
+        376
+      ],
+      "final_bbox": [
+        43,
+        8,
+        213,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        303,
+        375
+      ],
+      "final_bbox": [
+        43,
+        9,
+        213,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        283,
+        379
+      ],
+      "final_bbox": [
+        49,
+        6,
+        207,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        313,
+        378
+      ],
+      "final_bbox": [
+        40,
+        7,
+        216,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        293,
+        378
+      ],
+      "final_bbox": [
+        46,
+        7,
+        210,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/idle.png",
+  "output": "assets/hero/hero_new_idle_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/idle_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/idle",
+  "frame_count": 8,
+  "frame_size": 256,
+  "sheet_size": [
+    2048,
+    256
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "Frames 3->4 may pop: diff=0.622",
+    "Frames 6->7 may pop: diff=0.601",
+    "Frames 7->8 may pop: diff=0.627",
+    "Frame height variance is high; review pose consistency."
+  ],
+  "scale": 0.729147,
+  "adjacent_silhouette_diffs": [
+    0.4822,
+    0.5743,
+    0.6218,
+    0.5256,
+    0.5719,
+    0.6009,
+    0.6266,
+    0.4634
+  ],
+  "alpha_zero_ratio_avg": 0.8176,
+  "frames": [
+    {
+      "index": 1,
+      "source_bbox": [
+        8,
+        8,
+        259,
+        242
+      ],
+      "final_bbox": [
+        36,
+        49,
+        219,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 2,
+      "source_bbox": [
+        8,
+        8,
+        253,
+        273
+      ],
+      "final_bbox": [
+        39,
+        27,
+        218,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 3,
+      "source_bbox": [
+        8,
+        8,
+        252,
+        301
+      ],
+      "final_bbox": [
+        39,
+        6,
+        217,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 4,
+      "source_bbox": [
+        8,
+        8,
+        264,
+        253
+      ],
+      "final_bbox": [
+        35,
+        41,
+        222,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 5,
+      "source_bbox": [
+        8,
+        8,
+        259,
+        285
+      ],
+      "final_bbox": [
+        36,
+        18,
+        219,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 6,
+      "source_bbox": [
+        8,
+        8,
+        243,
+        258
+      ],
+      "final_bbox": [
+        42,
+        38,
+        213,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 7,
+      "source_bbox": [
+        8,
+        8,
+        254,
+        183
+      ],
+      "final_bbox": [
+        38,
+        92,
+        217,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "index": 8,
+      "source_bbox": [
+        8,
+        8,
+        235,
+        269
+      ],
+      "final_bbox": [
+        45,
+        30,
+        211,
+        220
+      ],
+      "source_edge_alpha": {
+        "left": 0,
+        "right": 0,
+        "top": 0,
+        "bottom": 0
+      }
+    }
+  ],
+  "source": "assets/hero/temp/asym_ref_anim_v1/raw/jump.png",
+  "output": "assets/hero/hero_new_jump_sheet_256.png",
+  "preview": "assets/hero/temp/asym_ref_anim_v1/previews/jump_preview.png",
+  "frames_dir": "assets/hero/temp/asym_ref_anim_v1/frames/jump",
+  "frame_count": 8,
+  "frame_size": 256,
+  "sheet_size": [
+    2048,
+    256
+  ]
+}
